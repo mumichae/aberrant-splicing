@@ -3,9 +3,9 @@
 #' author: Christian Mertes
 #' wb:
 #'  input:
-#'   - fdsin: '`sm config["DATADIR"] + "/datasets/savedObjects/{dataset}/pajdBinomial_psiSite.h5"`'
+#'   - fdsin: '`sm config["PROC_DATA"] + "/datasets/savedObjects/{dataset}/pajdBinomial_psiSite.h5"`'
 #'  output:
-#'   - resultTable: '`sm config["DATADIR"] + "/processedData/results/{dataset}_results.tsv"`'
+#'   - resultTable: '`sm config["PROC_DATA"] + "/processedData/results/{dataset}_results.tsv"`'
 #'   - wBhtml: '`sm config["htmlOutputPath"] + "/FraseR/{dataset}_results.html"`'
 #'  type: noindex
 #'---

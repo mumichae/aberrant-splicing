@@ -3,5 +3,12 @@
 .RData
 .Ruserdata
 
+# Snakemake/wbuild cache/output
 .snakemake
 .wBuild
+.wBuild.depend
+Output/
+
+# pipeline temp files
+.Rsubread_User*
+tmp

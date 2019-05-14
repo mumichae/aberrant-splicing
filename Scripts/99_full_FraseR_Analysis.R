@@ -4,7 +4,7 @@
 #' author: Christian Mertes
 #' wb:
 #'  input:
-#'   - resultTable: '`sm expand(config["DATADIR"] + "/processedData/results/{dataset}_results.tsv", dataset=config["datasets"])`'
+#'   - resultTable: '`sm expand(config["PROC_DATA"] + "/processedData/results/{dataset}_results.tsv", dataset=config["datasets"])`'
 #' output:
 #'  html_document
 #'---

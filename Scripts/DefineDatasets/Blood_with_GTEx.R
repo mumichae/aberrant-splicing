@@ -4,7 +4,7 @@
 #' wb:
 #'  input:
 #'    - sampleAnno: '`sm config["SAMPLE_ANNOTATION"]`'
-#'    - gtexAnno:   `sm config["PROC_DATA"] + "/../resource/sample_anno_gtex.RDS"`'
+#'    - gtexAnno:   '/s/project/crg_seq_data/resource/sample_anno_gtex.RDS'
 #'  output:
 #'   - colData: '`sm config["PROC_DATA"] + "/annotations/BLOOD_GTEx.tsv"`'
 #'   - wBhtml:  '`sm config["htmlOutputPath"] + "/annotations/BLOOD_GTEx.html"`'
@@ -28,7 +28,7 @@ if(FALSE){
 source("./src/r/config.R", echo=FALSE)
 
 #+ input
-outFile       <- snakemake@output$out
+outFile       <- snakemake@output$colData
 annoFile      <- snakemake@input$sampleAnno
 gtexFile      <- snakemake@input$gtexAnno
 
@@ -48,10 +48,14 @@ gtexDT <- readRDS(gtexFile)
 gtexDT[,body_site:=gsub("_$", "", gsub("[\\s-()]+", "_", body_site, perl=TRUE))]
 gtexDT <- gtexDT[analyte_type == "RNA:Total RNA"]
 gtexDT2merge <- gtexDT[body_site=="Whole_Blood", .(SAMPID=submitted_sample_id, run)]
-gtexFinal <- gtexDT2merge[,.(sampleID=SAMPID, bamFile=paste0("/s/project/sra-download/bamfiles/", SAMPID, ".bam"))]
+
+gtexDT2merge <- gtexDT2merge[!grepl('_rep[0-9]+$', SAMPID)] # remove replicates
+gtexDT2merge[,sampleID:=gsub("^([^-]+-[^-]+)-.*", "\\1", SAMPID, perl=TRUE)]
+gtexFinal <- gtexDT2merge[,.(sampleID=sampleID, bamFile=paste0("/s/project/sra-download/bamfiles/", run, ".bam"))]
+gtexFinal <- gtexFinal[!duplicated(sampleID)][file.exists(bamFile)]
 
 #' CRG dataset
-annoFinal <- anno[TISSUE == "Whole Blood", .(sampleID=RNA_fi, bamFile=RNA_file)]
+annoFinal <- anno[TISSUE == "Whole Blood", .(sampleID=RNA_fi, bamFile=paste0("/s/project/crg_seq_data/raw_data/RNA_seq_bams/", RNA_file))]
 
 #' Merge final dataset
 #' 
