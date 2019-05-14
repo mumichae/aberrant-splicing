@@ -2,7 +2,7 @@ import pandas as pd
 import os
 import numpy as np
 
-configfile: "wbuild.yaml"
+configfile: "../genetic_diagnosis_modified/wbuild.yaml"
 
 subworkflow standardFileNames:
     workdir:
