@@ -11,5 +11,8 @@ suppressPackageStartupMessages({
     library(tidyr)
     library(plotly)
     library(DelayedMatrixStats)
-    library(FraseR)
+    #library(FraseR)
 })
+
+# load the FraseR package with devtools
+devtools::load_all("../FraseR")

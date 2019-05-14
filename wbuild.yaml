@@ -1,8 +1,14 @@
 ---
-webDir: tmp/out/web_dir
-projectTitle: Rare Splicing detection pipeline
-htmlOutputPath: tmp/out/html_dir
+webDir: /s/public_webshare/project/urdcat/splicing
+projectTitle: URDCAT Splicing
+htmlOutputPath: Output/html
 
-PROC_DATA: tmp/out/proc
 
-SAMPLE_ANNOTATION: "/s/project/mitoMultiOmics/raw_data/sample_info/SAMPLE_ANNOTATION_PROKISCH.tsv" #"../../sample_annotation.tsv" 
+PROC_DATA: /s/project/crg_seq_data/splicing/processed_data
+SAMPLE_ANNOTATION: /s/project/crg_seq_data/raw_data/URDCAT_sample_annotation.csv
+
+datasets: [
+  "BLOOD_GTEx",
+  # "BLOOD_PROKISCH",
+  "MUSCLE_GTEx"
+]

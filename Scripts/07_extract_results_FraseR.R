@@ -48,7 +48,13 @@ parallel(fds) <- bpparam
 
 #'
 #' ## Extract results
-#'
+#' You can adjust the cutoffs to your needs
+#' the current defaults are:
+#' padj   <= 0.1
+#' dpsi   <= abs(0.1)
+#' N      >= 10
+#' zScore >= 0
+#' 
 resgr <- results(fds, zscoreCut=0)
 res   <- as.data.table(resgr)
 saveFraseRDataSet(fds)
