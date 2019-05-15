@@ -1,14 +1,13 @@
 ---
-webDir: /s/public_webshare/project/urdcat/splicing
-projectTitle: URDCAT Splicing
-htmlOutputPath: Output/html
+projectTitle:      Aberrant splicing pipeline
+webDir:            tmp/output_webDir
+htmlOutputPath:    tmp/ouput_html
 
+SAMPLE_ANNOTATION: Data/sampleAnnotation.tsv
+FILE_MAPPTING:     Data/filemapping.tsv
+PROC_DATA:         tmp/output_data
 
-PROC_DATA: /s/project/crg_seq_data/splicing/processed_data
-SAMPLE_ANNOTATION: /s/project/crg_seq_data/raw_data/URDCAT_sample_annotation.csv
-
-datasets: [
-  "BLOOD_GTEx",
-  # "BLOOD_PROKISCH",
-  "MUSCLE_GTEx"
-]
+DATASETS: [
+    "all",
+    "small",
+    ]

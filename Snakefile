@@ -1,3 +1,5 @@
+import pandas as pd
+
 configfile: "wbuild.yaml"
 
 htmlOutputPath = config["htmlOutputPath"]  if (config["htmlOutputPath"] != None) else "Output/html"

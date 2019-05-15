@@ -2,6 +2,10 @@
 #' title: Count RNA data with FraseR
 #' author: Christian Mertes
 #' wb:
+#'  py:
+#'   - |
+#'     def get_input_bam_files(wildcards):
+#'       list(pd.read_cvs(config["PROC_DATA"] + "/annotations/" + wildcards.datasets + ".tsv"
 #'  params:
 #'   - workers: 20
 #'   - threads: 60
@@ -9,6 +13,7 @@
 #'   - progress: FALSE
 #'  input:
 #'   - colData: '`sm config["PROC_DATA"] + "/annotations/{dataset}.tsv"`'
+#'   - bamFiles: '`sm get_input_bam_files`'
 #'  output:
 #'   - fdsobj:  '`sm config["PROC_DATA"] + "/datasets/savedObjects/raw-{dataset}/fds-object.RDS"`'
 #'   - countsJ: '`sm config["PROC_DATA"] + "/datasets/savedObjects/raw-{dataset}/rawCountsJ.h5"`'
