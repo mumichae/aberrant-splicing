@@ -37,7 +37,7 @@ workingDir  <- dirname(dirname(dirname(snakemake@output$countsJ)))
 bpWorkers   <- min(bpworkers(), as.integer(snakemake@params[[1]]$workers))
 bpThreads   <- as.integer(snakemake@params[[1]]$threads)
 bpProgress  <- as.logical(snakemake@params[[1]]$progress)
-iThreads    <- min(as.integer(bpworkers() / 5, snakemake@params[[1]]$internalThreads))
+iThreads    <- min(as.integer(bpworkers() / 5), snakemake@params[[1]]$internalThreads)
 
 #'
 #' # Dataset

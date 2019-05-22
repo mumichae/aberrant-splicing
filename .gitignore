@@ -12,3 +12,5 @@ Output/
 # pipeline temp files
 .Rsubread_User*
 tmp
+slurm-*.out
+.Rsubread_feature*

@@ -61,15 +61,19 @@ for(type in psiTypes){
     currentType(fds) <- type
     curDims <- dim(K(fds, type))
     q <- bestQ(fds, type)
-    probE <- max(0.001, min(1,30000/curDims[1]))
 
     # subset fitting
-    featureExclusionMask(fds) <- sample(c(TRUE, FALSE), curDims[1],
-            replace=TRUE, prob=c(probE, 1-probE))
+    curX <- x(fds, type=type, all=TRUE, center=FALSE, noiseAlpha=NULL)
+    xsd <- colSds(as.matrix(curX))
+    nMostVarJuncs <- which(xsd > sort(xsd, TRUE)[min(length(xsd), 30000)])
+    exMask <- logical(length(xsd))
+    exMask[sample(nMostVarJuncs, min(length(xsd), 15000))] <- TRUE
+
+    featureExclusionMask(fds) <- exMask
     print(table(featureExclusionMask(fds)))
 
     # run autoencoder
-    fds <- fitAutoencoder(fds, q=q, type=type, verbose=TRUE, BPPARAM=bpparam, iterations=15)
+    fds <- fitAutoencoder(fds, q=q, type=type, verbose=TRUE, BPPARAM=bpparam(), iterations=15, nrDecoderBatches=5)
 
     # save autoencoder fit
     fds <- saveFraseRDataSet(fds)
