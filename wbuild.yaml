@@ -9,6 +9,6 @@ SAMPLE_ANNOTATION: /s/project/crg_seq_data/raw_data/URDCAT_sample_annotation.csv
 
 datasets: [
   "BLOOD_GTEx",
-  # "BLOOD_PROKISCH",
+  "BLOOD_Prokisch",
   "MUSCLE_GTEx"
 ]
