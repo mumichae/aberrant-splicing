@@ -3,8 +3,8 @@
 #' author: Christian Mertes
 #' wb:
 #'  params:
-#'   - workers: 10
-#'   - threads: 10
+#'   - workers: 20
+#'   - threads: 80
 #'   - progress: FALSE
 #'  input:
 #'   - inFile: '`sm config["htmlOutputPath"] + "/FraseR/{dataset}_filterExpression.html"`'

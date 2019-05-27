@@ -44,8 +44,8 @@ dataset
 
 #+ echo=FALSE
 fds <- loadFraseRDataSet(dir=workingDir, name=dataset)
-bpparam <- MulticoreParam(bpWorkers, bpThreads, progressbar=bpProgress)
-parallel(fds) <- bpparam
+BPPARAM <- MulticoreParam(bpWorkers, bpThreads, progressbar=bpProgress)
+parallel(fds) <- BPPARAM
 dim(fds)
 
 #'
@@ -73,7 +73,7 @@ for(type in psiTypes){
     print(table(featureExclusionMask(fds)))
 
     # run autoencoder
-    fds <- fitAutoencoder(fds, q=q, type=type, verbose=TRUE, BPPARAM=bpparam(), iterations=15, nrDecoderBatches=5)
+    fds <- fitAutoencoder(fds, q=q, type=type, verbose=TRUE, BPPARAM=BPPARAM, iterations=15, nrDecoderBatches=5)
 
     # save autoencoder fit
     fds <- saveFraseRDataSet(fds)
