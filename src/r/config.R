@@ -2,6 +2,7 @@
 ## required packages
 message("Load needed packages")
 suppressPackageStartupMessages({
+    library(R.utils)
     library(markdown)
     library(knitr)
     library(devtools)
@@ -20,6 +21,8 @@ suppressPackageStartupMessages({
 })
 
 
+# source function directory for extra functionality
+sourceDirectory("./src/r/functions", pattern=".*\\.R")
 
 ## helper functions
 write_tsv <- function(x, file, row.names = FALSE, ...){
