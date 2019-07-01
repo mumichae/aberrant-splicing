@@ -4,7 +4,7 @@ webDir:            tmp/output_webDir
 htmlOutputPath:    tmp/ouput_html
 
 SAMPLE_ANNOTATION: Data/sampleAnnotation.tsv
-FILE_MAPPTING:     Data/filemapping.tsv
+SAMPLE_FILE_MAPPTING:     Data/filemapping.tsv
 PROC_DATA:         tmp/output_data
 
 DATASETS: [
