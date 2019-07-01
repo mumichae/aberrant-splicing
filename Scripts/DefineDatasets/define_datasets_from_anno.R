@@ -17,7 +17,7 @@
 
 if(FALSE){
   snakemake <- readRDS("tmp/snakemake.RDS")
-  source("../FraseR-analysis/.wBuild/wBuildParser.R")
+  source("FraseR-analysis/.wBuild/wBuildParser.R")
   parseWBHeader("./Scripts/DefineDatasets/define_datasets_from_anno.R", dataset="small")
   annoFile <- "/s/project/crg_seq_data/raw_data/URDCAT_sample_annotation.csv"
   outFile  <-  "Data/annotations/BLOOD_GTEx.tsv"
