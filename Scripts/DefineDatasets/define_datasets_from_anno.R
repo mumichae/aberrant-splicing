@@ -4,7 +4,7 @@
 #' wb:
 #'  input:
 #'    - sampleAnnoFile: '`sm config["SAMPLE_ANNOTATION"]`'
-#'    - filemappingFile: '`sm config["FILE_MAPPTING"]`'
+#'    - filemappingFile: '`sm config["SAMPLE_FILE_MAPPTING"]`'
 #'  output:
 #'   - colData: '`sm config["PROC_DATA"] + "/annotations/{dataset}.tsv"`'
 #'   - wBhtml:  '`sm config["htmlOutputPath"] + "/annotations/{dataset}.html"`'
