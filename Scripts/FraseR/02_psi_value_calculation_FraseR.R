@@ -7,12 +7,12 @@
 #'   - threads: 10
 #'   - progress: FALSE
 #'  input:
-#'   - countsJ:  '`sm parser.getProcDataDir() + "/datasets/savedObjects/raw-{dataset}/rawCountsJ.h5"`'
-#'   - countsSS: '`sm parser.getProcDataDir() + "/datasets/savedObjects/raw-{dataset}/rawCountsSS.h5"`'
+#'   - countsJ:  '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/rawCountsJ.h5"`'
+#'   - countsSS: '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/rawCountsSS.h5"`'
 #'  output:
-#'  - psiSS:     '`sm parser.getProcDataDir() + "/datasets/savedObjects/raw-{dataset}/psiSite.h5"`'
-#'  - dPsiSS:    '`sm parser.getProcDataDir() + "/datasets/savedObjects/raw-{dataset}/delta_psiSite.h5"`'
-#'  - wBhtml:    '`sm config["htmlOutputPath"] + "/FraseR/{dataset}_psi_value_calculation.html"`'
+#'  - psiSS:     '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/psiSite.h5"`'
+#'  - dPsiSS:    '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/delta_psiSite.h5"`'
+#'  - wBhtml:    '`sm config["htmlOutputPath"] + "/aberrant_splicing/FraseR/{dataset}_psi_value_calculation.html"`'
 #'  type: noindex
 #'---
 
