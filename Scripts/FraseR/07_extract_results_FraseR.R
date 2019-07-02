@@ -3,10 +3,10 @@
 #' author: Christian Mertes
 #' wb:
 #'  input:
-#'   - fdsin: '`sm config["PROC_DATA"] + "/datasets/savedObjects/{dataset}/pajdBinomial_psiSite.h5"`'
+#'   - fdsin: '`sm parser.getProcDataDir() + "/datasets/savedObjects/{dataset}/pajdBinomial_psiSite.h5"`'
 #'  output:
-#'   - resultTable: '`sm config["PROC_DATA"] + "/processedData/results/{dataset}_results.tsv"`'
-#'   - wBhtml: '`sm config["htmlOutputPath"] + "/FraseR/{dataset}_results.html"`'
+#'   - resultTable: '`sm parser.getProcDataDir() + "/processedData/results/{dataset}_results.tsv"`'
+#'   - wBhtml: '`sm parser.getProcDataDir() + "/FraseR/{dataset}_results.html"`'
 #'  type: noindex
 #'---
 
