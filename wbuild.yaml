@@ -3,11 +3,11 @@ projectTitle:      Aberrant splicing pipeline
 webDir:            tmp/output_webDir
 htmlOutputPath:    tmp/ouput_html
 
-SAMPLE_ANNOTATION: Data/sampleAnnotation.tsv
-SAMPLE_FILE_MAPPTING:     Data/filemapping.tsv
-PROC_DATA:         tmp/output_data
 
-DATASETS: [
-    "all",
-    "small",
-    ]
+
+
+
+
+
+
+
