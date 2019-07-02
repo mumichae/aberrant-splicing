@@ -2,10 +2,6 @@
 #' title: Count RNA data with FraseR
 #' author: Christian Mertes
 #' wb:
-#'  py:
-#'   - |
-#'     def get_input_bam_files(wildcards):
-#'       list(pd.read_cvs(parser.getProcDataDir() + "/aberrant_splicing/annotations/" + wildcards.datasets + ".tsv"
 #'  params:
 #'   - workers: 20
 #'   - threads: 60
@@ -13,7 +9,6 @@
 #'   - progress: FALSE
 #'  input:
 #'   - colData: '`sm parser.getProcDataDir() + "/aberrant_splicing/annotations/{dataset}.tsv"`'
-#'   - bamFiles: '`sm get_input_bam_files`'
 #'  output:
 #'   - fdsobj:  '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/fds-object.RDS"`'
 #'   - countsJ: '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/rawCountsJ.h5"`'
@@ -21,6 +16,17 @@
 #'   - wBhtml:  '`sm config["htmlOutputPath"] + "/aberrant_splicing/FraseR/{dataset}_counting.html"`'
 #'  type: noindex
 #'---
+
+
+### commented out under wb:
+# #'  py:
+# #'   - |
+# #'     def get_input_bam_files(wildcards):
+# #'       return list(pd.read_cvs(parser.getProcDataDir() + "/aberrant_splicing/annotations/" + wildcards.datasets + ".tsv"))
+
+
+### commented out under input:
+# #'   - bamFiles: '`sm lambda wildcards: get_input_bam_files(wildcards)`'
 
 if(FALSE){
     snakemake <- readRDS("./tmp/snakemake.RDS")
