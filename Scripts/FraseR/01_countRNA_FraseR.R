@@ -5,19 +5,19 @@
 #'  py:
 #'   - |
 #'     def get_input_bam_files(wildcards):
-#'       list(pd.read_cvs(config["PROC_DATA"] + "/annotations/" + wildcards.datasets + ".tsv"
+#'       list(pd.read_cvs(parser.getProcDataDir() + "/annotations/" + wildcards.datasets + ".tsv"
 #'  params:
 #'   - workers: 20
 #'   - threads: 60
 #'   - internalThreads: 3
 #'   - progress: FALSE
 #'  input:
-#'   - colData: '`sm config["PROC_DATA"] + "/annotations/{dataset}.tsv"`'
+#'   - colData: '`sm parser.getProcDataDir() + "/annotations/{dataset}.tsv"`'
 #'   - bamFiles: '`sm get_input_bam_files`'
 #'  output:
-#'   - fdsobj:  '`sm config["PROC_DATA"] + "/datasets/savedObjects/raw-{dataset}/fds-object.RDS"`'
-#'   - countsJ: '`sm config["PROC_DATA"] + "/datasets/savedObjects/raw-{dataset}/rawCountsJ.h5"`'
-#'   - countsS: '`sm config["PROC_DATA"] + "/datasets/savedObjects/raw-{dataset}/rawCountsSS.h5"`'
+#'   - fdsobj:  '`sm parser.getProcDataDir() + "/datasets/savedObjects/raw-{dataset}/fds-object.RDS"`'
+#'   - countsJ: '`sm parser.getProcDataDir() + "/datasets/savedObjects/raw-{dataset}/rawCountsJ.h5"`'
+#'   - countsS: '`sm parser.getProcDataDir() + "/datasets/savedObjects/raw-{dataset}/rawCountsSS.h5"`'
 #'   - wBhtml:  '`sm config["htmlOutputPath"] + "/FraseR/{dataset}_counting.html"`'
 #'  type: noindex
 #'---
