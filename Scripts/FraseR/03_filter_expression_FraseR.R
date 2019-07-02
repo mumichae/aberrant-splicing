@@ -5,10 +5,10 @@
 #'  params:
 #'   - workers: 1
 #'  input:
-#'   - psiSS:  '`sm config["PROC_DATA"] + "/datasets/savedObjects/raw-{dataset}/psiSite.h5"`'
-#'   - dPsiSS: '`sm config["PROC_DATA"] + "/datasets/savedObjects/raw-{dataset}/delta_psiSite.h5"`'
+#'   - psiSS:  '`sm parser.getProcDataDir()+ "/datasets/savedObjects/raw-{dataset}/psiSite.h5"`'
+#'   - dPsiSS: '`sm parser.getProcDataDir() + "/datasets/savedObjects/raw-{dataset}/delta_psiSite.h5"`'
 #'  output:
-#'   - dPsiSS: '`sm config["PROC_DATA"] + "/datasets/savedObjects/{dataset}/fds-object.RDS"`'
+#'   - dPsiSS: '`sm parser.getProcDataDir()+ "/datasets/savedObjects/{dataset}/fds-object.RDS"`'
 #'   - wBhtml: '`sm config["htmlOutputPath"] + "/FraseR/{dataset}_filterExpression.html"`'
 #'  type: noindex
 #'---
