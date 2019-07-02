@@ -7,10 +7,10 @@
 #'   - threads: 20
 #'   - progress: FALSE
 #'  input:
-#'   - fdsin:  '`sm config["PROC_DATA"] + "/datasets/savedObjects/{dataset}/predictedMeans_psiSite.h5"`'
+#'   - fdsin:  '`sm parser.getProcDataDir()+ "/datasets/savedObjects/{dataset}/predictedMeans_psiSite.h5"`'
 #'  output:
-#'   - fdsout: '`sm config["PROC_DATA"] + "/datasets/savedObjects/{dataset}/pajdBinomial_psiSite.h5"`'
-#'   - wBhtml: '`sm config["htmlOutputPath"] + "/FraseR/{dataset}_stat_calculation.html"`'
+#'   - fdsout: '`sm parser.getProcDataDir() + "/datasets/savedObjects/{dataset}/pajdBinomial_psiSite.h5"`'
+#'   - wBhtml: '`sm parser.getProcDataDir() + "/FraseR/{dataset}_stat_calculation.html"`'
 #'  type: noindex
 #'---
 
