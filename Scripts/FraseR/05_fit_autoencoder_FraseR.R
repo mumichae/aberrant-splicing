@@ -9,7 +9,7 @@
 #'  input:
 #'   - wBhtml: '`sm config["htmlOutputPath"] + "/FraseR/{dataset}_hyper_parameter_optimization.html"`'
 #'  output:
-#'   - fdsout: '`sm config["PROC_DATA"] + "/datasets/savedObjects/{dataset}/predictedMeans_psiSite.h5"`'
+#'   - fdsout: '`sm parser.getProcDataDir() + "/datasets/savedObjects/{dataset}/predictedMeans_psiSite.h5"`'
 #'   - wBhtml: '`sm config["htmlOutputPath"] + "/FraseR/{dataset}_autoencoder_fit.html"`'
 #'  type: noindex
 #'---
