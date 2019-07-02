@@ -7,10 +7,10 @@
 #'   - threads: 20
 #'   - progress: FALSE
 #'  input:
-#'   - fdsin:  '`sm parser.getProcDataDir()+ "/datasets/savedObjects/{dataset}/predictedMeans_psiSite.h5"`'
+#'   - fdsin:  '`sm parser.getProcDataDir()+ "/aberrant_splicing/datasets/savedObjects/{dataset}/predictedMeans_psiSite.h5"`'
 #'  output:
-#'   - fdsout: '`sm parser.getProcDataDir() + "/datasets/savedObjects/{dataset}/pajdBinomial_psiSite.h5"`'
-#'   - wBhtml: '`sm parser.getProcDataDir() + "/FraseR/{dataset}_stat_calculation.html"`'
+#'   - fdsout: '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets/savedObjects/{dataset}/pajdBinomial_psiSite.h5"`'
+#'   - wBhtml: '`sm parser.getProcDataDir() + "/aberrant_splicing/FraseR/{dataset}_stat_calculation.html"`'
 #'  type: noindex
 #'---
 
