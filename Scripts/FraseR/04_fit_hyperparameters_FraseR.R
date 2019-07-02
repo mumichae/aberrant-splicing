@@ -28,7 +28,7 @@ source("./src/r/config.R")
 
 #+ input
 dataset    <- snakemake@wildcards$dataset
-workingDir <- file.path(snakemake@config$PROC_DATA, "datasets")
+workingDir <- file.path(snakemake@config$ROOT, snakemake@config$DATASET_NAME, "processed_data", "datasets")
 bpWorkers  <- min(bpworkers(), as.integer(snakemake@params[[1]]$workers))
 bpThreads  <- min(bpworkers(), as.integer(snakemake@params[[1]]$threads))
 bpProgress <- snakemake@params[[1]]$progress
