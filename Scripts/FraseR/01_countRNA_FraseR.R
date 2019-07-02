@@ -5,20 +5,20 @@
 #'  py:
 #'   - |
 #'     def get_input_bam_files(wildcards):
-#'       list(pd.read_cvs(parser.getProcDataDir() + "/annotations/" + wildcards.datasets + ".tsv"
+#'       list(pd.read_cvs(parser.getProcDataDir() + "/aberrant_splicing/annotations/" + wildcards.datasets + ".tsv"
 #'  params:
 #'   - workers: 20
 #'   - threads: 60
 #'   - internalThreads: 3
 #'   - progress: FALSE
 #'  input:
-#'   - colData: '`sm parser.getProcDataDir() + "/annotations/{dataset}.tsv"`'
+#'   - colData: '`sm parser.getProcDataDir() + "/aberrant_splicing/annotations/{dataset}.tsv"`'
 #'   - bamFiles: '`sm get_input_bam_files`'
 #'  output:
-#'   - fdsobj:  '`sm parser.getProcDataDir() + "/datasets/savedObjects/raw-{dataset}/fds-object.RDS"`'
-#'   - countsJ: '`sm parser.getProcDataDir() + "/datasets/savedObjects/raw-{dataset}/rawCountsJ.h5"`'
-#'   - countsS: '`sm parser.getProcDataDir() + "/datasets/savedObjects/raw-{dataset}/rawCountsSS.h5"`'
-#'   - wBhtml:  '`sm config["htmlOutputPath"] + "/FraseR/{dataset}_counting.html"`'
+#'   - fdsobj:  '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/fds-object.RDS"`'
+#'   - countsJ: '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/rawCountsJ.h5"`'
+#'   - countsS: '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/rawCountsSS.h5"`'
+#'   - wBhtml:  '`sm config["htmlOutputPath"] + "/aberrant_splicing/FraseR/{dataset}_counting.html"`'
 #'  type: noindex
 #'---
 
