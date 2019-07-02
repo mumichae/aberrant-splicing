@@ -6,8 +6,8 @@
 #'    - sampleAnnoFile: '`sm config["SAMPLE_ANNOTATION"]`'
 #'    - filemappingFile: '`sm config["SAMPLE_FILE_MAPPTING"]`'
 #'  output:
-#'   - colData: '`sm config["PROC_DATA"] + "/annotations/{dataset}.tsv"`'
-#'   - wBhtml:  '`sm config["htmlOutputPath"] + "/annotations/{dataset}.html"`'
+#'   - colData: '`sm parser.getProcDataDir() + "/annotations/{dataset}.tsv"`'
+#'   - wBhtml:  '`sm parser.getProcDataDir() + "/annotations/{dataset}.html"`'
 #'  type: noindex
 #' output:
 #'  html_document:
