@@ -7,10 +7,10 @@
 #'   - threads: 20
 #'   - progress: FALSE
 #'  input:
-#'   - wBhtml: '`sm config["htmlOutputPath"] + "/aberrant_splicing/FraseR/{dataset}_hyper_parameter_optimization.html"`'
+#'   - wBhtml: '`sm config["htmlOutputPath"] + "/FraseR/{dataset}_hyper_parameter_optimization.html"`'
 #'  output:
 #'   - fdsout: '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets/savedObjects/{dataset}/predictedMeans_psiSite.h5"`'
-#'   - wBhtml: '`sm config["htmlOutputPath"] + "/aberrant_splicing/FraseR/{dataset}_autoencoder_fit.html"`'
+#'   - wBhtml: '`sm config["htmlOutputPath"] + "/FraseR/{dataset}_autoencoder_fit.html"`'
 #'  type: noindex
 #'---
 ##

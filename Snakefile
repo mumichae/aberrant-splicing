@@ -7,7 +7,6 @@ config = parser.config # needed if you dont provide the wbuild.yaml as configfil
 
 
 htmlOutputPath = config["htmlOutputPath"]  if (config["htmlOutputPath"] != None) else "Output/html"
-
 include: ".wBuild/wBuild.snakefile"  # Has to be here in order to update the config with the new variables
 htmlOutputPath = config["htmlOutputPath"]  if (config["htmlOutputPath"] != None) else "Output/html"
 

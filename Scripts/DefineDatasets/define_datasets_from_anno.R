@@ -4,10 +4,10 @@
 #' wb:
 #'  input:
 #'    - sampleAnnoFile: '`sm config["SAMPLE_ANNOTATION"]`'
-#'    - filemappingFile: '`sm config["SAMPLE_FILE_MAPPTING"]`'
+#'    - filemappingFile: '`sm config["SAMPLE_FILE_MAPPING"]`'
 #'  output:
-#'   - colData: '`sm parser.getProcDataDir() + "/annotations/{dataset}.tsv"`'
-#'   - wBhtml:  '`sm parser.getProcDataDir() + "/annotations/{dataset}.html"`'
+#'   - colData: '`sm parser.getProcDataDir() + "/aberrant_splicing/annotations/{dataset}.tsv"`'
+#'   - wBhtml:  '`sm parser.getProcDataDir() + "/aberrant_splicing/annotations/{dataset}.html"`'
 #'  type: noindex
 #' output:
 #'  html_document:
