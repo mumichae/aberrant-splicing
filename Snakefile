@@ -1,6 +1,10 @@
 import pandas as pd
 
-configfile: "wbuild.yaml"
+## Add parser
+from config_parser import ConfigHelper
+parser = ConfigHelper(config)
+config = parser.config # needed if you dont provide the wbuild.yaml as configfile
+
 
 htmlOutputPath = config["htmlOutputPath"]  if (config["htmlOutputPath"] != None) else "Output/html"
 
