@@ -5,11 +5,11 @@
 #'  params:
 #'   - workers: 1
 #'  input:
-#'   - psiSS:  '`sm parser.getProcDataDir()+ "/datasets/savedObjects/raw-{dataset}/psiSite.h5"`'
-#'   - dPsiSS: '`sm parser.getProcDataDir() + "/datasets/savedObjects/raw-{dataset}/delta_psiSite.h5"`'
+#'   - psiSS:  '`sm parser.getProcDataDir()+ "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/psiSite.h5"`'
+#'   - dPsiSS: '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/delta_psiSite.h5"`'
 #'  output:
-#'   - dPsiSS: '`sm parser.getProcDataDir()+ "/datasets/savedObjects/{dataset}/fds-object.RDS"`'
-#'   - wBhtml: '`sm config["htmlOutputPath"] + "/FraseR/{dataset}_filterExpression.html"`'
+#'   - dPsiSS: '`sm parser.getProcDataDir()+ "/aberrant_splicing/datasets/savedObjects/{dataset}/fds-object.RDS"`'
+#'   - wBhtml: '`sm config["htmlOutputPath"] + "/aberrant_splicing/FraseR/{dataset}_filterExpression.html"`'
 #'  type: noindex
 #'---
 
