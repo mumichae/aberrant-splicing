@@ -4,7 +4,7 @@
 #' author: Christian Mertes
 #' wb:
 #'  input:
-#'   - resultTable: '`sm expand(parser.getProcDataDir()+ "/results/{dataset}_results.tsv", dataset=config["DATASETS"])`'
+#'   - resultTable: '`sm expand(parser.getProcDataDir()+ "/aberrant_splicing/results/{dataset}_results.tsv", dataset=config["DATASETS"])`'
 #' output:
 #'  html_document
 #'---
