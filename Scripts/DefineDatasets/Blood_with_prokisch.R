@@ -14,6 +14,13 @@
 #'   code_download: TRUE
 #'---
 
+if(FALSE){
+    Sys.setenv(PATH=paste0("/opt/modules/i12g/anaconda/3-5.0.1/bin:", Sys.getenv("PATH")))
+    source(".wBuild/wBuildParser2.R")
+    parseWBHeader2("Scripts/DefineDatasets/Blood_with_prokisch.R")
+    snakemake
+}
+
 #+ load main config, echo=FALSE
 source("./src/r/config.R", echo=FALSE)
 
@@ -31,7 +38,9 @@ name
 anno   <- fread(annoFile)
 
 #' ## CRG dataset
-annoFinal <- anno[TISSUE == "Whole Blood", .(sampleID=RNA_fi, condition=RNA_fi, bamFile=paste0("/s/project/crg_seq_data/raw_data/RNA_seq_bams/", RNA_file))]
+annoFinal <- anno[TISSUE == "Whole Blood", .(sampleID=RNA_fi, condition=RNA_fi,
+        bamFile=paste0("/s/project/crg_seq_data/raw_data/RNA_seq_bams/", RNA_file),
+        SeqLevelStyle="NCBI")]
 
 #' ## Define the prokisch blood samples
 prokisch_blood_samples <- c(
@@ -43,7 +52,10 @@ prokisch_blood_samples <- c(
 prokisch_dt <- data.table(
 	sampleID=prokisch_blood_samples,
 	condition=prokisch_blood_samples,
-	bamFile=paste0("/s/project/mitoMultiOmics/raw_data/helmholtz/", prokisch_blood_samples, "/RNAout/paired-endout/stdFilenames/", prokisch_blood_samples, ".bam"))
+	bamFile=paste0("/s/project/mitoMultiOmics/raw_data/helmholtz/",
+	       prokisch_blood_samples, "/RNAout/paired-endout/stdFilenames/",
+	       prokisch_blood_samples, ".bam"),
+	SeqLevelStyle="UCSC")
 
 #' # Merge final dataset
 #'

@@ -1,10 +1,10 @@
 ---
-webDir: /s/public_webshare/project/urdcat/splicing
 projectTitle: URDCAT Splicing
-htmlOutputPath: Output/html
+fileRegex: .*\.R
 
-
-PROC_DATA: /s/project/crg_seq_data/splicing/processed_data
+webDir:            /s/public_webshare/project/urdcat/splicing
+PROC_DATA:         /s/project/crg_seq_data/splicing/processed_data
+htmlOutputPath:    /s/project/crg_seq_data/splicing/Output/html
 SAMPLE_ANNOTATION: /s/project/crg_seq_data/raw_data/URDCAT_sample_annotation.csv
 
 datasets: [
