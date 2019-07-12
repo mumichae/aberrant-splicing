@@ -45,14 +45,15 @@ mapping <- fread(mappingFile)
 #' 
 #' Prepare input data
 #' 
-annoSub <- anno[grepl(paste0("^(.*,)?", name, "(,.*)?$"), ANALYSIS_GROUP)]
+annoSub <- anno[grepl(paste0("^(.*,)?", name, "(,.*)?$"), snakemake@config$outrider_group)] ### ANALYSIS_GROUP Same as OUTRIDER_GROUP??
 
 #' 
 #' Create FraseR annotation for given dataset
 #' 
+rna_assay <- snakemake@config$rna_assay
 colData <- merge(
-    annoSub[,.(sampleID=RNA_ID)], 
-    mapping[TYPE == "RNA", .(sampleID=ID, bamFile=FILE)])
+    annoSub[,.(sampleID=get(rna_assay))], ## Changed RNA_ID to rna_assay from config
+    mapping[ASSAY == rna_assay, .(sampleID=ID, bamFile=FILE)]) ## Changed RNA to rna_assay from config, changed TYPE to ASSAY
 
 #'
 #' ## Dataset: `r name`
