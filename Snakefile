@@ -6,9 +6,9 @@ parser = ConfigHelper(config)
 config = parser.config # needed if you dont provide the wbuild.yaml as configfile
 
 
-htmlOutputPath = config["htmlOutputPath"]  
+htmlOutputPath = config["htmlOutputPath"]
 include: ".wBuild/wBuild.snakefile"  # Has to be here in order to update the config with the new variables
 
 rule all:
-    input: rules.Index.output, htmlOutputPath + "/readme.html"
+    input: rules.Index.output
     output: touch("Output/all.done")
