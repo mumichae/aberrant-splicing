@@ -7,9 +7,9 @@
 #'   - threads: 10
 #'   - progress: FALSE
 #'  input:
-#'   - inFile: '`sm config["htmlOutputPath"] + "/FraseR/{dataset}_filterExpression.html"`'
+#'   - inFile: '`sm config["htmlOutputPath"] + "/aberrant_splicing/FraseR/{dataset}_filterExpression.html"`'
 #'  output:
-#'   - wBhtml: '`sm config["htmlOutputPath"] + "/FraseR/{dataset}_hyper_parameter_optimization.html"`'
+#'   - wBhtml: '`sm config["htmlOutputPath"] + "/aberrant_splicing/FraseR/{dataset}_hyper_parameter_optimization.html"`'
 #'  type: noindex
 #'---
 ##
