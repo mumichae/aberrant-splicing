@@ -14,6 +14,8 @@
 #'   code_folding: show
 #'   code_download: TRUE
 #'---
+saveRDS(snakemake, 'tmp/FraseR_00.snakemake')
+# snakemake <- readRDS('tmp/FraseR_00.snakemake')
 
 if(FALSE){
   snakemake <- readRDS("tmp/snakemake.RDS")
@@ -45,7 +47,8 @@ mapping <- fread(mappingFile)
 #' 
 #' Prepare input data
 #' 
-annoSub <- anno[grepl(paste0("^(.*,)?", name, "(,.*)?$"), snakemake@config$outrider_group)] ### ANALYSIS_GROUP Same as OUTRIDER_GROUP??
+annoSub <- anno[anno[, name %in% unlist(strsplit(OUTRIDER_GROUP, split = ',')), by = 1:nrow(anno)]$V1,]
+#annoSub <- anno[grepl(paste0("^(.*,)?", name, "?(,.*)$"), snakemake@config$outrider_group)]
 
 #' 
 #' Create FraseR annotation for given dataset
