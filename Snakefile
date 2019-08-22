@@ -15,5 +15,5 @@ htmlOutputPath = config["htmlOutputPath"]
 include: ".wBuild/wBuild.snakefile"  # Has to be here in order to update the config with the new variables
 
 rule all:
-    input: rules.Index.output
+    input: rules.Index.output, htmlOutputPath + "/readme.html"
     output: touch("tmp/aberrant_splicing.done")
