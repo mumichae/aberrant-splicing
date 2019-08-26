@@ -14,8 +14,9 @@
 #'   code_folding: show
 #'   code_download: TRUE
 #'---
-saveRDS(snakemake, 'tmp/FraseR_00.snakemake')
-# snakemake <- readRDS('tmp/FraseR_00.snakemake')
+
+saveRDS(snakemake, paste0(snakemake@config$tmpdir, "/AberrantSplicing/FraseR_00.snakemake") )
+# snakemake <- readRDS(paste0(snakemake@config$tmpdir, "/AberrantSplicing/FraseR_00.snakemake"))
 
 if(FALSE){
   snakemake <- readRDS("tmp/snakemake.RDS")

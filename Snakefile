@@ -4,10 +4,14 @@ import pandas as pd
 import os
 from config_parser import ConfigHelper
 
-## ADD tmp/ DIR
-if not os.path.exists('tmp'):
-    os.makedirs('tmp')
 
+## ADD tmp/ DIR
+tmpdir = config["ROOT"] +'/tmp'
+config["tmpdir"] = tmpdir
+if not os.path.exists(tmpdir):
+    os.makedirs(tmpdir)
+    
+    
 parser = ConfigHelper(config)
 config = parser.config # needed if you dont provide the wbuild.yaml as configfile
 
@@ -16,7 +20,7 @@ include: ".wBuild/wBuild.snakefile"  # Has to be here in order to update the con
 
 rule all:
     input: rules.Index.output, htmlOutputPath + "/aberrant_splicing_readme.html"
-    output: touch("tmp/aberrant_splicing.done")
+    output: touch(tmpdir + "/aberrant_splicing.done")
     
     
 ### RULEGRAPH  
@@ -24,7 +28,7 @@ rule all:
 
 ## For rule rulegraph.. copy configfile in tmp file
 import oyaml
-with open('tmp/config.yaml', 'w') as yaml_file:
+with open(tmpdir + '/config.yaml', 'w') as yaml_file:
     oyaml.dump(config, yaml_file, default_flow_style=False)
 
 rulegraph_filename = htmlOutputPath + "/" + os.path.basename(os.getcwd()) + "_rulegraph"
@@ -36,7 +40,7 @@ rule create_graph:
     output:
         rulegraph_filename + ".dot"
     shell:
-        "snakemake --configfile tmp/config.yaml --rulegraph > {output}"
+        "snakemake --configfile " + tmpdir + "/config.yaml --rulegraph > {output}"
 
 rule render_dot:
     input:
