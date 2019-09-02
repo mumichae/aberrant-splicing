@@ -24,7 +24,7 @@ rule all:
     
     
 ### RULEGRAPH  
-### rulegraph only works without print statements. Call <snakemake produce_rulegraph> for producing output
+### rulegraph only works without print statements. Call <snakemake produce_graphs> for producing output
 
 ## For rule rulegraph.. copy configfile in tmp file
 import oyaml
@@ -32,15 +32,25 @@ with open(tmpdir + '/config.yaml', 'w') as yaml_file:
     oyaml.dump(config, yaml_file, default_flow_style=False)
 
 rulegraph_filename = htmlOutputPath + "/" + os.path.basename(os.getcwd()) + "_rulegraph"
-rule produce_rulegraph:
-    input:
-        expand(rulegraph_filename + ".{fmt}", fmt=["svg", "png"])
+dag_filename = htmlOutputPath + "/" + os.path.basename(os.getcwd()) + "_dag"
 
-rule create_graph:
+rule produce_graphs:
+    input:
+        expand("{graph}.{fmt}", fmt=["svg", "png"], graph=[rulegraph_filename, dag_filename])
+
+rule create_rulegraph:
     output:
         rulegraph_filename + ".dot"
     shell:
         "snakemake --configfile " + tmpdir + "/config.yaml --rulegraph > {output}"
+        
+        
+rule create_dag:
+    output:
+        dag_filename + ".dot"
+    shell:
+        "snakemake --configfile " + tmpdir + "/config.yaml --dag > {output}"
+
 
 rule render_dot:
     input:
