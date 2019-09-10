@@ -2,8 +2,7 @@
 
 import pandas as pd
 import os
-from config_parser import ConfigHelper
-
+import drop
 
 ## ADD tmp/ DIR
 tmpdir = config["ROOT"] + '/' + config["DATASET_NAME"] + '/tmp'
@@ -12,7 +11,7 @@ if not os.path.exists(tmpdir+'/AberrantSplicing'):
     os.makedirs(tmpdir+'/AberrantSplicing')
     
     
-parser = ConfigHelper(config)
+parser = drop.config(config)
 config = parser.config # needed if you dont provide the wbuild.yaml as configfile
 
 htmlOutputPath = config["htmlOutputPath"]
@@ -20,7 +19,7 @@ include: ".wBuild/wBuild.snakefile"  # Has to be here in order to update the con
 
 rule all:
     input: rules.Index.output, htmlOutputPath + "/aberrant_splicing_readme.html"
-    output: touch(tmpdir + "/aberrant_splicing.done")
+    output: touch(tmpdir + "/AS.done")
     
     
 ### RULEGRAPH  
