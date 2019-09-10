@@ -12,3 +12,6 @@ Output/
 # pipeline temp files
 .Rsubread_User*
 tmp
+
+*.out
+*.summary
