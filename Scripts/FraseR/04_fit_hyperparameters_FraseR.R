@@ -45,7 +45,7 @@ parallel(fds) <- MulticoreParam(bpWorkers, bpThreads, progressbar=bpProgress)
 dim(fds)
 
 #'
-#' # Run hyper parameterization
+#' # Run hyper parameter optimization
 #'
 for(type in psiTypes){
     message(date(), ": ", type)
