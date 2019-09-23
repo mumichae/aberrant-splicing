@@ -28,6 +28,9 @@
 ### commented out under input:
 # #'   - bamFiles: '`sm lambda wildcards: get_input_bam_files(wildcards)`'
 
+saveRDS(snakemake, paste0(snakemake@config$tmpdir, "/AberrantSplicing/FraseR_01.snakemake") )
+# snakemake <- readRDS(paste0(snakemake@config$tmpdir, "/AberrantSplicing/FraseR_01.snakemake"))
+
 if(FALSE){
     snakemake <- readRDS("./tmp/snakemake.RDS")
     source(".wBuild/wBuildParser.R")
