@@ -44,13 +44,12 @@ name <- snakemake@wildcards$dataset
 name
 anno    <- fread(annoFile)
 mapping <- fread(mappingFile)
-rna_assay <- snakemake@config$rna_assay
 
 #' 
 #' Prepare input data
 #' 
 subset_ids <- snakemake@config$fraser_filtered[[name]]
-annoSub <- anno[get(rna_assay) %in% subset_ids]
+annoSub <- anno[RNA_ASSAY %in% subset_ids]
 #annoSub <- anno[anno[, name %in% unlist(strsplit(OUTRIDER_GROUP, split = ',')), by = 1:nrow(anno)]$V1,]
 #annoSub <- anno[grepl(paste0("^(.*,)?", name, "?(,.*)$"), snakemake@config$outrider_group)]
 
@@ -58,8 +57,8 @@ annoSub <- anno[get(rna_assay) %in% subset_ids]
 #' Create FraseR annotation for given dataset
 #' 
 colData <- merge(
-    annoSub[,.(sampleID=get(rna_assay))], ## Changed RNA_ID to rna_assay from config
-    mapping[ASSAY == rna_assay, .(sampleID=ID, bamFile=FILE)]) ## Changed RNA to rna_assay from config, changed TYPE to ASSAY
+    annoSub[,.(sampleID = RNA_ASSAY)],
+    mapping[ASSAY == "RNA_ASSAY", .(sampleID=ID, bamFile=FILE)])
 
 #'
 #' ## Dataset: `r name`
