@@ -95,11 +95,11 @@ write_tsv(res, file=file)
 cat(paste0("<a href='./", basename(file), "'>Download result table</a>"))
 
 # get links
-# res[,genecards:=get_html_link(hgnc_symbol, website="genecards", TRUE)]
-res[,hgnc:=get_html_link(hgnc_symbol, website="hgnc", TRUE)]
-# res[,omim:=get_html_link(GMIM, website="omim", TRUE)]
-res[,entrez:=get_html_link(hgnc_symbol, website="entrez", TRUE)]
-res[,locus:=get_html_link(paste0(seqnames, ":", start, "-", end), website="locus", TRUE)]
+## res[,genecards:=get_html_link(hgnc_symbol, website="genecards", TRUE)]
+#res[,hgnc:=get_html_link(hgnc_symbol, website="hgnc", TRUE)]
+## res[,omim:=get_html_link(GMIM, website="omim", TRUE)]
+#res[,entrez:=get_html_link(hgnc_symbol, website="entrez", TRUE)]
+#res[,locus:=get_html_link(paste0(seqnames, ":", start, "-", end), website="locus", TRUE)]
 
 # round numbers
 res[,p.adj:=signif(p.adj, 3)]

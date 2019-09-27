@@ -4,8 +4,7 @@ import pandas as pd
 import os
 import drop
 
-## ADD tmp/ DIR
-tmpdir = config["ROOT"] + '/' + config["DATASET_NAME"] + '/tmp'
+tmpdir = os.path.join(config["ROOT"], 'tmp')
 config["tmpdir"] = tmpdir
 if not os.path.exists(tmpdir+'/AberrantSplicing'):
     os.makedirs(tmpdir+'/AberrantSplicing')
