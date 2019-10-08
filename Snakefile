@@ -1,6 +1,5 @@
 ### SNAKEFILE ABERRANT SPLICING
 
-import pandas as pd
 import os
 import drop
 

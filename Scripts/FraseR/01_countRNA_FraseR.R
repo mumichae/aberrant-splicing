@@ -48,10 +48,11 @@ source("./src/r/config.R")
 dataset     <- snakemake@wildcards$dataset
 colDataFile <- snakemake@input$colData
 workingDir  <- dirname(dirname(dirname(snakemake@output$countsJ)))
-bpWorkers   <- min(bpworkers(), as.integer(snakemake@params[[1]]$workers))
-bpThreads   <- as.integer(snakemake@params[[1]]$threads)
-bpProgress  <- as.logical(snakemake@params[[1]]$progress)
-iThreads    <- min(as.integer(bpworkers() / 5), snakemake@params[[1]]$internalThreads)
+bpWorkers   <- min(bpworkers(), as.integer(snakemake@params$workers))
+bpThreads   <- as.integer(snakemake@params$threads)
+bpProgress  <- as.logical(snakemake@params$progress)
+iThreads    <- min(as.integer(bpworkers() / 5),
+                   as.integer(snakemake@params$internalThreads))
 
 #'
 #' # Dataset

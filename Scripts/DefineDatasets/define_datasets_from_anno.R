@@ -4,7 +4,8 @@
 #' wb:
 #'  input:
 #'    - sampleAnnoFile: '`sm config["SAMPLE_ANNOTATION"]`'
-#'    - filemappingFile: '`sm config["SAMPLE_FILE_MAPPING"]`'
+#'  params:
+#'    - fileMappingFile: '`sm parser.getProcDataDir() + "/file_mapping.csv"`'
 #'  output:
 #'    - colData: '`sm parser.getProcDataDir() + "/aberrant_splicing/annotations/{dataset}.tsv"`'
 #'    - wBhtml:  '`sm parser.getProcDataDir() + "/aberrant_splicing/annotations/{dataset}.html"`'
@@ -33,7 +34,7 @@ source("./src/r/config.R", echo=FALSE)
 #+ input
 outFile       <- snakemake@output$colData
 annoFile      <- snakemake@input$sampleAnnoFile
-mappingFile   <- snakemake@input$filemappingFile
+fileMapFile      <- snakemake@params$fileMapping
 
 #+ dataset name
 name <- snakemake@wildcards$dataset
@@ -43,13 +44,13 @@ name <- snakemake@wildcards$dataset
 #'
 name
 anno    <- fread(annoFile)
-mapping <- fread(mappingFile)
+mapping <- fread(fileMapFile)
 
 #' 
 #' Prepare input data
 #' 
-subset_ids <- snakemake@config$fraser_filtered[[name]]
-annoSub <- anno[RNA_ASSAY %in% subset_ids]
+subset_ids <- snakemake@config$fraser_all[[name]]
+annoSub <- anno[RNA_ID %in% subset_ids]
 #annoSub <- anno[anno[, name %in% unlist(strsplit(OUTRIDER_GROUP, split = ',')), by = 1:nrow(anno)]$V1,]
 #annoSub <- anno[grepl(paste0("^(.*,)?", name, "?(,.*)$"), snakemake@config$outrider_group)]
 
@@ -57,8 +58,8 @@ annoSub <- anno[RNA_ASSAY %in% subset_ids]
 #' Create FraseR annotation for given dataset
 #' 
 colData <- merge(
-    annoSub[,.(sampleID = RNA_ASSAY)],
-    mapping[ASSAY == "RNA_ASSAY", .(sampleID=ID, bamFile=FILE)])
+    annoSub[,.(sampleID = RNA_ID)],
+    mapping[FILE_TYPE == "RNA_BAM_FILE", .(sampleID=ID, bamFile=FILE_PATH)])
 
 #'
 #' ## Dataset: `r name`
