@@ -71,7 +71,7 @@ fds <- FraseRDataSet(colData,
         name       = paste0("raw-", dataset),
         parallel   = MulticoreParam(bpWorkers, bpThreads,
                 progressbar=bpProgress))
-fds <- countRNAData(fds, NcpuPerSample=iThreads, recount=TRUE, minAnchor=5)
+fds <- countRNAData(fds, NcpuPerSample=iThreads, recount=FALSE, minAnchor=5)
 fds <- saveFraseRDataSet(fds)
 
 #'

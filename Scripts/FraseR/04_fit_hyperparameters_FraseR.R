@@ -30,9 +30,9 @@ source("./src/r/config.R")
 dataset    <- snakemake@wildcards$dataset
 workingDir <- file.path(snakemake@config$ROOT, "processed_data", 
     "aberrant_splicing", "datasets")
-bpWorkers  <- min(bpworkers(), as.integer(snakemake@params[[1]]$workers))
-bpThreads  <- min(bpworkers(), as.integer(snakemake@params[[1]]$threads))
-bpProgress <- snakemake@params[[1]]$progress
+bpWorkers  <- min(bpworkers(), as.integer(snakemake@params$workers))
+bpThreads  <- min(bpworkers(), as.integer(snakemake@params$threads))
+bpProgress <- snakemake@params$progress
 
 
 #'

@@ -28,9 +28,9 @@ source("./src/r/config.R")
 dataset    <- snakemake@wildcards$dataset
 fdsFile    <- snakemake@input$fdsin
 workingDir <- dirname(dirname(dirname(fdsFile)))
-bpWorkers  <- min(bpworkers(), as.integer(snakemake@params[[1]]$workers))
-bpThreads  <- min(bpworkers(), as.integer(snakemake@params[[1]]$threads))
-bpProgress <- snakemake@params[[1]]$progress
+bpWorkers  <- min(bpworkers(), as.integer(snakemake@params$workers))
+bpThreads  <- min(bpworkers(), as.integer(snakemake@params$threads))
+bpProgress <- snakemake@params$progress
 
 #'
 #' # Load Zscores data

@@ -27,7 +27,7 @@ opts_chunk$set(fig.width=12, fig.height=8)
 dataset     <- snakemake@wildcards$dataset
 colDataFile <- snakemake@input$colData
 workingDir  <- dirname(dirname(dirname(snakemake@output$dPsiSS)))
-bpWorkers   <- min(bpworkers(), as.integer(snakemake@params[[1]]$workers))
+bpWorkers   <- min(bpworkers(), as.integer(snakemake@params$workers))
 
 
 #'
