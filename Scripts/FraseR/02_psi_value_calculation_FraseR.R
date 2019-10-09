@@ -29,9 +29,9 @@ source("./src/r/config.R")
 dataset     <- snakemake@wildcards$dataset
 colDataFile <- snakemake@input$colData
 workingDir  <- dirname(dirname(dirname(snakemake@input$countsJ)))
-bpWorkers   <- min(bpworkers(), as.integer(snakemake@params[[1]]$workers))
-bpThreads   <- as.integer(snakemake@params[[1]]$threads)
-bpProgress  <- as.logical(snakemake@params[[1]]$progress)
+bpWorkers   <- min(bpworkers(), as.integer(snakemake@params$workers))
+bpThreads   <- as.integer(snakemake@params$threads)
+bpProgress  <- as.logical(snakemake@params$progress)
 
 #'
 #' # Load count data
