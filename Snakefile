@@ -3,7 +3,7 @@
 import os
 import drop
 
-tmpdir = os.path.join(config["ROOT"], 'tmp')
+tmpdir = os.path.join(config["root"], 'tmp')
 config["tmpdir"] = tmpdir
 if not os.path.exists(tmpdir+'/AberrantSplicing'):
     os.makedirs(tmpdir+'/AberrantSplicing')

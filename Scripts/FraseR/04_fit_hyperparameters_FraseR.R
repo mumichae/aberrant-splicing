@@ -28,7 +28,7 @@ source("./src/r/config.R")
 
 #+ input
 dataset    <- snakemake@wildcards$dataset
-workingDir <- file.path(snakemake@config$ROOT, "processed_data", 
+workingDir <- file.path(snakemake@config$root, "processed_data", 
     "aberrant_splicing", "datasets")
 bpWorkers  <- min(bpworkers(), as.integer(snakemake@params$workers))
 bpThreads  <- min(bpworkers(), as.integer(snakemake@params$threads))
