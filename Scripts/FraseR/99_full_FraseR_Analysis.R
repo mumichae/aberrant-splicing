@@ -4,7 +4,7 @@
 #' author: Christian Mertes
 #' wb:
 #'  input:
-#'   - resultTable: '`sm expand(parser.getProcDataDir()+ "/aberrant_splicing/results/{dataset}_results.tsv", dataset=config["fraser_groups"])`'
+#'   - resultTable: '`sm expand(parser.getProcDataDir()+ "/aberrant_splicing/results/{dataset}_results.tsv", dataset=config["aberrantSplicing"]["groups"])`'
 #' output:
 #'  html_document
 #'---

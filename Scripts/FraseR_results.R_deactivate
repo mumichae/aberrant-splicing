@@ -49,7 +49,7 @@ resultsdt <- as.data.table(results)
 setnames(resultsdt, "hgnc_symbol", "gene_name")
 resultsdt <- add_all_gene_info(resultsdt, dis_genes = F)
 
-sa <- fread(snakemake@config$SAMPLE_ANNOTATION)
+sa <- fread(snakemake@config$sampleAnnotation)
 resultsdt[, gene_name := toupper(gene_name)]
 resultsdt <- left_join(resultsdt, sa[, .(RNA_ID, FIBROBLAST_ID, EXOME_ID, PEDIGREE, KNOWN_MUTATION,
                              CANDIDATE_GENE, BATCH, COMMENT)],

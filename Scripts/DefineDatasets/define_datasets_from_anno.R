@@ -3,7 +3,7 @@
 #' author: Christian Mertes
 #' wb:
 #'  input:
-#'    - sampleAnnoFile: '`sm config["SAMPLE_ANNOTATION"]`'
+#'    - sampleAnnoFile: '`sm config["sampleAnnotation"]`'
 #'  params:
 #'    - fileMappingFile: '`sm parser.getProcDataDir() + "/file_mapping.csv"`'
 #'  output:
