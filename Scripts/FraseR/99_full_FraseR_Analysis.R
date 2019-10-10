@@ -4,6 +4,7 @@
 #' author: Christian Mertes
 #' wb:
 #'  input:
+#'   - summaryPlots: '`sm expand(config["htmlOutputPath"] + "/aberrant_splicing/FraseR/{dataset}_summary.html", dataset=config["aberrantSplicing"]["groups"])`'
 #'   - resultTable: '`sm expand(parser.getProcDataDir()+ "/aberrant_splicing/results/{dataset}_results.tsv", dataset=config["aberrantSplicing"]["groups"])`'
 #' output:
 #'  html_document
@@ -25,6 +26,7 @@ devNull <- sapply(datasets, function(name){
         "</br>", "<a href='FraseR/", name, "_autoencoder_fit.html'              >05. Autoencoder fitting</a>",
         "</br>", "<a href='FraseR/", name, "_stat_calculation.html'             >06. Calculate P-values and other stats</a>",
         "</br>", "<a href='FraseR/", name, "_results.html'                      >07. Final results</a>",
+        "</br>", "<a href='FraseR/", name, "_summary.html'                      >08. Summary plots</a>",
         "</br>", "</p>"
     ))
 })
