@@ -22,10 +22,10 @@ workingDir <- dirname(dirname(dirname(fdsFile)))
 #+ load config and setup, echo=FALSE
 source("./src/r/config.R")
 
-# 
+#
 # TODO: how much do we do here for a standard analysis?
 #       And how much do we leave it up to the user?
-# 
+#
 # R.utils::sourceDirectory("../gagneurlab_shared/r/disease")
 # R.utils::sourceDirectory("../gagneurlab_shared/r/go_enrichment")
 # MGSA_GO_FULL <- load_mgsaset_for_organism('human')
@@ -54,17 +54,17 @@ parallel(fds) <- bpparam
 #' dpsi   <= abs(0.1)
 #' N      >= 10
 #' zScore >= 0
-#' 
-resgr <- results(fds, zscoreCut=0)
+#'
+resgr <- results(fds, zScoreCutoff=0)
 res   <- as.data.table(resgr)
 saveFraseRDataSet(fds)
 
 #'
 #' * Add features
 #'     * number of samples per gene and variant
-res[p.adj<=0.1, numSamplesPerGene:=length(unique(sampleID)), by=hgnc_symbol]
-res[p.adj<=0.1, numEventsPerGene:=.N, by="hgnc_symbol,sampleID"]
-res[p.adj<=0.1, numSamplesPerJunc:=length(unique(sampleID)), by="seqnames,start,end"]
+res[padjust<=0.1, numSamplesPerGene:=length(unique(sampleID)), by=hgncSymbol]
+res[padjust<=0.1, numEventsPerGene:=.N, by="hgncSymbol,sampleID"]
+res[padjust<=0.1, numSamplesPerJunc:=length(unique(sampleID)), by="seqnames,start,end"]
 
 #'
 #'     * MitoVIP genes
@@ -102,15 +102,15 @@ cat(paste0("<a href='./", basename(file), "'>Download result table</a>"))
 #res[,locus:=get_html_link(paste0(seqnames, ":", start, "-", end), website="locus", TRUE)]
 
 # round numbers
-res[,p.adj:=signif(p.adj, 3)]
+res[,padjust:=signif(padjust, 3)]
 res[,deltaPsi:=signif(deltaPsi, 2)]
-res[,zscore:=signif(zscore, 2)]
+res[,zscore:=signif(zScore, 2)]
 res[,psiValue:=signif(psiValue, 2)]
 
 # set correct order
-colOrders <- unique(c("sampleID", "genecards", "p.adj", "deltaPsi", "type",
-        "numSamplesPerGene", "numEventsPerGene", "numSamplesPerJunc",
-        "isMitoVIP", "omim", "PMIM", "PINH", "locus", "hgnc", colnames(res)))
+colOrders <- unique(c("sampleID", "genecards", "padjust", "deltaPsi", "type",
+                      "numSamplesPerGene", "numEventsPerGene", "numSamplesPerJunc",
+                      "isMitoVIP", "omim", "PMIM", "PINH", "locus", "hgnc", colnames(res)))
 colOrders <- colOrders[colOrders %in% colnames(res)]
 setcolorder(res, colOrders)
 

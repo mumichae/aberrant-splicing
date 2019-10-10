@@ -30,7 +30,7 @@ fdsFile    <- snakemake@input$fdsin
 workingDir <- dirname(dirname(dirname(fdsFile)))
 bpWorkers  <- min(bpworkers(), as.integer(snakemake@params$workers))
 bpThreads  <- min(bpworkers(), as.integer(snakemake@params$threads))
-bpProgress <- snakemake@params$progress
+bpProgress <- as.logical(snakemake@params$progress)
 
 #'
 #' # Load Zscores data

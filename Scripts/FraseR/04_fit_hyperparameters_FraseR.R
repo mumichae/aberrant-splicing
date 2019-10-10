@@ -50,7 +50,7 @@ dim(fds)
 #'
 for(type in psiTypes){
     message(date(), ": ", type)
-    fds <- optimHyperParams(fds, type=type, BPPARAM=parallel(fds))
+    fds <- optimHyperParams(fds, type=type, correction="FraseR", BPPARAM=parallel(fds))
     fds <- saveFraseRDataSet(fds)
 }
 
