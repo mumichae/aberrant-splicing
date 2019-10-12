@@ -3,27 +3,22 @@
 import os
 import drop
 
-tmpdir = os.path.join(config["root"], 'tmp')
-config["tmpdir"] = tmpdir
-if not os.path.exists(tmpdir+'/AberrantSplicing'):
-    os.makedirs(tmpdir+'/AberrantSplicing')
-    
-    
 parser = drop.config(config)
 config = parser.config # needed if you dont provide the wbuild.yaml as configfile
-
 include: config['wBuildPath'] + "/wBuild.snakefile"
+
+TMP_DIR = os.path.join(config["root"], 'tmp')
 
 rule all:
     input: rules.Index.output, config["htmlOutputPath"] + "/aberrant_splicing_readme.html"
-    output: touch(tmpdir + "/AS.done")
+    output: touch(TMP_DIR + "/AS.done")
 
 ### RULEGRAPH  
 ### rulegraph only works without print statements
 
 ## For rule rulegraph.. copy configfile in tmp file
 import oyaml
-with open(tmpdir + '/config.yaml', 'w') as yaml_file:
+with open(TMP_DIR + '/config.yaml', 'w') as yaml_file:
     oyaml.dump(config, yaml_file, default_flow_style=False)
 
 rulegraph_filename = config["htmlOutputPath"] + "/AS_rulegraph" # htmlOutputPath + "/" + os.path.basename(os.getcwd()) + "_rulegraph"
@@ -35,7 +30,7 @@ rule create_graph:
     output:
         rulegraph_filename + ".dot"
     shell:
-        "snakemake --configfile " + tmpdir + "/config.yaml --rulegraph > {output}"
+        "snakemake --configfile " + TMP_DIR + "/config.yaml --rulegraph > {output}"
 
 rule render_dot:
     input:
