@@ -7,7 +7,7 @@ parser = drop.config(config)
 config = parser.config # needed if you dont provide the wbuild.yaml as configfile
 include: config['wBuildPath'] + "/wBuild.snakefile"
 
-TMP_DIR = os.path.join(config["root"], 'tmp')
+TMP_DIR = drop.getTmpDir()
 
 rule all:
     input: rules.Index.output, config["htmlOutputPath"] + "/aberrant_splicing_readme.html"
