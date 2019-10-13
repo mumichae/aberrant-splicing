@@ -16,13 +16,8 @@ rule all:
     output: touch(drop.getMethodPath(METHOD, link_type='final_file', tmp_dir=TMP_DIR))
 
 ### RULEGRAPH
-import oyaml
-
 config_file = drop.getMethodPath(METHOD, link_type='config_file', tmp_dir=TMP_DIR)
 rulegraph_filename = f'{config["htmlOutputPath"]}/{METHOD}_rulegraph'
-
-with open(config_file, 'w') as yaml_file:
-    oyaml.dump(config, yaml_file, default_flow_style=False)
 
 rule produce_rulegraph:
     input:

@@ -2,6 +2,8 @@
 #' title: Create datasets from annotation file
 #' author: Christian Mertes
 #' wb:
+#'  params:
+#'    - ids: '`sm parser.fraser_ids`'
 #'  input:
 #'    - sampleAnnoFile: '`sm config["sampleAnnotation"]`'
 #'  params:
@@ -34,7 +36,7 @@ source("./src/r/config.R", echo=FALSE)
 #+ input
 outFile       <- snakemake@output$colData
 annoFile      <- snakemake@input$sampleAnnoFile
-fileMapFile      <- snakemake@params$fileMapping
+fileMapFile   <- snakemake@params$fileMapping
 
 #+ dataset name
 name <- snakemake@wildcards$dataset
@@ -49,7 +51,7 @@ mapping <- fread(fileMapFile)
 #' 
 #' Prepare input data
 #' 
-subset_ids <- snakemake@config$fraser_all[[name]]
+subset_ids <- snakemake@params$ids[[name]]
 annoSub <- anno[RNA_ID %in% subset_ids]
 #annoSub <- anno[anno[, name %in% unlist(strsplit(OUTRIDER_GROUP, split = ',')), by = 1:nrow(anno)]$V1,]
 #annoSub <- anno[grepl(paste0("^(.*,)?", name, "?(,.*)$"), snakemake@config$outrider_group)]
