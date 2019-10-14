@@ -3,7 +3,7 @@
 #' author: Christian Mertes
 #' wb:
 #'  input:
-#'   - fdsin: '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets/savedObjects/{dataset}/pajdBinomial_psiSite.h5"`'
+#'   - fdsin: '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets/savedObjects/{dataset}/pajdBetaBinomial_psiSite.h5"`'
 #'  output:
 #'   - resultTable: '`sm parser.getProcDataDir() + "/aberrant_splicing/results/{dataset}_results.tsv"`'
 #'   - wBhtml: '`sm parser.getProcDataDir() + "/aberrant_splicing/FraseR/{dataset}_results.html"`'

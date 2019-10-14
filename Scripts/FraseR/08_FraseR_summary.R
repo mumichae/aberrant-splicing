@@ -3,7 +3,7 @@
 #' author: mumichae, vyepez, ischeller
 #' wb:
 #'  input:
-#'   - fdsin: '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets/savedObjects/{dataset}/pajdBinomial_psiSite.h5"`'
+#'   - fdsin: '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets/savedObjects/{dataset}/pajdBetaBinomial_psiSite.h5"`'
 #'   - results: '`sm parser.getProcDataDir() + "/aberrant_splicing/results/{dataset}_results.tsv"`'
 #'  output:
 #'   - wBhtml: '`sm config["htmlOutputPath"] + "/aberrant_splicing/FraseR/{dataset}_summary.html"`'
@@ -47,7 +47,7 @@ plotFilterExpression(fds_raw, bins=100)
 
 #' ### Hyper parameter optimization
 for(type in psiTypes){
-    print(plot_find_enc_results(hyperParams(fds, type=type)))
+    print(plotEncDimSearch(fds, type=type))
 }
 
 #' ### Aberrant genes per sample
