@@ -8,15 +8,14 @@ config = parser.parse()
 include: config['wBuildPath'] + "/wBuild.snakefile"
 
 METHOD = 'AS'
-SCRIPT_ROOT = drop.getMethodPath(METHOD, link_type='workdir')
-TMP_DIR = config['tmpdir']
+SCRIPT_ROOT = drop.getMethodPath(METHOD, type_='workdir')
 
 rule all:
     input: rules.Index.output, config["htmlOutputPath"] + "/aberrant_splicing_readme.html"
-    output: touch(drop.getMethodPath(METHOD, link_type='final_file', tmp_dir=TMP_DIR))
+    output: touch(drop.getMethodPath(METHOD, type_='final_file'))
 
 ### RULEGRAPH
-config_file = drop.getMethodPath(METHOD, link_type='config_file', tmp_dir=TMP_DIR)
+config_file = drop.getConfFile()
 rulegraph_filename = f'{config["htmlOutputPath"]}/{METHOD}_rulegraph'
 
 rule produce_rulegraph:
