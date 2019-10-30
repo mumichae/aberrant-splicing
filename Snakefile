@@ -3,12 +3,13 @@
 import os
 import drop
 
-parser = drop.config(config)
+METHOD = 'AS'
+SCRIPT_ROOT = drop.getMethodPath(METHOD, type_='workdir')
+
+parser = drop.config(config, METHOD)
 config = parser.parse()
 include: config['wBuildPath'] + "/wBuild.snakefile"
 
-METHOD = 'AS'
-SCRIPT_ROOT = drop.getMethodPath(METHOD, type_='workdir')
 
 rule all:
     input: rules.Index.output, config["htmlOutputPath"] + "/aberrant_splicing_readme.html"
