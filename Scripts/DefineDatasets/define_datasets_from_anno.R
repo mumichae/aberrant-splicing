@@ -4,6 +4,7 @@
 #' wb:
 #'  params:
 #'    - ids: '`sm parser.fraser_ids`'
+#'    - tmpdir: '`sm drop.getMethodPath(METHOD, "tmp_dir")`'
 #'  input:
 #'    - sampleAnnoFile: '`sm config["sampleAnnotation"]`'
 #'  params:
@@ -18,8 +19,8 @@
 #'   code_download: TRUE
 #'---
 
-saveRDS(snakemake, paste0(snakemake@config$tmpdir, "/AberrantSplicing/FraseR_00.snakemake") )
-# snakemake <- readRDS(paste0(snakemake@config$tmpdir, "/AberrantSplicing/FraseR_00.snakemake"))
+saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FraseR_00.snakemake"))
+# snakemake <- readRDS(".drop/tmp/AE/FraseR_00.snakemake")
 
 if(FALSE){
   snakemake <- readRDS("tmp/snakemake.RDS")

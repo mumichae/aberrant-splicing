@@ -7,6 +7,7 @@
 #'   - threads: 60
 #'   - internalThreads: 3
 #'   - progress: FALSE
+#'   - tmpdir: '`sm drop.getMethodPath(METHOD, "tmp_dir")`'
 #'  input:
 #'   - colData: '`sm parser.getProcDataDir() + "/aberrant_splicing/annotations/{dataset}.tsv"`'
 #'  output:
@@ -17,19 +18,8 @@
 #'  type: noindex
 #'---
 
-
-### commented out under wb:
-# #'  py:
-# #'   - |
-# #'     def get_input_bam_files(wildcards):
-# #'       return list(pd.read_cvs(parser.getProcDataDir() + "/aberrant_splicing/annotations/" + wildcards.datasets + ".tsv"))
-
-
-### commented out under input:
-# #'   - bamFiles: '`sm lambda wildcards: get_input_bam_files(wildcards)`'
-
-saveRDS(snakemake, paste0(snakemake@config$tmpdir, "/AberrantSplicing/FraseR_01.snakemake") )
-# snakemake <- readRDS(paste0(snakemake@config$tmpdir, "/AberrantSplicing/FraseR_01.snakemake"))
+saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FraseR_01.snakemake") )
+# snakemake <- readRDS(".drop/tmp/AE/FraseR_01.snakemake")
 
 if(FALSE){
     snakemake <- readRDS("./tmp/snakemake.RDS")
