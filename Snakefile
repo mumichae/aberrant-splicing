@@ -4,7 +4,7 @@ import os
 import drop
 
 METHOD = 'AS'
-SCRIPT_ROOT = drop.getMethodPath(METHOD, type_='workdir')
+SCRIPT_ROOT = os.getcwd()
 
 parser = drop.config(config, METHOD)
 config = parser.parse()
@@ -25,14 +25,11 @@ rule produce_rulegraph:
 
 rule create_graph:
     output:
-        rulegraph_filename + ".dot"
+        svg = f"{rulegraph_filename}.svg",
+        png = f"{rulegraph_filename}.png"
     shell:
-        "snakemake --configfile {config_file} --rulegraph > {output}"
+        """
+        snakemake --configfile {config_file} --rulegraph | dot -Tsvg > {output.svg}
+        snakemake --configfile {config_file} --rulegraph | dot -Tpng > {output.png}
+        """
 
-rule render_dot:
-    input:
-        "{prefix}.dot"
-    output:
-        "{prefix}.{fmt,(png|svg)}"
-    shell:
-        "dot -T{wildcards.fmt} < {input} > {output}"
