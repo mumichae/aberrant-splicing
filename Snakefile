@@ -5,6 +5,7 @@ import drop
 
 METHOD = 'AS'
 SCRIPT_ROOT = os.getcwd()
+CONF_FILE = drop.getConfFile()
 
 parser = drop.config(config, METHOD)
 config = parser.parse()
@@ -15,8 +16,6 @@ rule all:
     input: rules.Index.output, config["htmlOutputPath"] + "/aberrant_splicing_readme.html"
     output: touch(drop.getMethodPath(METHOD, type_='final_file'))
 
-### RULEGRAPH
-config_file = drop.getConfFile()
 rulegraph_filename = f'{config["htmlOutputPath"]}/{METHOD}_rulegraph'
 
 rule produce_rulegraph:
@@ -32,4 +31,8 @@ rule create_graph:
         snakemake --configfile {config_file} --rulegraph | dot -Tsvg > {output.svg}
         snakemake --configfile {config_file} --rulegraph | dot -Tpng > {output.png}
         """
+
+rule unlock:
+    output: touch(drop.getMethodPath(METHOD, type_="unlock"))
+    shell: "snakemake --unlock --configfile {CONF_FILE}"
 
