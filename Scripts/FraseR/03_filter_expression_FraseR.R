@@ -24,11 +24,11 @@ source("./src/r/config.R")
 opts_chunk$set(fig.width=12, fig.height=8)
 
 #+ input
-dataset     <- snakemake@wildcards$dataset
+dataset    <- snakemake@wildcards$dataset
 colDataFile <- snakemake@input$colData
-workingDir  <- dirname(dirname(dirname(snakemake@output$dPsiSS)))
-bpWorkers   <- min(bpworkers(), as.integer(snakemake@params$workers))
-
+workingDir <- dirname(dirname(dirname(snakemake@output$countsJ)))
+bpWorkers   <- min(max(extract_params(bpworkers()), 1),
+                   as.integer(extract_params(snakemake@params$workers)))
 
 #'
 #' # Load count data
