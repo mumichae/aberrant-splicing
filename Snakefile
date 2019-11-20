@@ -33,3 +33,7 @@ rule create_graph:
         snakemake --configfile {config_file} --rulegraph | dot -Tpng > {output.png}
         """
 
+rule unlock:
+    output: touch(drop.getMethodPath(METHOD, type_="unlock"))
+    shell: "snakemake --unlock --configfile {CONF_FILE}"
+
