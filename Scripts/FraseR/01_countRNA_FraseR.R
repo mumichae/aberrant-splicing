@@ -24,7 +24,7 @@ saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FraseR_01.snakemake") )
 if(FALSE){
     snakemake <- readRDS("./tmp/snakemake.RDS")
     source(".wBuild/wBuildParser.R")
-    parseWBHeader("./Scripts/FraseR/01_countRNA_FraseR.R", dataset="Lung")
+    cd ("./Scripts/FraseR/01_countRNA_FraseR.R", dataset="Lung")
     bpWorkers <- min(bpworkers(), 30)
     bpThreads <- 60
     bpProgress <- TRUE
@@ -57,11 +57,10 @@ DT::datatable(colData, options=list(scrollX=TRUE))
 #'
 #' Counting the dataset
 #'
+register(MulticoreParam(bpWorkers, bpThreads, progressbar=bpProgress))
 fds <- FraseRDataSet(colData,
         workingDir = workingDir,
-        name       = paste0("raw-", dataset),
-        parallel   = MulticoreParam(bpWorkers, bpThreads,
-                progressbar=bpProgress))
+        name       = paste0("raw-", dataset))
 fds <- countRNAData(fds, NcpuPerSample=iThreads, recount=TRUE, minAnchor=5)
 fds <- saveFraseRDataSet(fds)
 
