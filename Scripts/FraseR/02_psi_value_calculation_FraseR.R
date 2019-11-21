@@ -26,12 +26,13 @@ if(FALSE){
 source("./src/r/config.R")
 
 #+ input
-dataset     <- snakemake@wildcards$dataset
+dataset    <- snakemake@wildcards$dataset
 colDataFile <- snakemake@input$colData
-workingDir  <- dirname(dirname(dirname(snakemake@input$countsJ)))
-bpWorkers   <- min(bpworkers(), as.integer(snakemake@params$workers))
-bpThreads   <- as.integer(snakemake@params$threads)
-bpProgress  <- as.logical(snakemake@params$progress)
+workingDir <- dirname(dirname(dirname(snakemake@output$countsJ)))
+bpWorkers   <- min(max(extract_params(bpworkers()), 1),
+                   as.integer(extract_params(snakemake@params$workers)))
+bpThreads   <- as.integer(extract_params(snakemake@params$threads))
+bpProgress  <- as.logical(extract_params(snakemake@params$progress))
 
 #'
 #' # Load count data

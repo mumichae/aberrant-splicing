@@ -5,10 +5,9 @@
 #'  params:
 #'    - ids: '`sm parser.fraser_ids`'
 #'    - tmpdir: '`sm drop.getMethodPath(METHOD, "tmp_dir")`'
+#'    - fileMappingFile: '`sm parser.getProcDataDir() + "/file_mapping.csv"`'
 #'  input:
 #'    - sampleAnnoFile: '`sm config["sampleAnnotation"]`'
-#'  params:
-#'    - fileMappingFile: '`sm parser.getProcDataDir() + "/file_mapping.csv"`'
 #'  output:
 #'    - colData: '`sm parser.getProcDataDir() + "/aberrant_splicing/annotations/{dataset}.tsv"`'
 #'    - wBhtml:  '`sm parser.getProcDataDir() + "/aberrant_splicing/annotations/{dataset}.html"`'

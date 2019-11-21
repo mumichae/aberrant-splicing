@@ -24,7 +24,7 @@ saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FraseR_01.snakemake") )
 if(FALSE){
     snakemake <- readRDS("./tmp/snakemake.RDS")
     source(".wBuild/wBuildParser.R")
-    parseWBHeader("./Scripts/FraseR/01_countRNA_FraseR.R", dataset="Lung")
+    cd ("./Scripts/FraseR/01_countRNA_FraseR.R", dataset="Lung")
     bpWorkers <- min(bpworkers(), 30)
     bpThreads <- 60
     bpProgress <- TRUE
@@ -34,15 +34,16 @@ if(FALSE){
 #+ echo=FALSE
 source("./src/r/config.R")
 
-#+ input,
-dataset     <- snakemake@wildcards$dataset
+#+ input
+dataset    <- snakemake@wildcards$dataset
 colDataFile <- snakemake@input$colData
-workingDir  <- dirname(dirname(dirname(snakemake@output$countsJ)))
-bpWorkers   <- min(bpworkers(), as.integer(snakemake@params$workers))
-bpThreads   <- as.integer(snakemake@params$threads)
-bpProgress  <- as.logical(snakemake@params$progress)
-iThreads    <- min(as.integer(bpworkers() / 5),
-                   as.integer(snakemake@params$internalThreads))
+workingDir <- dirname(dirname(dirname(snakemake@output$countsJ)))
+bpWorkers   <- min(max(extract_params(bpworkers()), 1),
+                   as.integer(extract_params(snakemake@params$workers)))
+bpThreads   <- as.integer(extract_params(snakemake@params$threads))
+bpProgress  <- as.logical(extract_params(snakemake@params$progress))
+iThreads    <- min(max(as.integer(bpWorkers / 5), 1),
+                   as.integer(extract_params(snakemake@params$internalThreads)))
 
 #'
 #' # Dataset
@@ -56,12 +57,11 @@ DT::datatable(colData, options=list(scrollX=TRUE))
 #'
 #' Counting the dataset
 #'
+register(MulticoreParam(bpWorkers, bpThreads, progressbar=bpProgress))
 fds <- FraseRDataSet(colData,
         workingDir = workingDir,
-        name       = paste0("raw-", dataset),
-        parallel   = MulticoreParam(bpWorkers, bpThreads,
-                progressbar=bpProgress))
-fds <- countRNAData(fds, NcpuPerSample=iThreads, recount=FALSE, minAnchor=5)
+        name       = paste0("raw-", dataset))
+fds <- countRNAData(fds, NcpuPerSample=iThreads, recount=TRUE, minAnchor=5)
 fds <- saveFraseRDataSet(fds)
 
 #'

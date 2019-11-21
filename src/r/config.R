@@ -1,6 +1,6 @@
 ##--------------------------------------------
 ## required packages
-message("Load needed packages")
+message("Load packages")
 suppressPackageStartupMessages({
     library(markdown)
     library(knitr)
@@ -11,18 +11,21 @@ suppressPackageStartupMessages({
     library(tidyr)
     library(plotly)
     library(DelayedMatrixStats)
-    #library(FraseR)
+    library(FraseR)
 })
 
 # load the FraseR package with devtools
-suppressPackageStartupMessages({
-  devtools::load_all("FraseR")
-})
-
+#suppressPackageStartupMessages({
+#  devtools::load_all("FraseR")
+#})
 
 
 ## helper functions
 write_tsv <- function(x, file, row.names = FALSE, ...){
   write.table(x=x, file=file, quote=FALSE, sep='\t', row.names= row.names, ...)
+}
+
+extract_params <- function(params) {
+    unlist(params)[1]
 }
 
