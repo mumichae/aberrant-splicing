@@ -6,6 +6,7 @@
 #'   - workers: 20
 #'   - threads: 20
 #'   - progress: FALSE
+#'   - workingDir: '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets/"`'
 #'  input:
 #'   - wBhtml: '`sm config["htmlOutputPath"] + "/aberrant_splicing/FraseR/{dataset}_hyper_parameter_optimization.html"`'
 #'  output:
@@ -31,11 +32,11 @@ source("./src/r/config.R")
 #+ input
 dataset    <- snakemake@wildcards$dataset
 fdsFile    <- snakemake@output$fdsout
-workingDir <- dirname(dirname(dirname(fdsFile)))
-bpWorkers   <- min(max(extract_params(bpworkers()), 1),
-                   as.integer(extract_params(snakemake@params$workers)))
-bpThreads   <- as.integer(extract_params(snakemake@params$threads))
-bpProgress  <- as.logical(extract_params(snakemake@params$progress))
+workingDir <- snakemake@params$workingDir
+bpWorkers  <- min(max(extract_params(bpworkers()), 1),
+                  as.integer(extract_params(snakemake@params$workers)))
+bpThreads  <- as.integer(extract_params(snakemake@params$threads))
+bpProgress <- as.logical(extract_params(snakemake@params$progress))
 
 
 #'
@@ -45,23 +46,33 @@ dataset
 
 #+ echo=FALSE
 fds <- loadFraseRDataSet(dir=workingDir, name=dataset)
-bpparam <- MulticoreParam(bpWorkers, bpThreads, progressbar=bpProgress)
-parallel(fds) <- bpparam
+register(MulticoreParam(bpWorkers, bpThreads, progressbar=bpProgress))
 dim(fds)
 
 #'
 #' # Fit autoencoder
 #'
-
-#'
 #' run it for every type
 #'
+correction <- snakemake@config$aberrantSplicing$correction
+
+for (type in psiTypes) {
+    message(type)
+    for (x in FraseR:::hyperParams(fds, type=type)) {
+        message(x)
+    }
+}
+
 for(type in psiTypes){
 
     # set current type
     currentType(fds) <- type
     curDims <- dim(K(fds, type))
+    message(type)
+    message(FraseR:::hyperParams(fds, type=type)[1,q])
+    message(FraseR:::hyperParams(fds, type=type))
     q <- bestQ(fds, type)
+    message(paste("q:", q))
     probE <- max(0.001, min(1,30000/curDims[1]))
 
     # subset fitting
@@ -70,7 +81,7 @@ for(type in psiTypes){
     print(table(featureExclusionMask(fds)))
 
     # run autoencoder
-    fds <- fitAutoencoder(fds, q=q, type=type, verbose=TRUE, BPPARAM=bpparam, iterations=15)
+    fds <- fit(fds, q=q, type=type, verbose=TRUE, iterations=15, correction=correction)
 
     # save autoencoder fit
     fds <- saveFraseRDataSet(fds)

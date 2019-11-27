@@ -14,7 +14,7 @@ suppressPackageStartupMessages({
     library(FraseR)
 })
 
-# load the FraseR package with devtools
+## load the FraseR package with devtools
 #suppressPackageStartupMessages({
 #  devtools::load_all("FraseR")
 #})

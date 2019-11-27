@@ -2,6 +2,8 @@
 #' title: Results of FraseR analysis
 #' author: Christian Mertes
 #' wb:
+#'  params:
+#'   - workingDir: '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets/"`'
 #'  input:
 #'   - fdsin: '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets/savedObjects/{dataset}/pajdBetaBinomial_psiSite.h5"`'
 #'  output:
@@ -10,14 +12,10 @@
 #'  type: noindex
 #'---
 
-if(FALSE){
-    snakemake <- readRDS("./tmp/snakemake.RDS")
-}
-
 #+ input
 dataset    <- snakemake@wildcards$dataset
 fdsFile    <- snakemake@input$fdsin
-workingDir <- dirname(dirname(dirname(fdsFile)))
+workingDir <- snakemake@params$workingDir
 
 #+ load config and setup, echo=FALSE
 source("./src/r/config.R")
@@ -26,10 +24,6 @@ source("./src/r/config.R")
 # TODO: how much do we do here for a standard analysis?
 #       And how much do we leave it up to the user?
 #
-# R.utils::sourceDirectory("../gagneurlab_shared/r/disease")
-# R.utils::sourceDirectory("../gagneurlab_shared/r/go_enrichment")
-# MGSA_GO_FULL <- load_mgsaset_for_organism('human')
-# mimTable <- getFullOmimTable()
 opts_chunk$set(fig.width=12, fig.height=8)
 
 
@@ -43,19 +37,16 @@ workingDir
 
 #+ echo=FALSE
 fds <- loadFraseRDataSet(dir=workingDir, name=dataset)
-bpparam <- MulticoreParam(3, 3)
-parallel(fds) <- bpparam
+register(MulticoreParam(3, 3))
 
 #'
 #' ## Extract results
-#' You can adjust the cutoffs to your needs
-#' the current defaults are:
-#' padj   <= 0.1
-#' dpsi   <= abs(0.1)
-#' N      >= 10
-#' zScore >= 0
 #'
-resgr <- results(fds, zScoreCutoff=0)
+config_params <- snakemake@config$aberrantSplicing
+resgr <- results(fds,
+                 padjCutoff=config_params$padjCutoff, 
+                 zScoreCutoff=config_params$zScoreCutoff,
+                 deltaPsiCutoff=config_params$deltaPsiCutoff)
 res   <- as.data.table(resgr)
 saveFraseRDataSet(fds)
 
@@ -65,17 +56,6 @@ saveFraseRDataSet(fds)
 res[padjust<=0.1, numSamplesPerGene:=length(unique(sampleID)), by=hgncSymbol]
 res[padjust<=0.1, numEventsPerGene:=.N, by="hgncSymbol,sampleID"]
 res[padjust<=0.1, numSamplesPerJunc:=length(unique(sampleID)), by="seqnames,start,end"]
-
-#'
-#'     * MitoVIP genes
-# vip_genes <- get_vip_info_table()[,.(hgnc_symbol=gene,
-#         isMitoVIP=ifelse(causal,"causal", "vip"))]
-# res <- merge(res, vip_genes, all.x=TRUE, "hgnc_symbol")
-
-#'
-#'     * OMIM phenotypes
-#'
-# res <- merge(res, mimTable, all.x=TRUE, by.x="hgnc_symbol", by.y="SYMBOL")
 
 #'
 #'     * add colData at the end
@@ -93,13 +73,6 @@ write_tsv(res, file=file)
 #'
 #+ echo=FALSE, results='asis'
 cat(paste0("<a href='./", basename(file), "'>Download result table</a>"))
-
-# get links
-## res[,genecards:=get_html_link(hgnc_symbol, website="genecards", TRUE)]
-#res[,hgnc:=get_html_link(hgnc_symbol, website="hgnc", TRUE)]
-## res[,omim:=get_html_link(GMIM, website="omim", TRUE)]
-#res[,entrez:=get_html_link(hgnc_symbol, website="entrez", TRUE)]
-#res[,locus:=get_html_link(paste0(seqnames, ":", start, "-", end), website="locus", TRUE)]
 
 # round numbers
 res[,padjust:=signif(padjust, 3)]

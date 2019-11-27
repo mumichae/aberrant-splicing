@@ -6,6 +6,7 @@
 #'   - workers: 20
 #'   - threads: 20
 #'   - progress: FALSE
+#'   - workingDir: '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets/"`'
 #'  input:
 #'   - fdsin:  '`sm parser.getProcDataDir()+ "/aberrant_splicing/datasets/savedObjects/{dataset}/predictedMeans_psiSite.h5"`'
 #'  output:
@@ -27,7 +28,7 @@ source("./src/r/config.R")
 #+ input
 dataset    <- snakemake@wildcards$dataset
 fdsFile    <- snakemake@input$fdsin
-workingDir <- dirname(dirname(dirname(fdsFile)))
+workingDir <- snakemake@params$workingDir
 bpWorkers   <- min(max(extract_params(bpworkers()), 1),
                    as.integer(extract_params(snakemake@params$workers)))
 bpThreads   <- as.integer(extract_params(snakemake@params$threads))
@@ -41,8 +42,7 @@ workingDir
 
 #+ echo=FALSE
 fds <- loadFraseRDataSet(dir=workingDir, name=dataset)
-bpparam <- MulticoreParam(bpWorkers, bpThreads, progressbar=bpProgress)
-parallel(fds) <- bpparam
+register(MulticoreParam(bpWorkers, bpThreads, progressbar=bpProgress))
 
 
 #'

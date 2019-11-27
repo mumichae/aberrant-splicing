@@ -8,6 +8,7 @@
 #'   - internalThreads: 3
 #'   - progress: FALSE
 #'   - tmpdir: '`sm drop.getMethodPath(METHOD, "tmp_dir")`'
+#'   - workingDir: '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets/"`'
 #'  input:
 #'   - colData: '`sm parser.getProcDataDir() + "/aberrant_splicing/annotations/{dataset}.tsv"`'
 #'  output:
@@ -37,7 +38,7 @@ source("./src/r/config.R")
 #+ input
 dataset    <- snakemake@wildcards$dataset
 colDataFile <- snakemake@input$colData
-workingDir <- dirname(dirname(dirname(snakemake@output$countsJ)))
+workingDir <- snakemake@params$workingDir
 bpWorkers   <- min(max(extract_params(bpworkers()), 1),
                    as.integer(extract_params(snakemake@params$workers)))
 bpThreads   <- as.integer(extract_params(snakemake@params$threads))

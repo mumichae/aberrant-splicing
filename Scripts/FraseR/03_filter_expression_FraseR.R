@@ -4,6 +4,7 @@
 #' wb:
 #'  params:
 #'   - workers: 1
+#'   - workingDir: '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets/"`'
 #'  input:
 #'   - psiSS:  '`sm parser.getProcDataDir()+ "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/psiSite.h5"`'
 #'   - dPsiSS: '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/delta_psiSite.h5"`'
@@ -26,7 +27,7 @@ opts_chunk$set(fig.width=12, fig.height=8)
 #+ input
 dataset    <- snakemake@wildcards$dataset
 colDataFile <- snakemake@input$colData
-workingDir <- dirname(dirname(dirname(snakemake@output$countsJ)))
+workingDir <- snakemake@params$workingDir
 bpWorkers   <- min(max(extract_params(bpworkers()), 1),
                    as.integer(extract_params(snakemake@params$workers)))
 
@@ -49,7 +50,11 @@ table(mcols(fds, type="j")[,"passed"])
 #+ filter bad junctions, echo=FALSE
 devNull <- saveFraseRDataSet(fds)
 name(fds) <- dataset
-fds <- saveFraseRDataSet(fds[mcols(fds, type="j")[,"passed"]])
+if (snakemake@config$aberrantSplicing$filter == TRUE) {
+    fds <- fds[mcols(fds, type="j")[,"passed"]]
+    message(paste("filtered to", nrow(fds), "junctions"))
+}
+fds <- saveFraseRDataSet(fds)
 
 #'
 #' Correlation of counts after filtering

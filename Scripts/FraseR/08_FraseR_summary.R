@@ -2,6 +2,8 @@
 #' title: "FraseR Summary: `r gsub('_', ' ', snakemake@wildcards$dataset)`"
 #' author: mumichae, vyepez, ischeller
 #' wb:
+#'  params:
+#'   - workingDir: '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets/"`'
 #'  input:
 #'   - fdsin: '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets/savedObjects/{dataset}/pajdBetaBinomial_psiSite.h5"`'
 #'   - results: '`sm parser.getProcDataDir() + "/aberrant_splicing/results/{dataset}_results.tsv"`'
@@ -17,7 +19,7 @@ if(FALSE){
 #+ input
 dataset    <- snakemake@wildcards$dataset
 fdsFile    <- snakemake@input$fdsin
-workingDir <- dirname(dirname(dirname(fdsFile)))
+workingDir <- snakemake@params$workingDir
 
 #+ load config and setup, echo=FALSE
 source("./src/r/config.R")
