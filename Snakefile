@@ -28,8 +28,8 @@ rule create_graph:
         png = f"{rulegraph_filename}.png"
     shell:
         """
-        snakemake --configfile {config_file} --rulegraph | dot -Tsvg > {output.svg}
-        snakemake --configfile {config_file} --rulegraph | dot -Tpng > {output.png}
+        snakemake --configfile {CONF_FILE} --rulegraph | dot -Tsvg > {output.svg}
+        snakemake --configfile {CONF_FILE} --rulegraph | dot -Tpng > {output.png}
         """
 
 rule unlock:
