@@ -22,16 +22,6 @@
 saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FraseR_01.snakemake") )
 # snakemake <- readRDS(".drop/tmp/AE/FraseR_01.snakemake")
 
-if(FALSE){
-    snakemake <- readRDS("./tmp/snakemake.RDS")
-    source(".wBuild/wBuildParser.R")
-    cd ("./Scripts/FraseR/01_countRNA_FraseR.R", dataset="Lung")
-    bpWorkers <- min(bpworkers(), 30)
-    bpThreads <- 60
-    bpProgress <- TRUE
-    iThreads  <- min(ceiling(bpworkers())/5, 3)
-}
-
 #+ echo=FALSE
 source("./src/r/config.R")
 
@@ -45,6 +35,7 @@ bpThreads   <- as.integer(extract_params(snakemake@params$threads))
 bpProgress  <- as.logical(extract_params(snakemake@params$progress))
 iThreads    <- min(max(as.integer(bpWorkers / 5), 1),
                    as.integer(extract_params(snakemake@params$internalThreads)))
+params <- snakemake@config$aberrantSplicing
 
 #'
 #' # Dataset
@@ -62,7 +53,8 @@ register(MulticoreParam(bpWorkers, bpThreads, progressbar=bpProgress))
 fds <- FraseRDataSet(colData,
         workingDir = workingDir,
         name       = paste0("raw-", dataset))
-fds <- countRNAData(fds, NcpuPerSample=iThreads, recount=TRUE, minAnchor=5)
+fds <- countRNAData(fds, NcpuPerSample=iThreads, minAnchor=5,
+                    recount=params$recount, longRead=params$longRead)
 fds <- saveFraseRDataSet(fds)
 
 #'
