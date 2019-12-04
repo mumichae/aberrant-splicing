@@ -1,0 +1,116 @@
+#'---
+#' title: FraseR Summary: `r gsub('_', ' ', snakemake@wildcards$dataset)`
+#' author: mumichae, vyepez, ischeller
+#' wb:
+#'  params:
+#'   - workingDir: '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets/"`'
+#'  input:
+#'   - fdsin: '`sm parser.getProcDataDir() + 
+#'                 "/aberrant_splicing/datasets/savedObjects/{dataset}/" + 
+#'                 "pajdBetaBinomial_psiSite.h5"`'
+#'   - results: '`sm parser.getProcDataDir() + 
+#'                   "/aberrant_splicing/results/{dataset}_results.tsv"`'
+#'  output:
+#'   - wBhtml: '`sm config["htmlOutputPath"] +
+#'               "/aberrant_splicing/FraseR/{dataset}_summary.html"`'
+#'  type: noindex
+#'---
+
+#+ input
+dataset    <- snakemake@wildcards$dataset
+fdsFile    <- snakemake@input$fdsin
+workingDir <- snakemake@params$workingDir
+
+#+ load config and setup, echo=FALSE
+source("./src/r/config.R")
+
+#'
+#' # Load data
+fds <- loadFraseRDataSet(dir=workingDir, name=dataset)
+
+#' Number of samples: `r nrow(colData(fds))`
+#' Number of introns (psi5): `r nrow(rowRanges(fds, type = "psi5"))`
+#' Number of introns (psi3): `r nrow(rowRanges(fds, type = "psi3"))`
+#' Number of splice sites (psiSite): `r nrow(rowRanges(fds, type = "psiSite"))`
+
+# used for most plots
+dataset_title <- paste("Dataset:", snakemake@wildcards$dataset)
+
+
+#' ## Hyper parameter optimization
+for(type in psiTypes){
+    g <- plotEncDimSearch(fds, type=type) + theme_bw(base_size = 16)
+    plot(g)
+}
+
+#' ## Aberrant genes per sample
+plotAberrantPerSample(fds, aggregate=TRUE, main=dataset_title) + 
+    theme_cowplot(font_size = 16) +
+    theme(legend.position = "top")
+
+#' ## Batch Correlation: Samples x samples
+topN <- 30000
+topJ <- 10000
+for(type in psiTypes){
+    before <- plotCountCorHeatmap(
+        fds = fds,
+        type = type,
+        logit = TRUE,
+        topN = topN,
+        topJ = topJ,
+        plotType = "sampleCorrelation",
+        normalized = FALSE,
+        annotation_col = NA,
+        annotation_row = NA,
+        sampleCluster = NA,
+        plotMeanPsi=FALSE,
+        plotCov = FALSE,
+        annotation_legend = TRUE
+    )
+    before
+    after <- plotCountCorHeatmap(
+        fds = fds,
+        type = type,
+        logit = TRUE,
+        topN = topN,
+        topJ = topJ,
+        plotType = "sampleCorrelation",
+        normalized = TRUE,
+        annotation_col = NA,
+        annotation_row = NA,
+        sampleCluster = NA,
+        plotMeanPsi=FALSE,
+        plotCov = FALSE,
+        annotation_legend = TRUE
+    )
+    after
+}
+
+
+#' # Results
+res <- fread(snakemake@input$resultTable)
+file <- gsub(".html$", ".tsv", snakemake@output$wBhtml)
+write_tsv(res, file=file)
+
+#'
+#' The result table can also be downloaded with the link below.
+#+ echo=FALSE, results='asis'
+cat(paste0("<a href='./", basename(file), "'>Download result table</a>"))
+
+# round numbers
+res[, padjust := signif(padjust, 3)]
+res[, deltaPsi := signif(deltaPsi, 2)]
+res[, zscore := signif(zScore, 2)]
+res[, psiValue := signif(psiValue, 2)]
+
+#' ## Result table
+DT::datatable(res, options=list(scrollX=TRUE), escape=FALSE)
+
+#' ## Sample table
+DT::datatable(as.data.table(colData(fds)), options=list(scrollX=TRUE))
+
+#' ## Sample correlation
+plots <- lapply(psiTypes, plotCountCorHeatmap, fds=fds, logit=TRUE, topN=100000,
+                norm=FALSE)
+plots <- lapply(psiTypes, plotCountCorHeatmap, fds=fds, logit=TRUE, topN=100000, 
+                norm=TRUE)

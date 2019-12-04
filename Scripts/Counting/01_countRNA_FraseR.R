@@ -10,26 +10,27 @@
 #'   - tmpdir: '`sm drop.getMethodPath(METHOD, "tmp_dir")`'
 #'   - workingDir: '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets/"`'
 #'  input:
-#'   - colData: '`sm parser.getProcDataDir() + "/aberrant_splicing/annotations/{dataset}.tsv"`'
+#'   - colData: '`sm parser.getProcDataDir() + 
+#'                   "/aberrant_splicing/annotations/{dataset}.tsv"`'
 #'  output:
-#'   - fdsobj:  '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/fds-object.RDS"`'
-#'   - countsJ: '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/rawCountsJ.h5"`'
-#'   - countsS: '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/rawCountsSS.h5"`'
-#'   - wBhtml:  '`sm config["htmlOutputPath"] + "/aberrant_splicing/FraseR/{dataset}_counting.html"`'
-#'  type: noindex
+#'   - fdsobj:  '`sm parser.getProcDataDir() + 
+#'                   "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/fds-object.RDS"`'
+#'   - countsJ: '`sm parser.getProcDataDir() + 
+#'                   "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/rawCountsJ.h5"`'
+#'   - countsS: '`sm parser.getProcDataDir() + 
+#'                   "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/rawCountsSS.h5"`'
+#'  type: script
 #'---
 
 saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FraseR_01.snakemake") )
 # snakemake <- readRDS(".drop/tmp/AE/FraseR_01.snakemake")
 
-#+ echo=FALSE
 source("./src/r/config.R")
 
-#+ input
 dataset    <- snakemake@wildcards$dataset
 colDataFile <- snakemake@input$colData
 workingDir <- snakemake@params$workingDir
-bpWorkers   <- min(max(extract_params(bpworkers()), 1),
+bpWorkers   <- min(max(bpworkers(), 1),
                    as.integer(extract_params(snakemake@params$workers)))
 bpThreads   <- as.integer(extract_params(snakemake@params$threads))
 bpProgress  <- as.logical(extract_params(snakemake@params$progress))
@@ -37,28 +38,15 @@ iThreads    <- min(max(as.integer(bpWorkers / 5), 1),
                    as.integer(extract_params(snakemake@params$internalThreads)))
 params <- snakemake@config$aberrantSplicing
 
-#'
-#' # Dataset
-#+ echo=TRUE
-dataset
-
-#+ echo=FALSE
-colData <- fread(colDataFile)
-DT::datatable(colData, options=list(scrollX=TRUE))
-
-#'
-#' Counting the dataset
-#'
+# Create FraseR dataset
 register(MulticoreParam(bpWorkers, bpThreads, progressbar=bpProgress))
+colData <- fread(colDataFile)
 fds <- FraseRDataSet(colData,
         workingDir = workingDir,
         name       = paste0("raw-", dataset))
+
+# Count reads
 fds <- countRNAData(fds, NcpuPerSample=iThreads, minAnchor=5,
                     recount=params$recount, longRead=params$longRead)
 fds <- saveFraseRDataSet(fds)
-
-#'
-#' FraseR object after counting
-#'
-fds
 
