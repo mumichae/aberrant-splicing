@@ -1,5 +1,5 @@
 #'---
-#' title: FraseR Summary: `r gsub('_', ' ', snakemake@wildcards$dataset)`
+#' title: "FraseR Summary: `r gsub('_', ' ', snakemake@wildcards$dataset)`"
 #' author: mumichae, vyepez, ischeller
 #' wb:
 #'  params:

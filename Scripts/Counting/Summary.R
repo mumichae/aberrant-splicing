@@ -1,5 +1,5 @@
 #'---
-#' title: Count Summary: `r gsub('_', ' ', snakemake@wildcards$dataset)`
+#' title: "Count Summary: `r gsub('_', ' ', snakemake@wildcards$dataset)`"
 #' author: Christian Mertes
 #' wb:
 #'  params:

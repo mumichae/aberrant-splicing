@@ -55,9 +55,6 @@ finalTable <- colData
 #'
 
 #+ savetable
-setcolorder(finalTable, unique(c(
-  "sampleID", "condition", "bamFile", colnames(finalTable))))
-
 DT::datatable(finalTable, options=list(scrollX=TRUE))
 
 dim(finalTable)
