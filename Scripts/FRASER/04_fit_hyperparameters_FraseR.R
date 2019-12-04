@@ -38,4 +38,5 @@ for(type in FraseR::psiTypes){
     fds <- saveFraseRDataSet(fds)
 }
 fds <- saveFraseRDataSet(fds)
+file.create(snakemake@output$hyper)
 

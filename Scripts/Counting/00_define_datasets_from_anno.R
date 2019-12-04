@@ -21,7 +21,7 @@
 #'---
 
 saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FraseR_00.snakemake"))
-# snakemake <- readRDS(".drop/tmp/AE/FraseR_00.snakemake")
+# snakemake <- readRDS(".drop/tmp/AS/FraseR_00.snakemake")
 
 #+ load main config, echo=FALSE
 source("./src/r/config.R", echo=FALSE)
@@ -45,15 +45,12 @@ colData <- merge(
 #'
 #' ## Dataset: `r name`
 #'
-
 #+ echo=FALSE
 finalTable <- colData
-
 
 #'
 #' ## Final sample table `r name`
 #'
-
 #+ savetable
 DT::datatable(finalTable, options=list(scrollX=TRUE))
 

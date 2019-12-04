@@ -16,6 +16,9 @@
 #'  type: script
 #'---
 
+source("./src/r/config.R")
+opts_chunk$set(fig.width=12, fig.height=8)
+
 dataset    <- snakemake@wildcards$dataset
 fdsFile    <- snakemake@input$fdsin
 workingDir <- snakemake@params$workingDir
@@ -26,8 +29,6 @@ register(MulticoreParam(bpWorkers, bpThreads))
 
 params <- snakemake@config$aberrantSplicing
 
-source("./src/r/config.R")
-opts_chunk$set(fig.width=12, fig.height=8)
 
 # Load data
 fds <- loadFraseRDataSet(dir=workingDir, name=dataset)

@@ -16,16 +16,15 @@
 #'  type: noindex
 #'---
 
+#+ load config and setup, echo=FALSE
+source("./src/r/config.R")
+library(cowplot)
+
 #+ input
 dataset    <- snakemake@wildcards$dataset
 fdsFile    <- snakemake@input$fdsin
 workingDir <- snakemake@params$workingDir
 
-#+ load config and setup, echo=FALSE
-source("./src/r/config.R")
-
-#'
-#' # Load data
 fds <- loadFraseRDataSet(dir=workingDir, name=dataset)
 
 #' Number of samples: `r nrow(colData(fds))`
@@ -88,7 +87,7 @@ for(type in psiTypes){
 
 
 #' # Results
-res <- fread(snakemake@input$resultTable)
+res <- fread(snakemake@input$results)
 file <- gsub(".html$", ".tsv", snakemake@output$wBhtml)
 write_tsv(res, file=file)
 

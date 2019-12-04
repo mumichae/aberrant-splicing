@@ -30,7 +30,7 @@ source("./src/r/config.R")
 dataset    <- snakemake@wildcards$dataset
 colDataFile <- snakemake@input$colData
 workingDir <- snakemake@params$workingDir
-bpWorkers   <- min(max(bpworkers(), 1),
+bpWorkers   <- min(max(extract_params(bpworkers()), 1),
                    as.integer(extract_params(snakemake@params$workers)))
 bpThreads   <- as.integer(extract_params(snakemake@params$threads))
 bpProgress  <- as.logical(extract_params(snakemake@params$progress))

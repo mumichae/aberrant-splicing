@@ -44,4 +44,4 @@ if (params$filter == TRUE) {
     message(paste("filtered to", nrow(fds), "junctions"))
 }
 fds <- saveFraseRDataSet(fds)
-file.create(snakemake@ouput$done)
+file.create(snakemake@output$done)
