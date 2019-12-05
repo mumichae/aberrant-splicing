@@ -22,24 +22,25 @@ library(cowplot)
 
 #+ input
 dataset    <- snakemake@wildcards$dataset
-fdsFile    <- snakemake@input$fdsin
 workingDir <- snakemake@params$workingDir
 
 fds <- loadFraseRDataSet(dir=workingDir, name=dataset)
 
 #' Number of samples: `r nrow(colData(fds))`
-#' Number of introns (psi5): `r nrow(rowRanges(fds, type = "psi5"))`
-#' Number of introns (psi3): `r nrow(rowRanges(fds, type = "psi3"))`
-#' Number of splice sites (psiSite): `r nrow(rowRanges(fds, type = "psiSite"))`
+#' Number of introns (psi5): `r length(rowRanges(fds, type = "psi5"))`
+#' Number of introns (psi3): `r length(rowRanges(fds, type = "psi3"))`
+#' Number of splice sites (psiSite): `r length(rowRanges(fds, type = "psiSite"))`
 
 # used for most plots
-dataset_title <- paste("Dataset:", snakemake@wildcards$dataset)
+dataset_title <- paste("Dataset:", dataset)
 
 
 #' ## Hyper parameter optimization
 for(type in psiTypes){
-    g <- plotEncDimSearch(fds, type=type) + theme_bw(base_size = 16)
-    plot(g)
+    g <- plotEncDimSearch(fds, type=type) 
+    if (!is.null(g)) {
+        plot(g + theme_cowplot(font_size = 16))
+    }
 }
 
 #' ## Aberrant genes per sample
@@ -85,7 +86,6 @@ for(type in psiTypes){
     after
 }
 
-
 #' # Results
 res <- fread(snakemake@input$results)
 file <- gsub(".html$", ".tsv", snakemake@output$wBhtml)
@@ -113,3 +113,4 @@ plots <- lapply(psiTypes, plotCountCorHeatmap, fds=fds, logit=TRUE, topN=100000,
                 norm=FALSE)
 plots <- lapply(psiTypes, plotCountCorHeatmap, fds=fds, logit=TRUE, topN=100000, 
                 norm=TRUE)
+
