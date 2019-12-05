@@ -40,7 +40,8 @@ devNull <- saveFraseRDataSet(fds)
 # Keep junctions that pass filter
 name(fds) <- dataset
 if (params$filter == TRUE) {
-    fds <- fds[mcols(fds, type="j")[,"passed"]]
+    filtered <- mcols(fds, type="j")[,"passed"]
+    fds <- fds[filtered,]
     message(paste("filtered to", nrow(fds), "junctions"))
 }
 fds <- saveFraseRDataSet(fds)

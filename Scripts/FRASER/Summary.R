@@ -39,7 +39,8 @@ dataset_title <- paste("Dataset:", dataset)
 for(type in psiTypes){
     g <- plotEncDimSearch(fds, type=type) 
     if (!is.null(g)) {
-        plot(g + theme_cowplot(font_size = 16))
+        g <- g + theme_cowplot(font_size = 16)
+        print(g)
     }
 }
 
