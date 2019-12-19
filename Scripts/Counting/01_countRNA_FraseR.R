@@ -40,7 +40,7 @@ params <- snakemake@config$aberrantSplicing
 
 # Create FraseR dataset
 register(MulticoreParam(bpWorkers, bpThreads, progressbar=bpProgress))
-colData <- fread(colDataFile) 
+colData <- fread(colDataFile)
 fds <- FraseRDataSet(colData,
         workingDir = workingDir,
         name       = paste0("raw-", dataset))
