@@ -18,7 +18,7 @@
 #'  type: script
 #'---
 
-source("./src/r/config.R")
+source("Scripts/_helpers/config.R")
 
 dataset    <- snakemake@wildcards$dataset
 fdsFile    <- snakemake@input$fdsin

@@ -25,7 +25,7 @@
 saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FraseR_01.snakemake") )
 # snakemake <- readRDS(".drop/tmp/AE/FraseR_01.snakemake")
 
-source("./src/r/config.R")
+source("Scripts/_helpers/config.R")
 
 dataset    <- snakemake@wildcards$dataset
 colDataFile <- snakemake@input$colData

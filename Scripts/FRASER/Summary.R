@@ -17,7 +17,7 @@
 #'---
 
 #+ load config and setup, echo=FALSE
-source("./src/r/config.R")
+source("Scripts/_helpers/config.R")
 library(cowplot)
 
 #+ input

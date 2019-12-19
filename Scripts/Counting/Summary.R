@@ -15,7 +15,7 @@
 #'---
 
 #+ echo=FALSE
-source("./src/r/config.R")
+source("Scripts/_helpers/config.R")
 opts_chunk$set(fig.width=12, fig.height=8)
 
 

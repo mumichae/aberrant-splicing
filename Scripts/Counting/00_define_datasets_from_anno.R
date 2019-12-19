@@ -24,7 +24,7 @@ saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FraseR_00.snakemake"))
 # snakemake <- readRDS(".drop/tmp/AS/FraseR_00.snakemake")
 
 #+ load main config, echo=FALSE
-source("./src/r/config.R", echo=FALSE)
+source("Scripts/_helpers/config.R", echo=FALSE)
 
 #+ input
 outFile       <- snakemake@output$colData
