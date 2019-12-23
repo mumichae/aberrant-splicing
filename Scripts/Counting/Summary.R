@@ -41,5 +41,5 @@ table(mcols(fds, type="j")[,"passed"])
 plotFilterExpression(fds) + theme_cowplot(font_size = 16)
 
 #' ## Correlation between samples
-plots <- lapply(FraseR::psiTypes, plotCountCorHeatmap, fds=fds, logit=TRUE, 
+plots <- lapply(psiTypes, plotCountCorHeatmap, fds=fds, logit=TRUE, 
                 topN=100000)
