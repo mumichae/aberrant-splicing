@@ -23,7 +23,7 @@
 #'---
 
 saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FraseR_01.snakemake") )
-# snakemake <- readRDS(".drop/tmp/AE/FraseR_01.snakemake")
+# snakemake <- readRDS(".drop/tmp/AS/FraseR_01.snakemake")
 
 source("./src/r/config.R")
 
