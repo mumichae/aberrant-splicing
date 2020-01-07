@@ -11,14 +11,13 @@ suppressPackageStartupMessages({
     library(tidyr)
     library(plotly)
     library(DelayedMatrixStats)
-    library(FRASER)
+    #   library(FraseR)
 })
 
-## load the FraseR package with devtools
-#suppressPackageStartupMessages({
-#  devtools::load_all("FraseR")
-#})
-
+# load the FraseR package with devtools
+suppressPackageStartupMessages({
+    devtools::load_all("/data/ouga/home/ag_gagneur/schuller/MLL_Thesis_LS/workspace/FraseR")
+})
 
 ## helper functions
 write_tsv <- function(x, file, row.names = FALSE, ...){
