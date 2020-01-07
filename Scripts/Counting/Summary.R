@@ -15,7 +15,7 @@
 #'---
 
 #+ echo=FALSE
-source("./src/r/config.R")
+source("Scripts/_helpers/config.R")
 opts_chunk$set(fig.width=12, fig.height=8)
 
 
@@ -41,5 +41,5 @@ table(mcols(fds, type="j")[,"passed"])
 plotFilterExpression(fds) + theme_cowplot(font_size = 16)
 
 #' ## Correlation between samples
-plots <- lapply(FraseR::psiTypes, plotCountCorHeatmap, fds=fds, logit=TRUE, 
+plots <- lapply(psiTypes, plotCountCorHeatmap, fds=fds, logit=TRUE, 
                 topN=100000)

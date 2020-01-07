@@ -16,7 +16,7 @@
 #'  type: script
 #'---
 
-source("./src/r/config.R")
+source("Scripts/_helpers/config.R")
 
 #+ input
 dataset    <- snakemake@wildcards$dataset
@@ -32,7 +32,7 @@ fds <- loadFraseRDataSet(dir=workingDir, name=dataset)
 
 # Run hyper parameter optimization
 correction <- snakemake@config$aberrantSplicing$correction
-for(type in FraseR::psiTypes){
+for(type in psiTypes){
     message(date(), ": ", type)
     fds <- optimHyperParams(fds, type=type, correction=correction)
     fds <- saveFraseRDataSet(fds)

@@ -16,7 +16,7 @@
 #'  type: script
 #'---
 
-source("./src/r/config.R")
+source("Scripts/_helpers/config.R")
 
 dataset    <- snakemake@wildcards$dataset
 workingDir <- snakemake@params$workingDir
