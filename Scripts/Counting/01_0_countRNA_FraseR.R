@@ -1,10 +1,10 @@
 #'---
-#' title: Count RNA data with FraseR
+#' title: Count RNA data with FraseR (Part 0)
 #' author: Luise Schuller
 #' wb:
 #'  params:
-#'   - workers: 20
-#'   - threads: 60
+#'   - workers: 5
+#'   - threads: 5
 #'   - internalThreads: 3
 #'   - progress: FALSE
 #'   - tmpdir: '`sm drop.getMethodPath(METHOD, "tmp_dir")`'
@@ -14,23 +14,19 @@
 #'                   "/aberrant_splicing/annotations/{dataset}.tsv"`'
 #'  output:
 #'   - gRanges: '`sm parser.getProcDataDir() + 
-#'                   "/aberrant_splicing/datasets/cache/raw-{dataset}/cache/gRanges_splitCounts.rds"`'
+#'                   "/aberrant_splicing/datasets/cache/raw-{dataset}/gRanges_splitCounts.rds"`'
 #'   - gRanges_only: '`sm parser.getProcDataDir() + 
-#'                   "/aberrant_splicing/datasets/cache/raw-{dataset}/cache/gRanges_splitCounts_only.rds"`'
+#'                   "/aberrant_splicing/datasets/cache/raw-{dataset}/gRanges_splitCounts_only.rds"`'
 #'   - spliceSites: '`sm parser.getProcDataDir() + 
-#'                   "/aberrant_splicing/datasets/cache/raw-{dataset}/cache/spliceSites_splitCounts.rds"`'
+#'                   "/aberrant_splicing/datasets/cache/raw-{dataset}/spliceSites_splitCounts.rds"`'
 #'   - fdsobj:  '`sm parser.getProcDataDir() + 
 #'                   "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/fds-object.RDS"`'
-#'   - countsJ: '`sm parser.getProcDataDir() + 
-#'                   "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/rawCountsJ.h5"`'
-#'   - countsS: '`sm parser.getProcDataDir() + 
-#'                   "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/rawCountsSS.h5"`'
 #'  type: script
 #'---
-saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FraseR_01_0.snakemake") )
+saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FraseR_01_0.snakemake") ) 
 # snakemake <- readRDS(".drop/tmp/AS/FraseR_01_0.snakemake")
 
-source("./src/r/config.R")
+source("Scripts/_helpers/config.R")
 
 dataset    <- snakemake@wildcards$dataset
 colDataFile <- snakemake@input$colData
@@ -44,7 +40,6 @@ iThreads    <- min(max(as.integer(bpWorkers / 5), 1),
 params <- snakemake@config$aberrantSplicing
 
 # Load libraries
-
 suppressPackageStartupMessages({
   library(data.table)
   library(dplyr)
@@ -91,8 +86,3 @@ message(date(), ": In total ", length(spliceSiteCoords),
 
 
 fds <- saveFraseRDataSet(fds)
-
-# # Count reads
-# fds <- countRNAData(fds, NcpuPerSample=iThreads, minAnchor=5,
-#                     recount=params$recount, longRead=params$longRead)
-# fds <- saveFraseRDataSet(fds)
