@@ -6,6 +6,7 @@
 #'   - workers: 10
 #'   - threads: 10
 #'   - progress: FALSE
+#'   - tmpdir: '`sm drop.getMethodPath(METHOD, "tmp_dir")`'
 #'   - workingDir: '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets/"`'
 #'  input:
 #'   - countsJ:  '`sm parser.getProcDataDir() + 
@@ -16,8 +17,10 @@
 #'  - psiSS:     '`sm parser.getProcDataDir() + 
 #'                    "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/psiSite.h5"`'
 #'  type: script
-#'---
+#'--- 
 
+saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FraseR_02.snakemake") )
+# snakemake <- readRDS(".drop/tmp/AS/FraseR_02.snakemake")
 source("Scripts/_helpers/config.R")
 
 dataset    <- snakemake@wildcards$dataset

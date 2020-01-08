@@ -4,6 +4,7 @@
 #' wb:
 #'  params:
 #'   - workers: 1
+#'   - tmpdir: '`sm drop.getMethodPath(METHOD, "tmp_dir")`'
 #'   - workingDir: '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets/"`'
 #'  input:
 #'   - psiSS:  '`sm parser.getProcDataDir()+ 
@@ -15,6 +16,9 @@
 #'                "/aberrant_splicing/datasets/savedObjects/{dataset}/filter.done" `'
 #'  type: script
 #'---
+
+saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FraseR_03.snakemake") )
+# snakemake <- readRDS(".drop/tmp/AS/FraseR_03.snakemake")
 
 source("Scripts/_helpers/config.R")
 opts_chunk$set(fig.width=12, fig.height=8)
