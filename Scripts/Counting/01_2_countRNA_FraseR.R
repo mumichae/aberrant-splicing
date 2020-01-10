@@ -22,7 +22,7 @@
 #'                   "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/nonSplitCounts.tsv.gz"`'
 #'  type: script
 #'---
-saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FraseR_01_2.snakemake") )
+saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FraseR_01_2.snakemake"))
 # snakemake <- readRDS(".drop/tmp/AS/FraseR_01_2.snakemake")
 
 

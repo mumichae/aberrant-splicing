@@ -19,7 +19,7 @@
 #'  type: script
 #'---
 
-saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FraseR_06.snakemake") )
+saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FraseR_06.snakemake"))
 # snakemake <- readRDS(".drop/tmp/AS/FraseR_06.snakemake")
 
 source("Scripts/_helpers/config.R")

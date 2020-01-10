@@ -23,7 +23,7 @@
 #'                   "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/fds-object.RDS"`'
 #'  type: script
 #'---
-saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FraseR_01_0.snakemake") ) 
+saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FraseR_01_0.snakemake"))
 # snakemake <- readRDS(".drop/tmp/AS/FraseR_01_0.snakemake")
 
 source("Scripts/_helpers/config.R")

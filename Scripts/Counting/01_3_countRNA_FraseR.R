@@ -21,7 +21,7 @@
 #'                   "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/rawCountsSS.h5"`'
 #'  type: script
 #'---
-saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FraseR_01_3.snakemake") )
+saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FraseR_01_3.snakemake"))
 # snakemake <- readRDS(".drop/tmp/AS/FraseR_01_3.snakemake")
 
 

@@ -17,7 +17,7 @@
 #'                   "/aberrant_splicing/datasets/cache/nonSplicedCounts/raw-{dataset}/nonSplicedCounts-{sample_id}.RDS"`' 
 #'  type: script
 #'---
-saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FraseR_01_1.snakemake") )
+saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FraseR_01_1.snakemake"))
 # snakemake <- readRDS(".drop/tmp/AS/FraseR_01_1.snakemake")
 
 source("Scripts/_helpers/config.R")
