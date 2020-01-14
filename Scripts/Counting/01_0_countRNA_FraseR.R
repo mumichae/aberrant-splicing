@@ -13,8 +13,8 @@
 #'   - colData: '`sm parser.getProcDataDir() + 
 #'                   "/aberrant_splicing/annotations/{dataset}.tsv"`'
 #'  output:
-#'   - gRanges: '`sm parser.getProcDataDir() + 
-#'                   "/aberrant_splicing/datasets/cache/raw-{dataset}/gRanges_splitCounts.rds"`'
+#'   - splitCounts_tsv: '`sm parser.getProcDataDir() + 
+#'                   "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/splitCounts.tsv.gz"`'
 #'   - gRanges_only: '`sm parser.getProcDataDir() + 
 #'                   "/aberrant_splicing/datasets/cache/raw-{dataset}/gRanges_splitCounts_only.rds"`'
 #'   - spliceSites: '`sm parser.getProcDataDir() + 
@@ -65,13 +65,13 @@ splitCounts <- getSplitReadCountsForAllSamples(fds=fds,
                                                outFile=file.path(countDir,
                                                                  "splitCounts.tsv.gz"))
 
-saveRDS(splitCounts, snakemake@output$gRanges)
+
+
+
 
 splitCounts_gRanges <- granges(splitCounts) %>% annotateSpliceSite
 
 saveRDS(splitCounts_gRanges, snakemake@output$gRanges_only)
-
-
 
 
 ### Extracting splitSiteCoodinates
@@ -81,8 +81,12 @@ spliceSiteCoords <- extractSpliceSiteCoordinates(splitCounts_gRanges, fds)
 
 saveRDS(spliceSiteCoords, snakemake@output$spliceSites)
 
+
+fds <- saveFraseRDataSet(fds)
+
 message(date(), ": In total ", length(spliceSiteCoords),
         " splice sites (acceptor/donor) will be counted ...")
 
-
-fds <- saveFraseRDataSet(fds)
+#   - gRanges: '`sm parser.getProcDataDir() + 
+#                   "/aberrant_splicing/datasets/cache/raw-{dataset}/gRanges_splitCounts.rds"`'
+#saveRDS(splitCounts, snakemake@output$gRanges)

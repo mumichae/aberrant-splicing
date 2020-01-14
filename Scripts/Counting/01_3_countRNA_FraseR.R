@@ -10,8 +10,8 @@
 #'   - tmpdir: '`sm drop.getMethodPath(METHOD, "tmp_dir")`'
 #'   - workingDir: '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets"`'
 #'  input:
-#'   - gRanges_splitCount: '`sm parser.getProcDataDir() + 
-#'                   "/aberrant_splicing/datasets/cache/raw-{dataset}/gRanges_splitCounts.rds"`'
+#'   - splitCounts_tsv: '`sm parser.getProcDataDir() + 
+#'                   "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/splitCounts.tsv.gz"`'
 #'   - nonSplitCounts_tsv: '`sm parser.getProcDataDir() + 
 #'                   "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/nonSplitCounts.tsv.gz"`'
 #'  output:
@@ -46,7 +46,8 @@ suppressPackageStartupMessages({
 
 fds <- loadFraseRDataSet(dir=workingDir, name=paste0("raw-", dataset))
 
-splitCounts <- readRDS(snakemake@input$gRanges_splitCount)
+splitCounts <- fread(snakemake@input$splitCounts_tsv)
+splitCounts <- makeGRangesFromDataFrame(splitCounts, keep.extra.columns = TRUE)
 nonSplitCounts <- fread(snakemake@input$nonSplitCounts_tsv)
 nonSplitCounts <- makeGRangesFromDataFrame(nonSplitCounts, keep.extra.columns = TRUE)
 
@@ -54,3 +55,7 @@ nonSplitCounts <- makeGRangesFromDataFrame(nonSplitCounts, keep.extra.columns = 
 fds <- addCountsToFraseRDataSet(fds=fds, splitCounts=splitCounts, nonSplitCounts=nonSplitCounts)
 
 fds <- saveFraseRDataSet(fds)
+
+#   - gRanges_splitCount: '`sm parser.getProcDataDir() + 
+#                  "/aberrant_splicing/datasets/cache/raw-{dataset}/gRanges_splitCounts.rds"`'
+#splitCounts <- readRDS(snakemake@input$gRanges_splitCount)
