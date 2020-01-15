@@ -53,7 +53,7 @@ fds <- FraseRDataSet(colData,
                      name       = paste0("raw-", dataset))
 
 countDir <- file.path(workingDir(fds), "savedObjects", 
-                      nameNoSpace(name(fds)))
+                      paste0("raw-", dataset))
 
 # Count split reads
 splitCounts <- getSplitReadCountsForAllSamples(fds=fds,
