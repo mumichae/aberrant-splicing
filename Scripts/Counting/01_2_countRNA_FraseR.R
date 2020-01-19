@@ -63,6 +63,11 @@ message(date(), ": Managed to merge the countList")
 mcols(siteCounts)$type <- factor(countList[[1]]$type,
                                  levels = c("Acceptor", "Donor"))
 
+rm(countList)
+gc()
+
+message(date(), ": Removed the countList")
+
 message(date(), ": Will start to write the tsv now")
 # write tsv
 writeCountsToTsv(siteCounts, file=snakemake@output$nonSplitCounts_tsv)
