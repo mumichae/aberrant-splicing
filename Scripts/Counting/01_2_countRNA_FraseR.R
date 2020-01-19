@@ -51,12 +51,18 @@ fds <- loadFraseRDataSet(dir=workingDir, name=paste0("raw-", dataset))
 #count non spliced reads for every samples
 countList <- lapply(file.path(snakemake@input$sample_counts),
                     FUN=readRDS)
+
+message(date(), ": Managed to load the nonSplit count files")
+
 names(countList) <- samples(fds)
- countList
+ #countList
+message(date(), ": Managed to set the names of the countList")
 siteCounts <- mergeCounts(countList, assumeEqual=TRUE)
- siteCounts
+ #siteCounts
+message(date(), ": Managed to merge the countList")
 mcols(siteCounts)$type <- factor(countList[[1]]$type,
                                  levels = c("Acceptor", "Donor"))
 
+message(date(), ": Will start to write the tsv now")
 # write tsv
 writeCountsToTsv(siteCounts, file=snakemake@output$nonSplitCounts_tsv)
