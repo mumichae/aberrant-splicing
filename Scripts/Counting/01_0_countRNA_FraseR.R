@@ -69,7 +69,7 @@ splitCounts <- getSplitReadCountsForAllSamples(fds=fds,
 
 
 
-splitCounts_gRanges <- granges(splitCounts) %>% FRASER:::annotateSpliceSite
+splitCounts_gRanges <- FRASER:::annotateSpliceSite(granges(splitCounts))
 
 saveRDS(splitCounts_gRanges, snakemake@output$gRanges_only)
 
