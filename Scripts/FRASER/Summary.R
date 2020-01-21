@@ -98,10 +98,12 @@ write_tsv(res, file=file)
 cat(paste0("<a href='./", basename(file), "'>Download result table</a>"))
 
 # round numbers
-res[, padjust := signif(padjust, 3)]
-res[, deltaPsi := signif(deltaPsi, 2)]
-res[, zscore := signif(zScore, 2)]
-res[, psiValue := signif(psiValue, 2)]
+if(nrow(res) < 0){
+  res[, padjust := signif(padjust, 3)]
+  res[, deltaPsi := signif(deltaPsi, 2)]
+  res[, zscore := signif(zScore, 2)]
+  res[, psiValue := signif(psiValue, 2)]
+}
 
 #' ## Result table
 DT::datatable(res, options=list(scrollX=TRUE), escape=FALSE)
