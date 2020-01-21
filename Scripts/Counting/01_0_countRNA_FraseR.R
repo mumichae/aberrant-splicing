@@ -69,7 +69,7 @@ splitCounts <- getSplitReadCountsForAllSamples(fds=fds,
 
 
 
-splitCounts_gRanges <- granges(splitCounts) %>% annotateSpliceSite
+splitCounts_gRanges <- granges(splitCounts) %>% FRASER:::annotateSpliceSite
 
 saveRDS(splitCounts_gRanges, snakemake@output$gRanges_only)
 
@@ -77,7 +77,7 @@ saveRDS(splitCounts_gRanges, snakemake@output$gRanges_only)
 ### Extracting splitSiteCoodinates
 
 # extract donor and acceptor sites
-spliceSiteCoords <- extractSpliceSiteCoordinates(splitCounts_gRanges, fds)
+spliceSiteCoords <- FRASER:::extractSpliceSiteCoordinates(splitCounts_gRanges, fds)
 
 saveRDS(spliceSiteCoords, snakemake@output$spliceSites)
 

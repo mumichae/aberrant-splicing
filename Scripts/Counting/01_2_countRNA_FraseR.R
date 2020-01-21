@@ -70,4 +70,4 @@ message(date(), ": Removed the countList")
 
 message(date(), ": Will start to write the tsv now")
 # write tsv
-writeCountsToTsv(siteCounts, file=snakemake@output$nonSplitCounts_tsv)
+FRASER:::writeCountsToTsv(siteCounts, file=snakemake@output$nonSplitCounts_tsv)
