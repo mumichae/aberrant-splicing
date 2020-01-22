@@ -17,8 +17,8 @@
 #'  type: script
 #'---
 
-saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FraseR_03.snakemake"))
-# snakemake <- readRDS(".drop/tmp/AS/FraseR_03.snakemake")
+saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FRASER_03.snakemake"))
+# snakemake <- readRDS(".drop/tmp/AS/FRASER_03.snakemake")
 
 source("Scripts/_helpers/config.R")
 opts_chunk$set(fig.width=12, fig.height=8)
