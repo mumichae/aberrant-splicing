@@ -1,5 +1,5 @@
 #'---
-#' title: Count RNA data with FraseR (Part 1)
+#' title: Count RNA data with FRASER (Part 1)
 #' author: Luise Schuller
 #' wb:
 #'  params:
@@ -10,21 +10,22 @@
 #'   - tmpdir: '`sm drop.getMethodPath(METHOD, "tmp_dir")`'
 #'   - workingDir: '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets"`'
 #'  input:
-#'   - spliceSites: '`sm parser.getProcDataDir() + 
-#'                   "/aberrant_splicing/datasets/cache/raw-{dataset}/spliceSites_splitCounts.rds"`'
+#'   - done_fds: '`sm parser.getProcDataDir() + 
+#'                "/aberrant_splicing/datasets/cache/raw-{dataset}/fds.done" `'
 #'  output:
-#'   - nonSplicedCount_sample : '`sm parser.getProcDataDir() + 
-#'                   "/aberrant_splicing/datasets/cache/nonSplicedCounts/raw-{dataset}/nonSplicedCounts-{sample_id}.RDS"`' 
+#'   - done_sample: '`sm parser.getProcDataDir() + 
+#'                "/aberrant_splicing/datasets/cache/raw-{dataset}/sample_tmp/sample_{sample_id}.done"`'
 #'  type: script
 #'---
-saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FraseR_01_1.snakemake"))
-# snakemake <- readRDS(".drop/tmp/AS/FraseR_01_1.snakemake")
+saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FRASER_01_1.snakemake"))
+# snakemake <- readRDS(".drop/tmp/AS/FRASER_01_1.snakemake")
 
 source("Scripts/_helpers/config.R")
 
 dataset    <- snakemake@wildcards$dataset
 colDataFile <- snakemake@input$colData
 workingDir <- snakemake@params$workingDir
+recount <- snakemake@params$recount
 bpWorkers   <- min(max(extract_params(bpworkers()), 1),
                    as.integer(extract_params(snakemake@params$workers)))
 bpThreads   <- as.integer(extract_params(snakemake@params$threads))
@@ -32,9 +33,6 @@ bpProgress  <- as.logical(extract_params(snakemake@params$progress))
 iThreads    <- min(max(as.integer(bpWorkers / 5), 1),
                    as.integer(extract_params(snakemake@params$internalThreads)))
 params <- snakemake@config$aberrantSplicing
-datasetname <- snakemake@wildcards$dataset
-ids <- snakemake@config$fraser_ids[[datasetname]]
-
 
 # Load libraries
 suppressPackageStartupMessages({
@@ -42,18 +40,24 @@ suppressPackageStartupMessages({
   library(dplyr)
 })
 
-# Create FraseR dataset
-register(MulticoreParam(bpWorkers, bpThreads, progressbar=bpProgress))
+
+# Read FRASER object
 fds <- loadFraseRDataSet(dir=workingDir, name=paste0("raw-", dataset))
 
+# Setting path for saving the counts produced from FRASER
+countDir <- file.path(workingDir(fds), "savedObjects", 
+                      paste0("raw-", dataset))
 
+# Get sample id from wildcard
 sample_id <- snakemake@wildcards[["sample_id"]]
 
+# Count splitReads for given sample id
+sample_result <- countSplitReads(sampleID=sample_id, fds=fds,
+                               NcpuPerSample=iThreads,
+                               genome=NULL,
+                               recount=recount)
 
-## RDS erzeugen
-spliceSiteCoords <- readRDS(snakemake@input$spliceSites)
+file.create(snakemake@output$done_sample)
 
-sample_result <- countNonSplicedReads(sample_id, splitCounts = NULL, fds = fds,
-                                 NcpuPerSample=1, minAnchor=5, recount=FALSE,
-                                 spliceSiteCoords=spliceSiteCoords,
-                                 longRead=FALSE)
+#   - splicedCount_sample : '`sm parser.getProcDataDir() + 
+#                   "/aberrant_splicing/datasets/cache/splicedCounts/splicedCounts-{sample_id}_raw-{dataset}.RDS"`' 
