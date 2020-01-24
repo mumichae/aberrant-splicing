@@ -44,7 +44,6 @@ params <- snakemake@config$aberrantSplicing
 suppressPackageStartupMessages({
   library(data.table)
   library(dplyr)
-  library(rhdf5)
 })
 
 # Read FRASER object
