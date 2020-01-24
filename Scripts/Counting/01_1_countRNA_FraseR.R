@@ -13,8 +13,8 @@
 #'   - done_fds: '`sm parser.getProcDataDir() + 
 #'                "/aberrant_splicing/datasets/cache/raw-{dataset}/fds.done" `'
 #'  output:
-#'   - done_sample: '`sm parser.getProcDataDir() + 
-#'                "/aberrant_splicing/datasets/cache/raw-{dataset}/sample_tmp/sample_{sample_id}.done"`'
+#'   - done_sample_splitCounts: '`sm parser.getProcDataDir() + 
+#'                "/aberrant_splicing/datasets/cache/raw-{dataset}/sample_tmp/splitCounts/sample_{sample_id}.done"`'
 #'  type: script
 #'---
 saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FRASER_01_1.snakemake"))
@@ -59,4 +59,4 @@ sample_result <- countSplitReads(sampleID=sample_id,
 
 message(date(), ": ", sample_id, ": length = ", length(sample_result))
 
-file.create(snakemake@output$done_sample)
+file.create(snakemake@output$done_sample_splitCounts)

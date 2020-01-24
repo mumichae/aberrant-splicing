@@ -6,8 +6,8 @@
 #'  - |
 #'   def getNonSplitCountFiles(dataset):
 #'       ids = parser.fraser_ids[dataset]
-#'       file_stump = parser.getProcDataDir() + f"/aberrant_splicing/datasets/cache/nonSplicedCounts/raw-{dataset}/"
-#'       return expand(file_stump + "nonSplicedCounts-{sample_id}.h5", sample_id=ids) 
+#'       file_stump = parser.getProcDataDir() + f"/aberrant_splicing/datasets/cache/raw-{dataset}/sample_tmp/nonSplitCounts/"
+#'       return expand(file_stump + "sample_{sample_id}.done", sample_id=ids) 
 #'  params:
 #'   - workers: 20
 #'   - threads: 60
@@ -73,3 +73,8 @@ nonSplitCounts <- getNonSplitReadCountsForAllSamples(fds=fds,
                                                                        "nonSplitCounts.tsv.gz"))
 
 message(date(), ": nonSplit counts: length = ", length(nonSplitCounts))
+
+  # def getNonSplitCountFiles(dataset):
+  #     ids = parser.fraser_ids[dataset]
+  #     file_stump = parser.getProcDataDir() + f"/aberrant_splicing/datasets/cache/nonSplicedCounts/raw-{dataset}/"
+  #     return expand(file_stump + "nonSplicedCounts-{sample_id}.h5", sample_id=ids)

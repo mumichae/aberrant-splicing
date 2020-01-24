@@ -13,8 +13,8 @@
 #'   - spliceSites: '`sm parser.getProcDataDir() + 
 #'                   "/aberrant_splicing/datasets/cache/raw-{dataset}/spliceSites_splitCounts.rds"`'
 #'  output:
-#'   - nonSplicedCount_sample : '`sm parser.getProcDataDir() + 
-#'                   "/aberrant_splicing/datasets/cache/nonSplicedCounts/raw-{dataset}/nonSplicedCounts-{sample_id}.h5"`' 
+#'   - done_sample_nonSplitCounts : '`sm parser.getProcDataDir() + 
+#'                   "/aberrant_splicing/datasets/cache/raw-{dataset}/sample_tmp/nonSplitCounts/sample_{sample_id}.done"`' 
 #'  type: script
 #'---
 saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FRASER_01_3.snakemake"))
@@ -64,3 +64,8 @@ sample_result <- countNonSplicedReads(sample_id,
                                       longRead=params$longRead)
 
 message(date(), ": ", sample_id, ": length = ", length(sample_result))
+
+file.create(snakemake@output$done_sample_nonSplitCounts)
+
+  # - nonSplicedCount_sample : '`sm parser.getProcDataDir() +
+  #                 "/aberrant_splicing/datasets/cache/nonSplicedCounts/raw-{dataset}/nonSplicedCounts-{sample_id}.h5"`'
