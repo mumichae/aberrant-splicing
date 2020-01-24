@@ -7,7 +7,7 @@
 #'   def getNonSplitCountFiles(dataset):
 #'       ids = parser.fraser_ids[dataset]
 #'       file_stump = parser.getProcDataDir() + f"/aberrant_splicing/datasets/cache/nonSplicedCounts/raw-{dataset}/"
-#'       return expand(file_stump + "nonSplicedCounts-{sample_id}.RDS", sample_id=ids) 
+#'       return expand(file_stump + "nonSplicedCounts-{sample_id}.h5", sample_id=ids) 
 #'  params:
 #'   - workers: 20
 #'   - threads: 60
@@ -17,9 +17,15 @@
 #'   - workingDir: '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets"`'
 #'  input:
 #'   - sample_counts:  '`sm lambda wildcards: getNonSplitCountFiles(wildcards.dataset)`'
+#'   - gRanges_only: '`sm parser.getProcDataDir() + 
+#'                   "/aberrant_splicing/datasets/cache/raw-{dataset}/gRanges_splitCounts_only.rds"`'
 #'  output:
-#'   - nonSplitCounts_tsv: '`sm parser.getProcDataDir() + 
-#'                   "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/nonSplitCounts.tsv.gz"`'
+#'   - countsSS: '`sm parser.getProcDataDir() +
+#'                   "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/rawCountsSS.h5"`'
+#'   - assaySS: '`sm parser.getProcDataDir() +
+#'                   "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/nonSplitCounts/assays.h5"`'
+#'   - seSS: '`sm parser.getProcDataDir() +
+#'                   "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/nonSplitCounts/se.rds"`'
 #'  type: script
 #'---
 saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FRASER_01_4.snakemake"))
@@ -48,24 +54,22 @@ suppressPackageStartupMessages({
 # Read FRASER object
 fds <- loadFraseRDataSet(dir=workingDir, name=paste0("raw-", dataset))
 
-# Get nonSplitReads for all sample ids
-countList <- lapply(file.path(snakemake@input$sample_counts),
-                    FUN=readRDS)
+# Read splice site coordinates from RDS
+splitCounts_gRanges <- readRDS(snakemake@input$gRanges_only)
 
-message(date(), ": Managed to load the nonSplit count files")
+# Directory where splitCounts.tsv.gz will be saved 
+countDir <- file.path(workingDir(fds), "savedObjects", 
+                      paste0("raw-", dataset))
 
-names(countList) <- samples(fds)
+# Get and merge nonSplitReads for all sample ids
+nonSplitCounts <- getNonSplitReadCountsForAllSamples(fds=fds, 
+                                                     splitCountRanges=splitCounts_gRanges, 
+                                                     NcpuPerSample=iThreads, 
+                                                     minAnchor=5, 
+                                                     recount=params$recount, 
+                                                     BPPARAM=bpparam(),
+                                                     longRead=params$longRead,
+                                                     outFile=file.path(countDir, 
+                                                                       "nonSplitCounts.tsv.gz"))
 
-# Merge nonSplitReads for all sample ids
-siteCounts <- mergeCounts(countList, assumeEqual=TRUE)
-message(date(), ": Managed to merge the countList")
-
-mcols(siteCounts)$type <- factor(countList[[1]]$type,
-                                 levels = c("Acceptor", "Donor"))
-rm(countList)
-gc()
-message(date(), ": Removed the countList")
-
-# Write final nonSplitRead counts tsv
-message(date(), ": Will start to write the tsv now")
-FRASER:::writeCountsToTsv(siteCounts, file=snakemake@output$nonSplitCounts_tsv)
+message(date(), "nonSplit counts: length = ", length(nonSplitCounts))

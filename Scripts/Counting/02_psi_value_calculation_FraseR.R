@@ -9,10 +9,8 @@
 #'   - tmpdir: '`sm drop.getMethodPath(METHOD, "tmp_dir")`'
 #'   - workingDir: '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets/"`'
 #'  input:
-#'   - countsJ:  '`sm parser.getProcDataDir() + 
-#'                    "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/rawCountsJ.h5"`'
-#'   - countsSS: '`sm parser.getProcDataDir() + 
-#'                    "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/rawCountsSS.h5"`'
+#'   - counting_done: '`sm parser.getProcDataDir() + 
+#'                "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/counting.done" `'
 #'  output:
 #'  - psiSS:     '`sm parser.getProcDataDir() + 
 #'                    "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/psiSite.h5"`'

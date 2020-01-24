@@ -10,15 +10,17 @@
 #'   - tmpdir: '`sm drop.getMethodPath(METHOD, "tmp_dir")`'
 #'   - workingDir: '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets"`'
 #'  input:
-#'   - splitCounts_tsv: '`sm parser.getProcDataDir() + 
-#'                   "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/splitCounts.tsv.gz"`'
-#'   - nonSplitCounts_tsv: '`sm parser.getProcDataDir() + 
-#'                   "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/nonSplitCounts.tsv.gz"`'
+#'   - countsJ:  '`sm parser.getProcDataDir() + 
+#'                    "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/rawCountsJ.h5"`'
+#'   - countsSS: '`sm parser.getProcDataDir() + 
+#'                    "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/rawCountsSS.h5"`'
+#'   - gRanges_only: '`sm parser.getProcDataDir() + 
+#'                   "/aberrant_splicing/datasets/cache/raw-{dataset}/gRanges_splitCounts_only.rds"`'
+#'   - spliceSites: '`sm parser.getProcDataDir() + 
+#'                   "/aberrant_splicing/datasets/cache/raw-{dataset}/spliceSites_splitCounts.rds"`'
 #'  output:
-#'   - countsJ: '`sm parser.getProcDataDir() +
-#'                   "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/rawCountsJ.h5"`'
-#'   - countsS: '`sm parser.getProcDataDir() +
-#'                   "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/rawCountsSS.h5"`'
+#'   - counting_done: '`sm parser.getProcDataDir() + 
+#'                "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/counting.done" `'
 #'  type: script
 #'---
 saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FRASER_01_5.snakemake"))
@@ -46,15 +48,31 @@ suppressPackageStartupMessages({
 
 # Read FRASER object
 fds <- loadFraseRDataSet(dir=workingDir, name=paste0("raw-", dataset))
+splitCounts_gRanges <- readRDS(snakemake@input$gRanges_only)
+spliceSiteCoords <- readRDS(snakemake@input$spliceSites)
 
 # Get splitReads and nonSplitRead counts in order to store them in FRASER object
-splitCounts <- fread(snakemake@input$splitCounts_tsv)
-splitCounts <- makeGRangesFromDataFrame(splitCounts, keep.extra.columns = TRUE)
-nonSplitCounts <- fread(snakemake@input$nonSplitCounts_tsv)
-nonSplitCounts <- makeGRangesFromDataFrame(nonSplitCounts, keep.extra.columns = TRUE)
+splitCounts_h5 <- HDF5Array(snakemake@input$countsJ, "rawCountsJ")
+splitCounts_se <- SummarizedExperiment(
+  colData = colData(fds),
+  rowRanges = splitCounts_gRanges,
+  assays = list(rawCountsJ=splitCounts_h5)
+)
+
+print("nonSplit /n")
+nonSplitCounts_h5 <- HDF5Array(snakemake@input$countsSS, "rawCountsSS")
+print(dim(nonSplitCounts_h5))
+print(length(spliceSiteCoords))
+nonSplitCounts_se <- SummarizedExperiment(
+  colData = colData(fds),
+  rowRanges = spliceSiteCoords,
+  assays = list(rawCountsSS=nonSplitCounts_h5)
+)
 
 # Add Counts to FRASER dataset
-fds <- addCountsToFraseRDataSet(fds=fds, splitCounts=splitCounts, nonSplitCounts=nonSplitCounts)
+fds <- addCountsToFraseRDataSet(fds=fds, splitCounts=splitCounts_h5, nonSplitCounts=nonSplitCounts_h5)
 
 # Save final FRASER object 
 fds <- saveFraseRDataSet(fds)
+
+file.create(snakemake@output$counting_done)

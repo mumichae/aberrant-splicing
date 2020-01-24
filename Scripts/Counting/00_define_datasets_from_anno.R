@@ -20,7 +20,7 @@
 #'   code_download: TRUE
 #'---
 
-saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FRASER_00_0.snakemake"))
+saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FRASER_00.snakemake"))
 # snakemake <- readRDS(".drop/tmp/AS/FRASER_00.snakemake")
 
 #+ load main config, echo=FALSE

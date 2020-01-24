@@ -18,8 +18,12 @@
 #'  input:
 #'   - sample_counts:  '`sm lambda wildcards: getSplitCountFiles(wildcards.dataset)`'
 #'  output:
-#'   - splitCounts_tsv: '`sm parser.getProcDataDir() + 
-#'                   "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/splitCounts.tsv.gz"`'
+ #'   - countsJ: '`sm parser.getProcDataDir() +
+#'                   "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/rawCountsJ.h5"`'
+#'   - assayJ: '`sm parser.getProcDataDir() +
+#'                   "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/splitCounts/assays.h5"`'
+#'   - seJ: '`sm parser.getProcDataDir() +
+#'                   "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/splitCounts/se.rds"`'
 #'   - gRanges_only: '`sm parser.getProcDataDir() + 
 #'                   "/aberrant_splicing/datasets/cache/raw-{dataset}/gRanges_splitCounts_only.rds"`'
 #'   - spliceSites: '`sm parser.getProcDataDir() + 
@@ -42,7 +46,6 @@ bpProgress  <- as.logical(extract_params(snakemake@params$progress))
 iThreads    <- min(max(as.integer(bpWorkers / 5), 1),
                    as.integer(extract_params(snakemake@params$internalThreads)))
 params <- snakemake@config$aberrantSplicing
-datasetname <- snakemake@wildcards$dataset
 
 
 # Load libraries
@@ -63,28 +66,26 @@ countDir <- file.path(workingDir(fds), "savedObjects",
 splitCounts <- getSplitReadCountsForAllSamples(fds=fds,
                                                NcpuPerSample=iThreads,
                                                junctionMap=NULL,
-                                               recount=recount,
+                                               recount=params$recount,
                                                BPPARAM=bpparam(),
                                                genome=NULL,
                                                outFile=file.path(countDir,
                                                                  "splitCounts.tsv.gz"))
 
-# Annoate of granges from the split counts
-splitCounts_gRanges <- FRASER:::annotateSpliceSite(granges(splitCounts))
+message(date(), "Split counts: dim = ", length(splitCounts))
 
+# Annoate of granges from the split counts
+splitCounts_gRanges <- FRASER:::annotateSpliceSite(rowRanges(splitCounts))
 saveRDS(splitCounts_gRanges, snakemake@output$gRanges_only)
+
+message(date(), "splitCounts_gRanges: dim = ", length(splitCounts_gRanges))
 
 
 # Extracte splitSiteCoodinates: Extract donor and acceptor sites
 spliceSiteCoords <- FRASER:::extractSpliceSiteCoordinates(splitCounts_gRanges, fds)
 saveRDS(spliceSiteCoords, snakemake@output$spliceSites)
 
+message(date(), "spliceSiteCoords: dim = ", length(spliceSiteCoords))
+
 message(date(), ": In total ", length(spliceSiteCoords),
         " splice sites (acceptor/donor) will be counted ...")
-
-#  py:
-#  - |
-#   def getSplitCountFiles(dataset):
-#       ids = parser.fraser_ids[dataset]
-#       file_stump = parser.getProcDataDir() + f"/aberrant_splicing/datasets/cache/splicedCounts/"
-#       return expand(file_stump + "splicedCounts-{sample_id}.RDS", sample_id=ids) 

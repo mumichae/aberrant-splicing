@@ -25,7 +25,6 @@ source("Scripts/_helpers/config.R")
 dataset    <- snakemake@wildcards$dataset
 colDataFile <- snakemake@input$colData
 workingDir <- snakemake@params$workingDir
-recount <- snakemake@params$recount
 bpWorkers   <- min(max(extract_params(bpworkers()), 1),
                    as.integer(extract_params(snakemake@params$workers)))
 bpThreads   <- as.integer(extract_params(snakemake@params$threads))
@@ -52,12 +51,12 @@ countDir <- file.path(workingDir(fds), "savedObjects",
 sample_id <- snakemake@wildcards[["sample_id"]]
 
 # Count splitReads for given sample id
-sample_result <- countSplitReads(sampleID=sample_id, fds=fds,
-                               NcpuPerSample=iThreads,
-                               genome=NULL,
-                               recount=recount)
+sample_result <- countSplitReads(sampleID=sample_id, 
+                                 fds=fds,
+                                 NcpuPerSample=iThreads,
+                                 genome=NULL,
+                                 recount=params$recount)
+
+message(date(), sample_id, ": length = ", length(sample_result))
 
 file.create(snakemake@output$done_sample)
-
-#   - splicedCount_sample : '`sm parser.getProcDataDir() + 
-#                   "/aberrant_splicing/datasets/cache/splicedCounts/splicedCounts-{sample_id}_raw-{dataset}.RDS"`' 
