@@ -57,6 +57,6 @@ sample_result <- countSplitReads(sampleID=sample_id,
                                  genome=NULL,
                                  recount=params$recount)
 
-message(date(), sample_id, ": length = ", length(sample_result))
+message(date(), ": ", sample_id, ": length = ", length(sample_result))
 
 file.create(snakemake@output$done_sample)

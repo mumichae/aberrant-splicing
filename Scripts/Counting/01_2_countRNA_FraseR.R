@@ -72,20 +72,20 @@ splitCounts <- getSplitReadCountsForAllSamples(fds=fds,
                                                outFile=file.path(countDir,
                                                                  "splitCounts.tsv.gz"))
 
-message(date(), "Split counts: dim = ", length(splitCounts))
+message(date(), ": Split counts: dim = ", length(splitCounts))
 
 # Annoate of granges from the split counts
 splitCounts_gRanges <- FRASER:::annotateSpliceSite(rowRanges(splitCounts))
 saveRDS(splitCounts_gRanges, snakemake@output$gRanges_only)
 
-message(date(), "splitCounts_gRanges: dim = ", length(splitCounts_gRanges))
+message(date(), ": splitCounts_gRanges: dim = ", length(splitCounts_gRanges))
 
 
 # Extracte splitSiteCoodinates: Extract donor and acceptor sites
 spliceSiteCoords <- FRASER:::extractSpliceSiteCoordinates(splitCounts_gRanges, fds)
 saveRDS(spliceSiteCoords, snakemake@output$spliceSites)
 
-message(date(), "spliceSiteCoords: dim = ", length(spliceSiteCoords))
+message(date(), ": spliceSiteCoords: dim = ", length(spliceSiteCoords))
 
 message(date(), ": In total ", length(spliceSiteCoords),
         " splice sites (acceptor/donor) will be counted ...")

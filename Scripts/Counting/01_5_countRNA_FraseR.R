@@ -59,7 +59,7 @@ splitCounts_se <- SummarizedExperiment(
   assays = list(rawCountsJ=splitCounts_h5)
 )
 
-print("nonSplit /n")
+
 nonSplitCounts_h5 <- HDF5Array(snakemake@input$countsSS, "rawCountsSS")
 print(dim(nonSplitCounts_h5))
 print(length(spliceSiteCoords))

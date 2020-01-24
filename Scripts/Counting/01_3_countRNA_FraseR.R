@@ -51,7 +51,7 @@ sample_id <- snakemake@wildcards[["sample_id"]]
 # Read splice site coordinates from RDS
 spliceSiteCoords <- readRDS(snakemake@input$spliceSites)
 
-message(date(), sample_id, ": length von spliceSiteCoords = ", length(spliceSiteCoords))
+message(date(), ": ", sample_id, ": length von spliceSiteCoords = ", length(spliceSiteCoords))
 
 # Count nonSplitReads for given sample id
 sample_result <- countNonSplicedReads(sample_id,
@@ -63,4 +63,4 @@ sample_result <- countNonSplicedReads(sample_id,
                                       spliceSiteCoords=spliceSiteCoords,
                                       longRead=params$longRead)
 
-message(date(), sample_id, ": length = ", length(sample_result))
+message(date(), ": ", sample_id, ": length = ", length(sample_result))

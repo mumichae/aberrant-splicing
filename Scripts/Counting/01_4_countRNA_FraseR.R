@@ -72,4 +72,4 @@ nonSplitCounts <- getNonSplitReadCountsForAllSamples(fds=fds,
                                                      outFile=file.path(countDir, 
                                                                        "nonSplitCounts.tsv.gz"))
 
-message(date(), "nonSplit counts: length = ", length(nonSplitCounts))
+message(date(), ": nonSplit counts: length = ", length(nonSplitCounts))
