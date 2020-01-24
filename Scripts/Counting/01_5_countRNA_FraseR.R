@@ -44,7 +44,6 @@ params <- snakemake@config$aberrantSplicing
 suppressPackageStartupMessages({
   library(data.table)
   library(dplyr)
-  library(HDF5Array)    
 })
 
 # Read FRASER object
@@ -53,7 +52,7 @@ splitCounts_gRanges <- readRDS(snakemake@input$gRanges_only)
 spliceSiteCoords <- readRDS(snakemake@input$spliceSites)
 
 # Get splitReads and nonSplitRead counts in order to store them in FRASER object
-splitCounts_h5 <- HDF5Array(snakemake@input$countsJ, "rawCountsJ")
+splitCounts_h5 <- HDF5Array::HDF5Array(snakemake@input$countsJ, "rawCountsJ")
 splitCounts_se <- SummarizedExperiment(
   colData = colData(fds),
   rowRanges = splitCounts_gRanges,
@@ -61,7 +60,7 @@ splitCounts_se <- SummarizedExperiment(
 )
 
 
-nonSplitCounts_h5 <- HDF5Array(snakemake@input$countsSS, "rawCountsSS")
+nonSplitCounts_h5 <- HDF5Array::HDF5Array(snakemake@input$countsSS, "rawCountsSS")
 print(dim(nonSplitCounts_h5))
 print(length(spliceSiteCoords))
 nonSplitCounts_se <- SummarizedExperiment(
