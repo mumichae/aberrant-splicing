@@ -70,7 +70,7 @@ nonSplitCounts_se <- SummarizedExperiment(
 )
 
 # Add Counts to FRASER dataset
-fds <- addCountsToFraseRDataSet(fds=fds, splitCounts=splitCounts_h5, nonSplitCounts=nonSplitCounts_h5)
+fds <- addCountsToFraseRDataSet(fds=fds, splitCounts=splitCounts_se, nonSplitCounts=nonSplitCounts_se)
 
 # Save final FRASER object 
 fds <- saveFraseRDataSet(fds)
