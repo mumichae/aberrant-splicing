@@ -20,10 +20,6 @@
 #'  output:
  #'   - countsJ: '`sm parser.getProcDataDir() +
 #'                   "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/rawCountsJ.h5"`'
-#'   - assayJ: '`sm parser.getProcDataDir() +
-#'                   "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/splitCounts/assays.h5"`'
-#'   - seJ: '`sm parser.getProcDataDir() +
-#'                   "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/splitCounts/se.rds"`'
 #'   - gRanges_only: '`sm parser.getProcDataDir() + 
 #'                   "/aberrant_splicing/datasets/cache/raw-{dataset}/gRanges_splitCounts_only.rds"`'
 #'   - spliceSites: '`sm parser.getProcDataDir() + 

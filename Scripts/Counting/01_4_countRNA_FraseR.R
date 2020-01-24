@@ -22,10 +22,6 @@
 #'  output:
 #'   - countsSS: '`sm parser.getProcDataDir() +
 #'                   "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/rawCountsSS.h5"`'
-#'   - assaySS: '`sm parser.getProcDataDir() +
-#'                   "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/nonSplitCounts/assays.h5"`'
-#'   - seSS: '`sm parser.getProcDataDir() +
-#'                   "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/nonSplitCounts/se.rds"`'
 #'  type: script
 #'---
 saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FRASER_01_4.snakemake"))
