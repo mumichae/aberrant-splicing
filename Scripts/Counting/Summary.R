@@ -16,7 +16,9 @@
 
 #+ echo=FALSE
 source("Scripts/_helpers/config.R")
-opts_chunk$set(fig.width=12, fig.height=8)
+Sys.setenv(HDF5_USE_FILE_LOCKING='FALSE')
+library(cowplot)
+# opts_chunk$set(fig.width=10, fig.height=8)
 
 
 #+ input
@@ -30,16 +32,13 @@ bpWorkers   <- min(max(extract_params(bpworkers()), 1),
 fds <- loadFraseRDataSet(dir=workingDir, name=paste0("raw-", dataset))
 
 #' Number of samples: `r nrow(colData(fds))`
-#' Number of introns (psi5): `r nrow(rowRanges(fds, type = "psi5"))`
-#' Number of introns (psi3): `r nrow(rowRanges(fds, type = "psi3"))`
-#' Number of splice sites (psiSite): `r nrow(rowRanges(fds, type = "psiSite"))`
-
+#' 
+#' Number of introns (psi5 or psi3): `r length(rowRanges(fds, type = "psi5"))`
+#' 
+#' Number of splice sites (psiSite): `r length(rowRanges(fds, type = "psiSite"))`
+#' 
 #' Introns that passed filter
 table(mcols(fds, type="j")[,"passed"])
 
 #' ## Expression filtering
 plotFilterExpression(fds) + theme_cowplot(font_size = 16)
-
-#' ## Correlation between samples
-plots <- lapply(psiTypes, plotCountCorHeatmap, fds=fds, logit=TRUE, 
-                topN=100000)

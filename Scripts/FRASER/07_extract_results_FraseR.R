@@ -46,13 +46,13 @@ saveFraseRDataSet(fds)
 
 # Add features
 if(nrow(res) > 0){
-  # number of samples per gene and variant
+  # number of samples per gene and variant  
   res[padjust <= params$padjCutoff,
-      numSamplesPerGene := length(unique(sampleID)), by=hgncSymbol]
+    numSamplesPerGene := length(unique(sampleID)), by=hgncSymbol]
   res[padjust <= params$padjCutoff, 
-      numEventsPerGene :=.N, by="hgncSymbol,sampleID"]
+    numEventsPerGene :=.N, by="hgncSymbol,sampleID"]
   res[padjust <= params$padjCutoff, 
-      numSamplesPerJunc:=length(unique(sampleID)), by="seqnames,start,end"]
+    numSamplesPerJunc:=length(unique(sampleID)), by="seqnames,start,end"]
   
   # add colData at the end
   res <- merge(res, as.data.table(colData(fds)), by="sampleID")

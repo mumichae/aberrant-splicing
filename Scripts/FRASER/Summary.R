@@ -18,6 +18,7 @@
 
 #+ load config and setup, echo=FALSE
 source("Scripts/_helpers/config.R")
+Sys.setenv(HDF5_USE_FILE_LOCKING='FALSE')
 library(cowplot)
 
 #+ input
@@ -27,17 +28,19 @@ workingDir <- snakemake@params$workingDir
 fds <- loadFraseRDataSet(dir=workingDir, name=dataset)
 
 #' Number of samples: `r nrow(colData(fds))`
-#' Number of introns (psi5): `r length(rowRanges(fds, type = "psi5"))`
-#' Number of introns (psi3): `r length(rowRanges(fds, type = "psi3"))`
+#' 
+#' Number of introns (psi5 or psi3): `r length(rowRanges(fds, type = "psi5"))`
+#' 
 #' Number of splice sites (psiSite): `r length(rowRanges(fds, type = "psiSite"))`
 
 # used for most plots
 dataset_title <- paste("Dataset:", dataset)
 
 
-#' ## Hyper parameter optimization
+#' ## Hyperparameter optimization
 for(type in psiTypes){
-    g <- plotEncDimSearch(fds, type=type) 
+    g <- plotEncDimSearch(fds, type=type) + 
+      ggtitle(paste0("Q estimation, ", type))
     if (!is.null(g)) {
         g <- g + theme_cowplot(font_size = 16)
         print(g)
@@ -98,7 +101,8 @@ write_tsv(res, file=file)
 cat(paste0("<a href='./", basename(file), "'>Download result table</a>"))
 
 # round numbers
-if(nrow(res) < 0){
+if(nrow(res) > 0){
+  res[, pValue := signif(pValue, 3)]
   res[, padjust := signif(padjust, 3)]
   res[, deltaPsi := signif(deltaPsi, 2)]
   res[, zscore := signif(zScore, 2)]
@@ -106,14 +110,7 @@ if(nrow(res) < 0){
 }
 
 #' ## Result table
-DT::datatable(res, options=list(scrollX=TRUE), escape=FALSE)
+DT::datatable(res, options=list(scrollX=TRUE), escape=FALSE, filter = 'top')
 
 #' ## Sample table
 DT::datatable(as.data.table(colData(fds)), options=list(scrollX=TRUE))
-
-#' ## Sample correlation
-plots <- lapply(psiTypes, plotCountCorHeatmap, fds=fds, logit=TRUE, topN=100000,
-                norm=FALSE)
-plots <- lapply(psiTypes, plotCountCorHeatmap, fds=fds, logit=TRUE, topN=100000, 
-                norm=TRUE)
-
