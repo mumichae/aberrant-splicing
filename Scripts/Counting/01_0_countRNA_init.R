@@ -1,6 +1,6 @@
 #'---
-#' title: Count RNA data with FraseR
-#' author: Christian Mertes
+#' title: Count RNA data with FRASER (Part 0)
+#' author: Luise Schuller
 #' wb:
 #'  params:
 #'   - workers: 20
@@ -8,22 +8,19 @@
 #'   - internalThreads: 3
 #'   - progress: FALSE
 #'   - tmpdir: '`sm drop.getMethodPath(METHOD, "tmp_dir")`'
-#'   - workingDir: '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets/"`'
+#'   - workingDir: '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets"`'
 #'  input:
-#'   - colData: '`sm parser.getProcDataDir() + 
-#'                   "/aberrant_splicing/annotations/{dataset}.tsv"`'
+#'    - colData: '`sm parser.getProcDataDir() + 
+#'                    "/aberrant_splicing/annotations/{dataset}.tsv"`'
 #'  output:
 #'   - fdsobj:  '`sm parser.getProcDataDir() + 
 #'                   "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/fds-object.RDS"`'
-#'   - countsJ: '`sm parser.getProcDataDir() + 
-#'                   "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/rawCountsJ.h5"`'
-#'   - countsS: '`sm parser.getProcDataDir() + 
-#'                   "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/rawCountsSS.h5"`'
+#'   - done_fds: '`sm parser.getProcDataDir() + 
+#'                "/aberrant_splicing/datasets/cache/raw-{dataset}/fds.done" `'
 #'  type: script
 #'---
-
-saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FraseR_01.snakemake") )
-# snakemake <- readRDS(".drop/tmp/AE/FraseR_01.snakemake")
+saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FRASER_01_0.snakemake"))
+# snakemake <- readRDS(".drop/tmp/AS/FRASER_01_0.snakemake")
 
 source("Scripts/_helpers/config.R")
 
@@ -38,15 +35,17 @@ iThreads    <- min(max(as.integer(bpWorkers / 5), 1),
                    as.integer(extract_params(snakemake@params$internalThreads)))
 params <- snakemake@config$aberrantSplicing
 
-# Create FraseR dataset
+
+# Create initial FRASER object
 register(MulticoreParam(bpWorkers, bpThreads, progressbar=bpProgress))
 colData <- fread(colDataFile)
 fds <- FraseRDataSet(colData,
-        workingDir = workingDir,
-        name       = paste0("raw-", dataset))
+                     workingDir = workingDir,
+                     name       = paste0("raw-", dataset))
 
-# Count reads
-fds <- countRNAData(fds, NcpuPerSample=iThreads, minAnchor=5,
-                    recount=params$recount, longRead=params$longRead)
+# Save initial FRASER dataset
 fds <- saveFraseRDataSet(fds)
 
+message(date(), ": FRASER object initialized for ", dataset)
+
+file.create(snakemake@output$done_fds)

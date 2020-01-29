@@ -4,6 +4,7 @@
 #' wb:
 #'  params:
 #'   - workers: 1
+#'   - tmpdir: '`sm drop.getMethodPath(METHOD, "tmp_dir")`'
 #'   - workingDir: '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets/"`'
 #'  input:
 #'   - psiSS:  '`sm parser.getProcDataDir()+ 
@@ -16,12 +17,14 @@
 #'  type: script
 #'---
 
+saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FRASER_03.snakemake"))
+# snakemake <- readRDS(".drop/tmp/AS/FRASER_03.snakemake")
+
 source("Scripts/_helpers/config.R")
 opts_chunk$set(fig.width=12, fig.height=8)
 
 #+ input
 dataset    <- snakemake@wildcards$dataset
-colDataFile <- snakemake@input$colData
 workingDir <- snakemake@params$workingDir
 bpWorkers   <- min(max(extract_params(bpworkers()), 1),
                    as.integer(extract_params(snakemake@params$workers)))
