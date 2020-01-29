@@ -32,6 +32,7 @@ annoFile      <- snakemake@input$sampleAnnoFile
 fileMapFile   <- snakemake@params$fileMapping
 
 #+ dataset name
+
 name <- snakemake@wildcards$dataset
 anno    <- fread(annoFile)
 mapping <- fread(fileMapFile)

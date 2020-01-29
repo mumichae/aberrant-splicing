@@ -25,7 +25,6 @@ saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FRASER_01_0.snakemake"))
 source("Scripts/_helpers/config.R")
 
 dataset    <- snakemake@wildcards$dataset
-print(dataset)
 colDataFile <- snakemake@input$colData
 workingDir <- snakemake@params$workingDir
 bpWorkers   <- min(max(extract_params(bpworkers()), 1),
@@ -36,11 +35,6 @@ iThreads    <- min(max(as.integer(bpWorkers / 5), 1),
                    as.integer(extract_params(snakemake@params$internalThreads)))
 params <- snakemake@config$aberrantSplicing
 
-# Load libraries
-suppressPackageStartupMessages({
-  library(data.table)
-  library(dplyr)
-})
 
 # Create initial FRASER object
 register(MulticoreParam(bpWorkers, bpThreads, progressbar=bpProgress))
@@ -52,6 +46,6 @@ fds <- FraseRDataSet(colData,
 # Save initial FRASER dataset
 fds <- saveFraseRDataSet(fds)
 
-message(date(), ": Start counting the split reads ...")
+message(date(), ": FRASER object initialized for ", dataset)
 
 file.create(snakemake@output$done_fds)

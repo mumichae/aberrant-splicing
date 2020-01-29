@@ -22,7 +22,6 @@ saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FRASER_02.snakemake"))
 source("Scripts/_helpers/config.R")
 
 dataset    <- snakemake@wildcards$dataset
-colDataFile <- snakemake@input$colData
 workingDir <- snakemake@params$workingDir
 bpWorkers   <- min(max(extract_params(bpworkers()), 1),
                    as.integer(extract_params(snakemake@params$workers)))

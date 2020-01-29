@@ -41,12 +41,6 @@ iThreads    <- min(max(as.integer(bpWorkers / 5), 1),
                    as.integer(extract_params(snakemake@params$internalThreads)))
 params <- snakemake@config$aberrantSplicing
 
-# Load libraries
-suppressPackageStartupMessages({
-  library(data.table)
-  library(dplyr)
-})
-
 # Read FRASER object
 fds <- loadFraseRDataSet(dir=workingDir, name=paste0("raw-", dataset))
 
@@ -62,15 +56,9 @@ nonSplitCounts <- getNonSplitReadCountsForAllSamples(fds=fds,
                                                      splitCountRanges=splitCounts_gRanges, 
                                                      NcpuPerSample=iThreads, 
                                                      minAnchor=5, 
-                                                     recount=params$recount, 
-                                                     BPPARAM=bpparam(),
+                                                     recount=FALSE, 
                                                      longRead=params$longRead,
                                                      outFile=file.path(countDir, 
                                                                        "nonSplitCounts.tsv.gz"))
 
-message(date(), ": nonSplit counts: length = ", length(nonSplitCounts))
-
-  # def getNonSplitCountFiles(dataset):
-  #     ids = parser.fraser_ids[dataset]
-  #     file_stump = parser.getProcDataDir() + f"/aberrant_splicing/datasets/cache/nonSplicedCounts/raw-{dataset}/"
-  #     return expand(file_stump + "nonSplicedCounts-{sample_id}.h5", sample_id=ids)
+message(date(), ":", dataset, " nonSplit counts done")

@@ -30,7 +30,6 @@ saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FRASER_01_5.snakemake"))
 source("Scripts/_helpers/config.R")
 
 dataset    <- snakemake@wildcards$dataset
-colDataFile <- snakemake@input$colData
 workingDir <- snakemake@params$workingDir
 bpWorkers   <- min(max(extract_params(bpworkers()), 1),
                    as.integer(extract_params(snakemake@params$workers)))
@@ -40,11 +39,6 @@ iThreads    <- min(max(as.integer(bpWorkers / 5), 1),
                    as.integer(extract_params(snakemake@params$internalThreads)))
 params <- snakemake@config$aberrantSplicing
 
-# Load libraries
-suppressPackageStartupMessages({
-  library(data.table)
-  library(dplyr)
-})
 
 # Read FRASER object
 fds <- loadFraseRDataSet(dir=workingDir, name=paste0("raw-", dataset))
@@ -70,7 +64,8 @@ nonSplitCounts_se <- SummarizedExperiment(
 )
 
 # Add Counts to FRASER dataset
-fds <- addCountsToFraseRDataSet(fds=fds, splitCounts=splitCounts_se, nonSplitCounts=nonSplitCounts_se)
+fds <- addCountsToFraseRDataSet(fds=fds, splitCounts=splitCounts_se,
+                                nonSplitCounts=nonSplitCounts_se)
 
 # Save final FRASER object 
 fds <- saveFraseRDataSet(fds)

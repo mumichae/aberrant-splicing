@@ -14,7 +14,8 @@
 #'                "/aberrant_splicing/datasets/cache/raw-{dataset}/fds.done" `'
 #'  output:
 #'   - done_sample_splitCounts: '`sm parser.getProcDataDir() + 
-#'                "/aberrant_splicing/datasets/cache/raw-{dataset}/sample_tmp/splitCounts/sample_{sample_id}.done"`'
+#'                "/aberrant_splicing/datasets/cache/raw-{dataset}"
+#'                +"/sample_tmp/splitCounts/sample_{sample_id}.done"`'
 #'  type: script
 #'---
 saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FRASER_01_1.snakemake"))
@@ -23,29 +24,16 @@ saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FRASER_01_1.snakemake"))
 source("Scripts/_helpers/config.R")
 
 dataset    <- snakemake@wildcards$dataset
-colDataFile <- snakemake@input$colData
 workingDir <- snakemake@params$workingDir
 bpWorkers   <- min(max(extract_params(bpworkers()), 1),
                    as.integer(extract_params(snakemake@params$workers)))
-bpThreads   <- as.integer(extract_params(snakemake@params$threads))
-bpProgress  <- as.logical(extract_params(snakemake@params$progress))
 iThreads    <- min(max(as.integer(bpWorkers / 5), 1),
                    as.integer(extract_params(snakemake@params$internalThreads)))
 params <- snakemake@config$aberrantSplicing
 
-# Load libraries
-suppressPackageStartupMessages({
-  library(data.table)
-  library(dplyr)
-})
-
 
 # Read FRASER object
 fds <- loadFraseRDataSet(dir=workingDir, name=paste0("raw-", dataset))
-
-# Setting path for saving the counts produced from FRASER
-countDir <- file.path(workingDir(fds), "savedObjects", 
-                      paste0("raw-", dataset))
 
 # Get sample id from wildcard
 sample_id <- snakemake@wildcards[["sample_id"]]
@@ -57,6 +45,7 @@ sample_result <- countSplitReads(sampleID=sample_id,
                                  genome=NULL,
                                  recount=params$recount)
 
-message(date(), ": ", sample_id, ": length = ", length(sample_result))
+message(date(), ": ", dataset, ", ", sample_id,
+        " no. splice junctions (split counts) = ", length(sample_result))
 
 file.create(snakemake@output$done_sample_splitCounts)

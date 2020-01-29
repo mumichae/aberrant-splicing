@@ -32,14 +32,6 @@ bpProgress  <- as.logical(extract_params(snakemake@params$progress))
 iThreads    <- min(max(as.integer(bpWorkers / 5), 1),
                    as.integer(extract_params(snakemake@params$internalThreads)))
 params <- snakemake@config$aberrantSplicing
-ids <- snakemake@config$fraser_ids[[dataset]]
-
-
-# Load libraries
-suppressPackageStartupMessages({
-  library(data.table)
-  library(dplyr)
-})
 
 # Read FRASER object
 fds <- loadFraseRDataSet(dir=workingDir, name=paste0("raw-", dataset))
@@ -51,8 +43,6 @@ sample_id <- snakemake@wildcards[["sample_id"]]
 # Read splice site coordinates from RDS
 spliceSiteCoords <- readRDS(snakemake@input$spliceSites)
 
-message(date(), ": ", sample_id, ": length von spliceSiteCoords = ", length(spliceSiteCoords))
-
 # Count nonSplitReads for given sample id
 sample_result <- countNonSplicedReads(sample_id,
                                       splitCountRanges = NULL,
@@ -63,9 +53,7 @@ sample_result <- countNonSplicedReads(sample_id,
                                       spliceSiteCoords=spliceSiteCoords,
                                       longRead=params$longRead)
 
-message(date(), ": ", sample_id, ": length = ", length(sample_result))
+message(date(), ": ", dataset, ", ", sample_id,
+        " no. splice junctions (non split counts) = ", length(sample_result))
 
 file.create(snakemake@output$done_sample_nonSplitCounts)
-
-  # - nonSplicedCount_sample : '`sm parser.getProcDataDir() +
-  #                 "/aberrant_splicing/datasets/cache/nonSplicedCounts/raw-{dataset}/nonSplicedCounts-{sample_id}.h5"`'
