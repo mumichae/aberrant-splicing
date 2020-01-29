@@ -9,15 +9,12 @@ suppressPackageStartupMessages({
     library(BBmisc)
     library(GenomicAlignments)
     library(tidyr)
+    library(data.table)
+    library(dplyr)
     library(plotly)
     library(DelayedMatrixStats)
     library(FRASER)
 })
-
-## load the FraseR package with devtools
-#suppressPackageStartupMessages({
-#  devtools::load_all("FraseR")
-#})
 
 
 ## helper functions

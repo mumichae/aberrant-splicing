@@ -6,6 +6,7 @@
 #'   - workers: 10
 #'   - threads: 10
 #'   - progress: FALSE
+#'   - tmpdir: '`sm drop.getMethodPath(METHOD, "tmp_dir")`'
 #'   - workingDir: '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets/"`'
 #'  input:
 #'   - filter: '`sm parser.getProcDataDir() + 
@@ -15,6 +16,9 @@
 #'                "/aberrant_splicing/datasets/savedObjects/{dataset}/hyper.done" `'
 #'  type: script
 #'---
+
+saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FRASER_04.snakemake"))
+# snakemake <- readRDS(".drop/tmp/AS/FRASER_04.snakemake")
 
 source("Scripts/_helpers/config.R")
 
