@@ -39,6 +39,7 @@ dataset_title <- paste("Dataset:", dataset)
 
 #' ## Hyperparameter optimization
 for(type in psiTypes){
+    g <- plotEncDimSearch(fds, type=type) 
     if (!is.null(g)) {
         g <- g + theme_cowplot(font_size = 16) + 
           ggtitle(paste0("Q estimation, ", type))
