@@ -9,10 +9,7 @@
 #'       file_stump = parser.getProcDataDir() + f"/aberrant_splicing/datasets/cache/raw-{dataset}/sample_tmp/nonSplitCounts/"
 #'       return expand(file_stump + "sample_{sample_id}.done", sample_id=ids) 
 #'  params:
-#'   - workers: 20
-#'   - threads: 60
-#'   - internalThreads: 3
-#'   - progress: FALSE
+#'   - threads: 30
 #'   - tmpdir: '`sm drop.getMethodPath(METHOD, "tmp_dir")`'
 #'   - workingDir: '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets"`'
 #'  input:
@@ -31,14 +28,9 @@ saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FRASER_01_4.snakemake"))
 source("Scripts/_helpers/config.R")
 
 dataset    <- snakemake@wildcards$dataset
-colDataFile <- snakemake@input$colData
 workingDir <- snakemake@params$workingDir
-bpWorkers   <- min(max(extract_params(bpworkers()), 1),
-                   as.integer(extract_params(snakemake@params$workers)))
 bpThreads   <- as.integer(extract_params(snakemake@params$threads))
-bpProgress  <- as.logical(extract_params(snakemake@params$progress))
-iThreads    <- min(max(as.integer(bpWorkers / 5), 1),
-                   as.integer(extract_params(snakemake@params$internalThreads)))
+register(MulticoreParam(bpThreads))
 params <- snakemake@config$aberrantSplicing
 
 # Read FRASER object
@@ -54,7 +46,6 @@ countDir <- file.path(workingDir(fds), "savedObjects",
 # Get and merge nonSplitReads for all sample ids
 nonSplitCounts <- getNonSplitReadCountsForAllSamples(fds=fds, 
                                                      splitCountRanges=splitCounts_gRanges, 
-                                                     NcpuPerSample=iThreads, 
                                                      minAnchor=5, 
                                                      recount=FALSE, 
                                                      longRead=params$longRead,
