@@ -1,12 +1,8 @@
 #'---
-#' title: Count RNA data with FRASER (Part 0)
+#' title: Initialize Counting
 #' author: Luise Schuller
 #' wb:
 #'  params:
-#'   - workers: 20
-#'   - threads: 60
-#'   - internalThreads: 3
-#'   - progress: FALSE
 #'   - tmpdir: '`sm drop.getMethodPath(METHOD, "tmp_dir")`'
 #'   - workingDir: '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets"`'
 #'  input:
@@ -27,17 +23,11 @@ source("Scripts/_helpers/config.R")
 dataset    <- snakemake@wildcards$dataset
 colDataFile <- snakemake@input$colData
 workingDir <- snakemake@params$workingDir
-bpWorkers   <- min(max(extract_params(bpworkers()), 1),
-                   as.integer(extract_params(snakemake@params$workers)))
-bpThreads   <- as.integer(extract_params(snakemake@params$threads))
-bpProgress  <- as.logical(extract_params(snakemake@params$progress))
-iThreads    <- min(max(as.integer(bpWorkers / 5), 1),
-                   as.integer(extract_params(snakemake@params$internalThreads)))
 params <- snakemake@config$aberrantSplicing
 
+register(SerialParam())
 
 # Create initial FRASER object
-register(MulticoreParam(bpWorkers, bpThreads, progressbar=bpProgress))
 colData <- fread(colDataFile)
 fds <- FraseRDataSet(colData,
                      workingDir = workingDir,

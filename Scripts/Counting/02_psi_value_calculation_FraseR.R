@@ -3,11 +3,9 @@
 #' author: Christian Mertes
 #' wb:
 #'  params:
-#'   - workers: 10
-#'   - threads: 10
-#'   - progress: FALSE
 #'   - tmpdir: '`sm drop.getMethodPath(METHOD, "tmp_dir")`'
 #'   - workingDir: '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets/"`'
+#'  threads: 20
 #'  input:
 #'   - counting_done: '`sm parser.getProcDataDir() + 
 #'                "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/counting.done" `'
@@ -23,14 +21,10 @@ source("Scripts/_helpers/config.R")
 
 dataset    <- snakemake@wildcards$dataset
 workingDir <- snakemake@params$workingDir
-bpWorkers   <- min(max(extract_params(bpworkers()), 1),
-                   as.integer(extract_params(snakemake@params$workers)))
-bpThreads   <- as.integer(extract_params(snakemake@params$threads))
-bpProgress  <- as.logical(extract_params(snakemake@params$progress))
 
+register(MulticoreParam(snakemake@threads))
 
 fds <- loadFraseRDataSet(dir=workingDir, name=paste0("raw-", dataset))
-register(MulticoreParam(bpWorkers, bpThreads, progressbar=bpProgress))
 
 # Calculating PSI values
 fds <- calculatePSIValues(fds)

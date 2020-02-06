@@ -3,10 +3,9 @@
 #' author: Christian Mertes
 #' wb:
 #'  params:
-#'   - workers: 3
-#'   - threads: 3
 #'   - tmpdir: '`sm drop.getMethodPath(METHOD, "tmp_dir")`'
 #'   - workingDir: '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets/"`'
+#'  threads: 10
 #'  input:
 #'   - fdsin: '`sm parser.getProcDataDir() +
 #'                 "/aberrant_splicing/datasets/savedObjects/{dataset}/" +
@@ -26,10 +25,8 @@ opts_chunk$set(fig.width=12, fig.height=8)
 dataset    <- snakemake@wildcards$dataset
 fdsFile    <- snakemake@input$fdsin
 workingDir <- snakemake@params$workingDir
-bpWorkers   <- min(max(extract_params(bpworkers()), 1),
-                   as.integer(extract_params(snakemake@params$workers)))
-bpThreads   <- as.integer(extract_params(snakemake@params$threads))
-register(MulticoreParam(bpWorkers, bpThreads))
+
+register(MulticoreParam(snakemake@threads))
 
 params <- snakemake@config$aberrantSplicing
 
