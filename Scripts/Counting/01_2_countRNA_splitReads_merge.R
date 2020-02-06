@@ -43,7 +43,6 @@ countDir <- file.path(workingDir, "savedObjects", paste0("raw-", dataset))
 
 # Get and merge splitReads for all sample ids
 splitCounts <- getSplitReadCountsForAllSamples(fds=fds,
-                                               NcpuPerSample=iThreads,
                                                recount=FALSE,
                                                outFile=file.path(countDir,
                                                                  "splitCounts.tsv.gz"))

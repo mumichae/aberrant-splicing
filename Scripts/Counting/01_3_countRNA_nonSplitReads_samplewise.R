@@ -39,7 +39,6 @@ spliceSiteCoords <- readRDS(snakemake@input$spliceSites)
 sample_result <- countNonSplicedReads(sample_id,
                                       splitCountRanges = NULL,
                                       fds = fds,
-                                      NcpuPerSample=iThreads,
                                       minAnchor=5,
                                       recount=params$recount,
                                       spliceSiteCoords=spliceSiteCoords,

@@ -34,8 +34,6 @@ sample_id <- snakemake@wildcards[["sample_id"]]
 # Count splitReads for given sample id
 sample_result <- countSplitReads(sampleID=sample_id, 
                                  fds=fds,
-                                 NcpuPerSample=iThreads,
-                                 genome=NULL,
                                  recount=params$recount)
 
 message(date(), ": ", dataset, ", ", sample_id,

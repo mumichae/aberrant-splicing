@@ -47,8 +47,6 @@ splitCounts_se <- SummarizedExperiment(
 
 
 nonSplitCounts_h5 <- HDF5Array::HDF5Array(snakemake@input$countsSS, "rawCountsSS")
-print(dim(nonSplitCounts_h5))
-print(length(spliceSiteCoords))
 nonSplitCounts_se <- SummarizedExperiment(
   colData = colData(fds),
   rowRanges = spliceSiteCoords,

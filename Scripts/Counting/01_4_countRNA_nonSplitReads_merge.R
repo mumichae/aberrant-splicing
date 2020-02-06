@@ -47,7 +47,6 @@ countDir <- file.path(workingDir(fds), "savedObjects",
 # Get and merge nonSplitReads for all sample ids
 nonSplitCounts <- getNonSplitReadCountsForAllSamples(fds=fds, 
                                                      splitCountRanges=splitCounts_gRanges, 
-                                                     NcpuPerSample=iThreads, 
                                                      minAnchor=5, 
                                                      recount=FALSE, 
                                                      longRead=params$longRead,
