@@ -1,12 +1,8 @@
 #'---
-#' title: Count RNA data with FRASER (Part 3)
+#' title: Nonsplit Counts
 #' author: Luise Schuller
 #' wb:
 #'  params:
-#'   - workers: 20
-#'   - threads: 60
-#'   - internalThreads: 3
-#'   - progress: FALSE
 #'   - tmpdir: '`sm drop.getMethodPath(METHOD, "tmp_dir")`'
 #'   - workingDir: '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets"`'
 #'  input:
@@ -25,13 +21,9 @@ source("Scripts/_helpers/config.R")
 dataset    <- snakemake@wildcards$dataset
 colDataFile <- snakemake@input$colData
 workingDir <- snakemake@params$workingDir
-bpWorkers   <- min(max(extract_params(bpworkers()), 1),
-                   as.integer(extract_params(snakemake@params$workers)))
-bpThreads   <- as.integer(extract_params(snakemake@params$threads))
-bpProgress  <- as.logical(extract_params(snakemake@params$progress))
-iThreads    <- min(max(as.integer(bpWorkers / 5), 1),
-                   as.integer(extract_params(snakemake@params$internalThreads)))
 params <- snakemake@config$aberrantSplicing
+
+register(SerialParam())
 
 # Read FRASER object
 fds <- loadFraseRDataSet(dir=workingDir, name=paste0("raw-", dataset))
@@ -47,7 +39,6 @@ spliceSiteCoords <- readRDS(snakemake@input$spliceSites)
 sample_result <- countNonSplicedReads(sample_id,
                                       splitCountRanges = NULL,
                                       fds = fds,
-                                      NcpuPerSample=iThreads,
                                       minAnchor=5,
                                       recount=params$recount,
                                       spliceSiteCoords=spliceSiteCoords,

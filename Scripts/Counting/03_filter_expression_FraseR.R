@@ -3,7 +3,6 @@
 #' author: Christian Mertes
 #' wb:
 #'  params:
-#'   - workers: 1
 #'   - tmpdir: '`sm drop.getMethodPath(METHOD, "tmp_dir")`'
 #'   - workingDir: '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets/"`'
 #'  input:
@@ -26,10 +25,9 @@ opts_chunk$set(fig.width=12, fig.height=8)
 #+ input
 dataset    <- snakemake@wildcards$dataset
 workingDir <- snakemake@params$workingDir
-bpWorkers   <- min(max(extract_params(bpworkers()), 1),
-                   as.integer(extract_params(snakemake@params$workers)))
 params <- snakemake@config$aberrantSplicing
 
+register(SerialParam())
 
 fds <- loadFraseRDataSet(dir=workingDir, name=paste0("raw-", dataset))
 

@@ -1,12 +1,8 @@
 #'---
-#' title: Count RNA data with FRASER (Part 1)
+#' title: Count Split Reads
 #' author: Luise Schuller
 #' wb:
 #'  params:
-#'   - workers: 20
-#'   - threads: 60
-#'   - internalThreads: 3
-#'   - progress: FALSE
 #'   - tmpdir: '`sm drop.getMethodPath(METHOD, "tmp_dir")`'
 #'   - workingDir: '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets"`'
 #'  input:
@@ -25,12 +21,9 @@ source("Scripts/_helpers/config.R")
 
 dataset    <- snakemake@wildcards$dataset
 workingDir <- snakemake@params$workingDir
-bpWorkers   <- min(max(extract_params(bpworkers()), 1),
-                   as.integer(extract_params(snakemake@params$workers)))
-iThreads    <- min(max(as.integer(bpWorkers / 5), 1),
-                   as.integer(extract_params(snakemake@params$internalThreads)))
 params <- snakemake@config$aberrantSplicing
 
+register(SerialParam())
 
 # Read FRASER object
 fds <- loadFraseRDataSet(dir=workingDir, name=paste0("raw-", dataset))
@@ -41,8 +34,6 @@ sample_id <- snakemake@wildcards[["sample_id"]]
 # Count splitReads for given sample id
 sample_result <- countSplitReads(sampleID=sample_id, 
                                  fds=fds,
-                                 NcpuPerSample=iThreads,
-                                 genome=NULL,
                                  recount=params$recount)
 
 message(date(), ": ", dataset, ", ", sample_id,

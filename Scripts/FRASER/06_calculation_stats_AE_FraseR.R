@@ -3,11 +3,9 @@
 #' author: Christian Mertes
 #' wb:
 #'  params:
-#'   - workers: 20
-#'   - threads: 20
-#'   - progress: FALSE
 #'   - tmpdir: '`sm drop.getMethodPath(METHOD, "tmp_dir")`'
 #'   - workingDir: '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets/"`'
+#'  threads: 20
 #'  input:
 #'   - fdsin:  '`sm parser.getProcDataDir() + 
 #'                  "/aberrant_splicing/datasets/savedObjects/{dataset}/" +
@@ -27,11 +25,8 @@ source("Scripts/_helpers/config.R")
 dataset    <- snakemake@wildcards$dataset
 fdsFile    <- snakemake@input$fdsin
 workingDir <- snakemake@params$workingDir
-bpWorkers   <- min(max(extract_params(bpworkers()), 1),
-                   as.integer(extract_params(snakemake@params$workers)))
-bpThreads   <- as.integer(extract_params(snakemake@params$threads))
-bpProgress  <- as.logical(extract_params(snakemake@params$progress))
-register(MulticoreParam(bpWorkers, bpThreads, progressbar=bpProgress))
+
+register(MulticoreParam(snakemake@threads))
 
 # Load Zscores data
 fds <- loadFraseRDataSet(dir=workingDir, name=dataset)

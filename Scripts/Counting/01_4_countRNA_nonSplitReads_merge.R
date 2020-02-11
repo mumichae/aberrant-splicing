@@ -1,5 +1,5 @@
 #'---
-#' title: Count RNA data with FRASER (Part 4)
+#' title: Merge Nonsplit Counts
 #' author: Luise Schuller
 #' wb:
 #'  py:
@@ -9,9 +9,9 @@
 #'       file_stump = parser.getProcDataDir() + f"/aberrant_splicing/datasets/cache/raw-{dataset}/sample_tmp/nonSplitCounts/"
 #'       return expand(file_stump + "sample_{sample_id}.done", sample_id=ids) 
 #'  params:
-#'   - threads: 30
 #'   - tmpdir: '`sm drop.getMethodPath(METHOD, "tmp_dir")`'
 #'   - workingDir: '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets"`'
+#'  threads: 20
 #'  input:
 #'   - sample_counts:  '`sm lambda wildcards: getNonSplitCountFiles(wildcards.dataset)`'
 #'   - gRanges_only: '`sm parser.getProcDataDir() + 
@@ -29,9 +29,9 @@ source("Scripts/_helpers/config.R")
 
 dataset    <- snakemake@wildcards$dataset
 workingDir <- snakemake@params$workingDir
-bpThreads   <- as.integer(extract_params(snakemake@params$threads))
-register(MulticoreParam(bpThreads))
 params <- snakemake@config$aberrantSplicing
+
+register(MulticoreParam(snakemake@threads))
 
 # Read FRASER object
 fds <- loadFraseRDataSet(dir=workingDir, name=paste0("raw-", dataset))
