@@ -26,3 +26,6 @@ extract_params <- function(params) {
     unlist(params)[1]
 }
 
+# Options for saving hdf5 in chunks
+options("FraseR-hdf5-chunk-nrow"=30000)
+options("FraseR-hdf5-chunk-ncol"=20)

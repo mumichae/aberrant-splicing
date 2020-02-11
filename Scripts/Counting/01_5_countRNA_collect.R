@@ -5,7 +5,6 @@
 #'  params:
 #'   - tmpdir: '`sm drop.getMethodPath(METHOD, "tmp_dir")`'
 #'   - workingDir: '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets"`'
-#'  threads: 20
 #'  input:
 #'   - countsJ:  '`sm parser.getProcDataDir() + 
 #'                    "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/rawCountsJ.h5"`'
@@ -28,9 +27,7 @@ source("Scripts/_helpers/config.R")
 
 dataset    <- snakemake@wildcards$dataset
 workingDir <- snakemake@params$workingDir
-params <- snakemake@config$aberrantSplicing
 
-register(SerialParam())
 
 # Read FRASER object
 fds <- loadFraseRDataSet(dir=workingDir, name=paste0("raw-", dataset))
@@ -53,7 +50,7 @@ nonSplitCounts_se <- SummarizedExperiment(
   assays = list(rawCountsSS=nonSplitCounts_h5)
 )
 
-# Add Counts to FRASER dataset
+# Add Counts to FRASER object
 fds <- addCountsToFraseRDataSet(fds=fds, splitCounts=splitCounts_se,
                                 nonSplitCounts=nonSplitCounts_se)
 
