@@ -25,11 +25,10 @@ colDataFile <- snakemake@input$colData
 workingDir <- snakemake@params$workingDir
 params <- snakemake@config$aberrantSplicing
 
-register(SerialParam())
-
 # Create initial FRASER object
-colData <- fread(colDataFile)
-fds <- FraseRDataSet(colData,
+col_data <- fread(colDataFile)
+
+fds <- FraseRDataSet(colData = col_data,
                      workingDir = workingDir,
                      name       = paste0("raw-", dataset))
 

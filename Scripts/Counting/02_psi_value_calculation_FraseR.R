@@ -5,7 +5,7 @@
 #'  params:
 #'   - tmpdir: '`sm drop.getMethodPath(METHOD, "tmp_dir")`'
 #'   - workingDir: '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets/"`'
-#'  threads: 20
+#'  threads: 30
 #'  input:
 #'   - counting_done: '`sm parser.getProcDataDir() + 
 #'                "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/counting.done" `'
