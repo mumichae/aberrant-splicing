@@ -13,6 +13,7 @@
 #'                "/aberrant_splicing/datasets/savedObjects/{dataset}/fds-object.RDS"`'
 #'   - done: '`sm parser.getProcDataDir() + 
 #'                "/aberrant_splicing/datasets/savedObjects/{dataset}/filter.done" `'
+#'  threads: 5
 #'  type: script
 #'---
 
@@ -27,14 +28,16 @@ dataset    <- snakemake@wildcards$dataset
 workingDir <- snakemake@params$workingDir
 params <- snakemake@config$aberrantSplicing
 
-register(SerialParam())
-
 fds <- loadFraseRDataSet(dir=workingDir, name=paste0("raw-", dataset))
+register(MulticoreParam(snakemake@threads))
 
 # Apply filter
 minExpressionInOneSample <- params$minExpressionInOneSample
+minDeltaPsi <- params$minDeltaPsi
+
 fds <- filterExpression(fds, 
                         minExpressionInOneSample = minExpressionInOneSample,
+                        minDeltaPsi = minDeltaPsi,
                         filter=FALSE)
 devNull <- saveFraseRDataSet(fds)
 
