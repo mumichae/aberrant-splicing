@@ -32,6 +32,8 @@ workingDir <- snakemake@params$workingDir
 params <- snakemake@config$aberrantSplicing
 
 register(MulticoreParam(snakemake@threads))
+# Limit number of threads for DelayedArray operations
+setAutoBPPARAM(MulticoreParam(snakemake@threads))
 
 # Read FRASER object
 fds <- loadFraseRDataSet(dir=workingDir, name=paste0("raw-", dataset))

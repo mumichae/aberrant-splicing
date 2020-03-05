@@ -32,6 +32,8 @@ dataset    <- snakemake@wildcards$dataset
 workingDir <- snakemake@params$workingDir
 
 register(MulticoreParam(snakemake@threads))
+# Limit number of threads for DelayedArray operations
+setAutoBPPARAM(MulticoreParam(snakemake@threads))
 
 # Read FRASER object
 fds <- loadFraseRDataSet(dir=workingDir, name=paste0("raw-", dataset))
@@ -46,7 +48,7 @@ splitCounts <- getSplitReadCountsForAllSamples(fds=fds,
                                                outFile=file.path(countDir,
                                                                  "splitCounts.tsv.gz"))
 
-# Annotate of granges from the split counts
+# Annotate granges from the split counts
 splitCounts_gRanges <- FRASER:::annotateSpliceSite(rowRanges(splitCounts))
 saveRDS(splitCounts_gRanges, snakemake@output$gRanges_only)
 

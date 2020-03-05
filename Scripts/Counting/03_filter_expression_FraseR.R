@@ -23,13 +23,16 @@ saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FRASER_03.snakemake"))
 source("Scripts/_helpers/config.R")
 opts_chunk$set(fig.width=12, fig.height=8)
 
-#+ input
+# input
 dataset    <- snakemake@wildcards$dataset
 workingDir <- snakemake@params$workingDir
 params <- snakemake@config$aberrantSplicing
 
 fds <- loadFraseRDataSet(dir=workingDir, name=paste0("raw-", dataset))
+
 register(MulticoreParam(snakemake@threads))
+# Limit number of threads for DelayedArray operations
+setAutoBPPARAM(MulticoreParam(snakemake@threads))
 
 # Apply filter
 minExpressionInOneSample <- params$minExpressionInOneSample
@@ -48,5 +51,6 @@ if (params$filter == TRUE) {
     fds <- fds[filtered,]
     message(paste("filtered to", nrow(fds), "junctions"))
 }
+
 fds <- saveFraseRDataSet(fds)
 file.create(snakemake@output$done)

@@ -24,8 +24,9 @@ dataset    <- snakemake@wildcards$dataset
 workingDir <- snakemake@params$workingDir
 
 register(MulticoreParam(snakemake@threads))
+# Limit number of threads for DelayedArray operations
+setAutoBPPARAM(MulticoreParam(snakemake@threads))
 
-# Load PSI data
 fds <- loadFraseRDataSet(dir=workingDir, name=dataset)
 
 # Fit autoencoder
@@ -33,12 +34,10 @@ fds <- loadFraseRDataSet(dir=workingDir, name=dataset)
 correction <- snakemake@config$aberrantSplicing$correction
 
 for(type in psiTypes){
-
     currentType(fds) <- type
     q <- bestQ(fds, type)
     fds <- fit(fds, q=q, type=type, verbose=TRUE, iterations=15, 
                correction=correction)
-
     fds <- saveFraseRDataSet(fds)
 }
 

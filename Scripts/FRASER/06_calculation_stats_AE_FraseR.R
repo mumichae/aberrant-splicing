@@ -27,6 +27,8 @@ fdsFile    <- snakemake@input$fdsin
 workingDir <- snakemake@params$workingDir
 
 register(MulticoreParam(snakemake@threads))
+# Limit number of threads for DelayedArray operations
+setAutoBPPARAM(MulticoreParam(snakemake@threads))
 
 # Load Zscores data
 fds <- loadFraseRDataSet(dir=workingDir, name=dataset)

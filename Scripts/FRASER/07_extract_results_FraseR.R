@@ -29,6 +29,8 @@ fdsFile    <- snakemake@input$fdsin
 workingDir <- snakemake@params$workingDir
 
 register(MulticoreParam(snakemake@threads))
+# Limit number of threads for DelayedArray operations
+setAutoBPPARAM(MulticoreParam(snakemake@threads))
 
 params <- snakemake@config$aberrantSplicing
 
