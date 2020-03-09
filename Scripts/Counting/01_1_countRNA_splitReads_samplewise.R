@@ -12,6 +12,7 @@
 #'   - done_sample_splitCounts: '`sm parser.getProcDataDir() + 
 #'                "/aberrant_splicing/datasets/cache/raw-{dataset}"
 #'                +"/sample_tmp/splitCounts/sample_{sample_id}.done"`'
+#'  threads: 1
 #'  type: script
 #'---
 saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FRASER_01_1.snakemake"))
@@ -23,7 +24,6 @@ dataset    <- snakemake@wildcards$dataset
 workingDir <- snakemake@params$workingDir
 params <- snakemake@config$aberrantSplicing
 
-register(SerialParam())
 
 # Read FRASER object
 fds <- loadFraseRDataSet(dir=workingDir, name=paste0("raw-", dataset))
@@ -34,6 +34,7 @@ sample_id <- snakemake@wildcards[["sample_id"]]
 # Count splitReads for given sample id
 sample_result <- countSplitReads(sampleID=sample_id, 
                                  fds=fds,
+                                 NcpuPerSample = snakemake@threads,
                                  recount=params$recount)
 
 message(date(), ": ", dataset, ", ", sample_id,

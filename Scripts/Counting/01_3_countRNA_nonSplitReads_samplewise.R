@@ -11,6 +11,7 @@
 #'  output:
 #'   - done_sample_nonSplitCounts : '`sm parser.getProcDataDir() + 
 #'                   "/aberrant_splicing/datasets/cache/raw-{dataset}/sample_tmp/nonSplitCounts/sample_{sample_id}.done"`' 
+#'  threads: 1
 #'  type: script
 #'---
 saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FRASER_01_3.snakemake"))
@@ -22,8 +23,6 @@ dataset    <- snakemake@wildcards$dataset
 colDataFile <- snakemake@input$colData
 workingDir <- snakemake@params$workingDir
 params <- snakemake@config$aberrantSplicing
-
-register(SerialParam())
 
 # Read FRASER object
 fds <- loadFraseRDataSet(dir=workingDir, name=paste0("raw-", dataset))
@@ -39,6 +38,7 @@ spliceSiteCoords <- readRDS(snakemake@input$spliceSites)
 sample_result <- countNonSplicedReads(sample_id,
                                       splitCountRanges = NULL,
                                       fds = fds,
+                                      NcpuPerSample = snakemake@threads,
                                       minAnchor=5,
                                       recount=params$recount,
                                       spliceSiteCoords=spliceSiteCoords,
