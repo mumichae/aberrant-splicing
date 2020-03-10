@@ -44,6 +44,7 @@ res_junc <- results(fds,
                  zScoreCutoff=params$zScoreCutoff,
                  deltaPsiCutoff=params$deltaPsiCutoff)
 res_junc_dt   <- as.data.table(res_junc)
+print('Results per junction extracted')
 saveFraseRDataSet(fds)
 
 # Add features 
@@ -66,6 +67,27 @@ if(length(res_junc) > 0){
   res_genes_dt <- resultsByGenes(res_junc) %>% as.data.table
   res_genes_dt <- merge(res_genes_dt, as.data.table(colData(fds)), by = "sampleID")
   res_genes_dt[, bamFile := NULL]
+  
+  # add HPO overlap information
+  sa <- fread(snakemake@config$sampleAnnotation)
+  if(!is.null(sa$HPO_TERMS)){
+    if(!all(is.na(sa$HPO_TERMS))){
+      hpo_dt <- fread('https://i12g-gagneurweb.in.tum.de/public/paper/drop_analysis/resource/hpo_genes.tsv.gz')
+      f2 <- merge(res_genes_dt[, .(sampleID, hgncSymbol)], 
+                hpo_dt[,.(hgncSymbol, HPO_id, HPO_label)], by = 'hgncSymbol')
+      if(nrow(f2) > 0){
+        f3 <- merge(f2, sa[,.(RNA_ID, HPO_TERMS)], by.x = 'sampleID', by.y = 'RNA_ID')
+        f3[, HPO_match := HPO_id %in% unlist(strsplit(HPO_TERMS, split = ',')), by = 1:nrow(f3)]
+        f3 <- f3[HPO_match == TRUE]
+        if(nrow(f3) > 0){
+          f4 <- f3[, .(HPO_id_overlap = paste(HPO_id, collapse = ', '), 
+                       HPO_label_overlap = paste(HPO_label, collapse = ', ')), 
+                   by = .(sampleID, hgncSymbol)]
+          res_genes_dt <- merge(res_genes_dt, f4, by = c('sampleID', 'hgncSymbol'), all.x = TRUE)
+        }
+      }
+    }
+  }
 } else res_genes_dt <- data.table()
 
 # Results
