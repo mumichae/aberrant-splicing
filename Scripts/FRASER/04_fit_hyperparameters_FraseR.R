@@ -35,7 +35,9 @@ fds <- loadFraseRDataSet(dir=workingDir, name=dataset)
 correction <- snakemake@config$aberrantSplicing$correction
 for(type in psiTypes){
     message(date(), ": ", type)
-    fds <- optimHyperParams(fds, type=type, correction=correction)
+    fds <- optimHyperParams(fds, type=type, 
+                            correction=correction, 
+                            plot = FALSE)
     fds <- saveFraseRDataSet(fds)
 }
 fds <- saveFraseRDataSet(fds)

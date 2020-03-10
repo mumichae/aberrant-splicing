@@ -12,7 +12,7 @@
 #'   - done_sample_splitCounts: '`sm parser.getProcDataDir() + 
 #'                "/aberrant_splicing/datasets/cache/raw-{dataset}"
 #'                +"/sample_tmp/splitCounts/sample_{sample_id}.done"`'
-#'  threads: 1
+#'  threads: 3
 #'  type: script
 #'---
 saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FRASER_01_1.snakemake"))
