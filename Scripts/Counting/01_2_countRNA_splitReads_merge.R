@@ -51,10 +51,14 @@ splitCounts <- getSplitReadCountsForAllSamples(fds=fds,
                                                                  "splitCounts.tsv.gz"))
 
 # extract counts and define cutoff function
-maxCount <- rowMaxs(assay(splitCounts, "rawCountsJ"))
-passed <- maxCount >= minExpressionInOneSample
-# extract granges after filtering
-splitCountRanges <- rowRanges(splitCounts[passed,])
+if(snakemake@config$aberrantSplicing$filter == TRUE){
+  maxCount <- rowMaxs(assay(splitCounts, "rawCountsJ"))
+  passed <- maxCount >= minExpressionInOneSample
+  # extract granges after filtering
+  splitCountRanges <- rowRanges(splitCounts[passed,])
+} else {
+  splitCountRanges <- rowRanges(splitCounts)
+}
 
 
 # Annotate granges from the split counts
