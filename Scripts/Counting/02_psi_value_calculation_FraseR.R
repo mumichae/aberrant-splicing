@@ -29,14 +29,6 @@ setAutoBPPARAM(MulticoreParam(snakemake@threads))
 
 fds <- loadFraseRDataSet(dir=workingDir, name=paste0("raw-", dataset))
 
-# Filter Min Expression
-if (params$filter == TRUE) {
-	mcols(fds, type = "j")[["passed"]] <- rowMaxs(K(fds, type = 'psi5')) >= 
-												params$minExpressionInOneSample
-
-	fds <- fds[mcols(fds, type = "j")[["passed"]], by = "psi5"]
-}
-
 # Calculating PSI values
 fds <- calculatePSIValues(fds)
 

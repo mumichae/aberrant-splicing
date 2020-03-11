@@ -30,6 +30,8 @@ source("Scripts/_helpers/config.R")
 
 dataset    <- snakemake@wildcards$dataset
 workingDir <- snakemake@params$workingDir
+minExpressionInOneSample <- snakemake@config$aberrantSplicing$minExpressionInOneSample
+
 
 register(MulticoreParam(snakemake@threads))
 # Limit number of threads for DelayedArray operations
@@ -48,8 +50,15 @@ splitCounts <- getSplitReadCountsForAllSamples(fds=fds,
                                                outFile=file.path(countDir,
                                                                  "splitCounts.tsv.gz"))
 
+# extract counts and define cutoff function
+maxCount <- rowMaxs(assay(splitCounts, "rawCountsJ"))
+passed <- maxCount >= minExpressionInOneSample
+# extract granges after filtering
+splitCountRanges <- rowRanges(splitCounts[passed,])
+
+
 # Annotate granges from the split counts
-splitCounts_gRanges <- FRASER:::annotateSpliceSite(rowRanges(splitCounts))
+splitCounts_gRanges <- FRASER:::annotateSpliceSite(splitCountRanges)
 saveRDS(splitCounts_gRanges, snakemake@output$gRanges_only)
 
 
