@@ -19,7 +19,9 @@
 #+ load config and setup, echo=FALSE
 source("Scripts/_helpers/config.R")
 Sys.setenv(HDF5_USE_FILE_LOCKING='FALSE')
-library(cowplot)
+suppressPackageStartupMessages({
+  library(cowplot)
+})
 
 #+ input
 dataset    <- snakemake@wildcards$dataset
@@ -105,7 +107,7 @@ if(nrow(res) > 0){
   res[, pValue := signif(pValue, 3)]
   res[, padjust := signif(padjust, 3)]
   res[, deltaPsi := signif(deltaPsi, 2)]
-  res[, zScore := signif(zScore, 2)]
+  res[, zscore := signif(zScore, 2)]
   res[, psiValue := signif(psiValue, 2)]
   res[, pValueGene := signif(pValueGene, 2)]
   res[, padjustGene := signif(padjustGene, 2)]

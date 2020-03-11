@@ -22,6 +22,8 @@ saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FRASER_07.snakemake"))
 # snakemake <- readRDS(".drop/tmp/AS/FRASER_07.snakemake")
 
 source("Scripts/_helpers/config.R")
+source("../helpers/add_HPO_cols.R")
+
 opts_chunk$set(fig.width=12, fig.height=8)
 
 dataset    <- snakemake@wildcards$dataset
@@ -36,7 +38,10 @@ params <- snakemake@config$aberrantSplicing
 
 # Load data and annotate ranges with gene names
 fds <- loadFraseRDataSet(dir=workingDir, name=dataset)
-fds <- annotateRanges(fds)
+GRCh <- ifelse(snakemake@config$geneAssembly == 'hg19', 37, 
+               ifelse(snakemake@config$geneAssembly == 'hg38', 38,
+                      error('Genome assembly must be either hg19 or hg38')))
+fds <- annotateRanges(fds, GRCh = GRCh)
 
 # Extract results per junction
 res_junc <- results(fds,
@@ -72,20 +77,7 @@ if(length(res_junc) > 0){
   sa <- fread(snakemake@config$sampleAnnotation)
   if(!is.null(sa$HPO_TERMS)){
     if(!all(is.na(sa$HPO_TERMS))){
-      hpo_dt <- fread('https://i12g-gagneurweb.in.tum.de/public/paper/drop_analysis/resource/hpo_genes.tsv.gz')
-      f2 <- merge(res_genes_dt[, .(sampleID, hgncSymbol)], 
-                hpo_dt[,.(hgncSymbol, HPO_id, HPO_label)], by = 'hgncSymbol')
-      if(nrow(f2) > 0){
-        f3 <- merge(f2, sa[,.(RNA_ID, HPO_TERMS)], by.x = 'sampleID', by.y = 'RNA_ID')
-        f3[, HPO_match := HPO_id %in% unlist(strsplit(HPO_TERMS, split = ',')), by = 1:nrow(f3)]
-        f3 <- f3[HPO_match == TRUE]
-        if(nrow(f3) > 0){
-          f4 <- f3[, .(HPO_id_overlap = paste(HPO_id, collapse = ', '), 
-                       HPO_label_overlap = paste(HPO_label, collapse = ', ')), 
-                   by = .(sampleID, hgncSymbol)]
-          res_genes_dt <- merge(res_genes_dt, f4, by = c('sampleID', 'hgncSymbol'), all.x = TRUE)
-        }
-      }
+      res_genes_dt <- add_HPO_cols(res_genes_dt)
     }
   }
 } else res_genes_dt <- data.table()

@@ -17,7 +17,9 @@
 #+ echo=FALSE
 source("Scripts/_helpers/config.R")
 Sys.setenv(HDF5_USE_FILE_LOCKING='FALSE')
-library(cowplot)
+suppressPackageStartupMessages({
+  library(cowplot)
+})
 # opts_chunk$set(fig.width=10, fig.height=8)
 
 
