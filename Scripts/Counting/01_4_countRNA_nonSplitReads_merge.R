@@ -14,8 +14,8 @@
 #'  threads: 20
 #'  input:
 #'   - sample_counts:  '`sm lambda wildcards: getNonSplitCountFiles(wildcards.dataset)`'
-#'   - gRanges_only: '`sm parser.getProcDataDir() + 
-#'                   "/aberrant_splicing/datasets/cache/raw-{dataset}/gRanges_splitCounts_only.rds"`'
+#'   - gRangesNonSplitCounts: '`sm parser.getProcDataDir() + 
+#'                          "/aberrant_splicing/datasets/cache/raw-{dataset}/gRanges_NonSplitCounts.rds"`'
 #'  output:
 #'   - countsSS: '`sm parser.getProcDataDir() +
 #'                   "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/rawCountsSS.h5"`'
@@ -39,7 +39,7 @@ setAutoBPPARAM(MulticoreParam(snakemake@threads))
 fds <- loadFraseRDataSet(dir=workingDir, name=paste0("raw-", dataset))
 
 # Read splice site coordinates from RDS
-splitCounts_gRanges <- readRDS(snakemake@input$gRanges_only)
+splitCounts_gRanges <- readRDS(snakemake@input$gRangesNonSplitCounts)
 
 # Directory where splitCounts.tsv.gz will be saved 
 countDir <- file.path(workingDir(fds), "savedObjects", 

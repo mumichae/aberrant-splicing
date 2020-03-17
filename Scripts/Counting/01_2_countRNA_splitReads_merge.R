@@ -17,8 +17,10 @@
 #'  output:
  #'   - countsJ: '`sm parser.getProcDataDir() +
 #'                   "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/rawCountsJ.h5"`'
-#'   - gRanges_only: '`sm parser.getProcDataDir() + 
-#'                   "/aberrant_splicing/datasets/cache/raw-{dataset}/gRanges_splitCounts_only.rds"`'
+#'   - gRangesSplitCounts: '`sm parser.getProcDataDir() + 
+#'                          "/aberrant_splicing/datasets/cache/raw-{dataset}/gRanges_splitCounts.rds"`'
+#'   - gRangesNonSplitCounts: '`sm parser.getProcDataDir() + 
+#'                          "/aberrant_splicing/datasets/cache/raw-{dataset}/gRanges_NonSplitCounts.rds"`'
 #'   - spliceSites: '`sm parser.getProcDataDir() + 
 #'                   "/aberrant_splicing/datasets/cache/raw-{dataset}/spliceSites_splitCounts.rds"`'
 #'  type: script
@@ -49,25 +51,25 @@ splitCounts <- getSplitReadCountsForAllSamples(fds=fds,
                                                recount=FALSE,
                                                outFile=file.path(countDir,
                                                                  "splitCounts.tsv.gz"))
-
-# extract counts and define cutoff function
-if(snakemake@config$aberrantSplicing$filter == TRUE){
-  maxCount <- rowMaxs(assay(splitCounts, "rawCountsJ"))
-  passed <- maxCount >= minExpressionInOneSample
-  # extract granges after filtering
-  splitCountRanges <- rowRanges(splitCounts[passed,])
-} else {
-  splitCountRanges <- rowRanges(splitCounts)
-}
-
+# Extract, annotate and save granges
+splitCountRanges <- rowRanges(splitCounts)
 
 # Annotate granges from the split counts
-splitCounts_gRanges <- FRASER:::annotateSpliceSite(splitCountRanges)
-saveRDS(splitCounts_gRanges, snakemake@output$gRanges_only)
+splitCountRanges <- FRASER:::annotateSpliceSite(splitCountRanges)
+saveRDS(splitCountRanges, snakemake@output$gRangesSplitCounts)
 
+# Create ranges for non split counts
+# Subset by minExpression
+maxCount <- rowMaxs(assay(splitCounts, "rawCountsJ"))
+passed <- maxCount >= minExpressionInOneSample
+# extract granges after filtering
+splitCountRanges <- splitCountRanges[passed,]
 
-# Extract splitSiteCoodinates: Extract donor and acceptor sites
-spliceSiteCoords <- FRASER:::extractSpliceSiteCoordinates(splitCounts_gRanges, fds)
+saveRDS(splitCountRanges, snakemake@output$gRangesNonSplitCounts)
+
+# Extract splitSiteCoodinates: extract donor and acceptor sites
+# take either filtered or full fds
+spliceSiteCoords <- FRASER:::extractSpliceSiteCoordinates(splitCountRanges, fds)
 saveRDS(spliceSiteCoords, snakemake@output$spliceSites)
 
 

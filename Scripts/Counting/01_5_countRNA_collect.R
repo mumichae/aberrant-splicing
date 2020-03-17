@@ -10,8 +10,8 @@
 #'                    "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/rawCountsJ.h5"`'
 #'   - countsSS: '`sm parser.getProcDataDir() + 
 #'                    "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/rawCountsSS.h5"`'
-#'   - gRanges_only: '`sm parser.getProcDataDir() + 
-#'                   "/aberrant_splicing/datasets/cache/raw-{dataset}/gRanges_splitCounts_only.rds"`'
+#'   - gRangesSplitCounts: '`sm parser.getProcDataDir() + 
+#'                          "/aberrant_splicing/datasets/cache/raw-{dataset}/gRanges_splitCounts.rds"`'
 #'   - spliceSites: '`sm parser.getProcDataDir() + 
 #'                   "/aberrant_splicing/datasets/cache/raw-{dataset}/spliceSites_splitCounts.rds"`'
 #'  output:
@@ -31,7 +31,7 @@ workingDir <- snakemake@params$workingDir
 
 # Read FRASER object
 fds <- loadFraseRDataSet(dir=workingDir, name=paste0("raw-", dataset))
-splitCounts_gRanges <- readRDS(snakemake@input$gRanges_only)
+splitCounts_gRanges <- readRDS(snakemake@input$gRangesSplitCounts)
 spliceSiteCoords <- readRDS(snakemake@input$spliceSites)
 
 # Get splitReads and nonSplitRead counts in order to store them in FRASER object
