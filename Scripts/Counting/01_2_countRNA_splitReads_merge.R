@@ -48,9 +48,7 @@ countDir <- file.path(workingDir, "savedObjects", paste0("raw-", dataset))
 
 # Get and merge splitReads for all sample ids
 splitCounts <- getSplitReadCountsForAllSamples(fds=fds,
-                                               recount=FALSE,
-                                               outFile=file.path(countDir,
-                                                                 "splitCounts.tsv.gz"))
+                                               recount=FALSE)
 # Extract, annotate and save granges
 splitCountRanges <- rowRanges(splitCounts)
 

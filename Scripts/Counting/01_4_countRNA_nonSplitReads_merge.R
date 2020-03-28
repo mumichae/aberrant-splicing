@@ -50,8 +50,6 @@ nonSplitCounts <- getNonSplitReadCountsForAllSamples(fds=fds,
                                                      splitCountRanges=splitCounts_gRanges, 
                                                      minAnchor=5, 
                                                      recount=FALSE, 
-                                                     longRead=params$longRead,
-                                                     outFile=file.path(countDir, 
-                                                                       "nonSplitCounts.tsv.gz"))
+                                                     longRead=params$longRead)
 
 message(date(), ":", dataset, " nonSplit counts done")
