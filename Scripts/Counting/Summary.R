@@ -3,7 +3,6 @@
 #' author: Christian Mertes
 #' wb:
 #'  params:
-#'   - workers: 1
 #'   - workingDir: '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets/"`'
 #'  input:
 #'   - filter: '`sm parser.getProcDataDir() + 
@@ -22,14 +21,9 @@ suppressPackageStartupMessages({
 })
 # opts_chunk$set(fig.width=10, fig.height=8)
 
-
 #+ input
 dataset    <- snakemake@wildcards$dataset
-colDataFile <- snakemake@input$colData
 workingDir <- snakemake@params$workingDir
-bpWorkers   <- min(max(extract_params(bpworkers()), 1),
-                   as.integer(extract_params(snakemake@params$workers)))
-
 
 fds <- loadFraseRDataSet(dir=workingDir, name=paste0("raw-", dataset))
 
@@ -43,4 +37,10 @@ fds <- loadFraseRDataSet(dir=workingDir, name=paste0("raw-", dataset))
 table(mcols(fds, type="j")[,"passed"])
 
 #' ## Expression filtering
+#' Min expression cutoff: `r snakemake@config$aberrantSplicing$minExpressionInOneSample`
 plotFilterExpression(fds) + theme_cowplot(font_size = 16)
+
+#' ## Variability filtering
+#' Variability cutoff: `r snakemake@config$aberrantSplicing$minDeltaPsi`
+plotFilterVariability(fds) + theme_cowplot(font_size = 16)
+

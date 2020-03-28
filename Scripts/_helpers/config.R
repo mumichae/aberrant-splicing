@@ -14,6 +14,7 @@ suppressPackageStartupMessages({
     library(plotly)
     library(DelayedMatrixStats)
     library(FRASER)
+  library(rhdf5)
 })
 
 
@@ -29,3 +30,5 @@ extract_params <- function(params) {
 # Options for saving hdf5 in chunks
 options("FraseR-hdf5-chunk-nrow"=30000)
 options("FraseR-hdf5-chunk-ncol"=20)
+
+h5disableFileLocking()

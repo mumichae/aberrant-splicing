@@ -13,7 +13,7 @@
 #'                "/aberrant_splicing/datasets/savedObjects/{dataset}/fds-object.RDS"`'
 #'   - done: '`sm parser.getProcDataDir() + 
 #'                "/aberrant_splicing/datasets/savedObjects/{dataset}/filter.done" `'
-#'  threads: 5
+#'  threads: 3
 #'  type: script
 #'---
 
@@ -38,7 +38,7 @@ setAutoBPPARAM(MulticoreParam(snakemake@threads))
 minExpressionInOneSample <- params$minExpressionInOneSample
 minDeltaPsi <- params$minDeltaPsi
 
-fds <- filterExpression(fds, 
+fds <- filterExpressionAndVariability(fds, 
                         minExpressionInOneSample = minExpressionInOneSample,
                         minDeltaPsi = minDeltaPsi,
                         filter=FALSE)
