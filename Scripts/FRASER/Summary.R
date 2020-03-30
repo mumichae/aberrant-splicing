@@ -18,7 +18,7 @@
 
 #+ load config and setup, echo=FALSE
 source("Scripts/_helpers/config.R")
-Sys.setenv(HDF5_USE_FILE_LOCKING='FALSE')
+
 suppressPackageStartupMessages({
   library(cowplot)
 })

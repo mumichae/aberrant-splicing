@@ -32,9 +32,9 @@ fds <- loadFraseRDataSet(dir=workingDir, name=paste0("raw-", dataset))
 # Get sample id from wildcard
 sample_id <- snakemake@wildcards[["sample_id"]]
 
-genome <- ifelse(snakemake@config$geneAssembly == 'hg19', 
+genome <- ifelse(snakemake@config$genomeAssembly == 'hg19', 
                  "BSgenome.Hsapiens.UCSC.hg19", 
-               ifelse(snakemake@config$geneAssembly == 'hg38', 
+               ifelse(snakemake@config$genomeAssembly == 'hg38', 
                       "BSgenome.Hsapiens.UCSC.hg38",
                       error('Genome assembly must be either hg19 or hg38')))
 

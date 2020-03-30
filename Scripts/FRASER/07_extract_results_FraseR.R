@@ -38,8 +38,8 @@ params <- snakemake@config$aberrantSplicing
 
 # Load data and annotate ranges with gene names
 fds <- loadFraseRDataSet(dir=workingDir, name=dataset)
-GRCh <- ifelse(snakemake@config$geneAssembly == 'hg19', 37, 
-               ifelse(snakemake@config$geneAssembly == 'hg38', 38,
+GRCh <- ifelse(snakemake@config$genomeAssembly == 'hg19', 37, 
+               ifelse(snakemake@config$genomeAssembly == 'hg38', 38,
                       error('Genome assembly must be either hg19 or hg38')))
 fds <- annotateRanges(fds, GRCh = GRCh)
 
