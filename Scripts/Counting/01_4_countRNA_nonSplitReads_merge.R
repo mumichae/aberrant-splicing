@@ -41,9 +41,12 @@ fds <- loadFraseRDataSet(dir=workingDir, name=paste0("raw-", dataset))
 # Read splice site coordinates from RDS
 splitCounts_gRanges <- readRDS(snakemake@input$gRangesNonSplitCounts)
 
-# Directory where splitCounts.tsv.gz will be saved 
-countDir <- file.path(workingDir(fds), "savedObjects", 
-                      paste0("raw-", dataset))
+# If samples are recounted, remove the merged ones
+nonSplitCountsDir <- file.path(workingDir, "savedObjects", 
+                            paste0("raw-", dataset), 'nonSplitCounts')
+if(params$recount == TRUE & dir.exists(nonSplitCountsDir)){
+  unlink(nonSplitCountsDir)
+}
 
 # Get and merge nonSplitReads for all sample ids
 nonSplitCounts <- getNonSplitReadCountsForAllSamples(fds=fds, 

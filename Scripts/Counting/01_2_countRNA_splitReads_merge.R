@@ -32,7 +32,8 @@ source("Scripts/_helpers/config.R")
 
 dataset    <- snakemake@wildcards$dataset
 workingDir <- snakemake@params$workingDir
-minExpressionInOneSample <- snakemake@config$aberrantSplicing$minExpressionInOneSample
+params <- snakemake@config$aberrantSplicing
+minExpressionInOneSample <- params$minExpressionInOneSample
 
 
 register(MulticoreParam(snakemake@threads))
@@ -42,9 +43,12 @@ setAutoBPPARAM(MulticoreParam(snakemake@threads))
 # Read FRASER object
 fds <- loadFraseRDataSet(dir=workingDir, name=paste0("raw-", dataset))
 
-# Directory where splitCounts.tsv.gz will be saved 
-countDir <- file.path(workingDir, "savedObjects", paste0("raw-", dataset))
-
+# If samples are recounted, remove the merged ones
+splitCountsDir <- file.path(workingDir, "savedObjects", 
+                            paste0("raw-", dataset), 'splitCounts')
+if(params$recount == TRUE & dir.exists(splitCountsDir)){
+  unlink(splitCountsDir)
+}
 
 # Get and merge splitReads for all sample ids
 splitCounts <- getSplitReadCountsForAllSamples(fds=fds,
