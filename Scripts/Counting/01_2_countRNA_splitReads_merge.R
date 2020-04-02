@@ -47,7 +47,7 @@ fds <- loadFraseRDataSet(dir=workingDir, name=paste0("raw-", dataset))
 splitCountsDir <- file.path(workingDir, "savedObjects", 
                             paste0("raw-", dataset), 'splitCounts')
 if(params$recount == TRUE & dir.exists(splitCountsDir)){
-  unlink(splitCountsDir)
+  unlink(splitCountsDir, recursive = TRUE)
 }
 
 # Get and merge splitReads for all sample ids

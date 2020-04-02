@@ -45,7 +45,7 @@ splitCounts_gRanges <- readRDS(snakemake@input$gRangesNonSplitCounts)
 nonSplitCountsDir <- file.path(workingDir, "savedObjects", 
                             paste0("raw-", dataset), 'nonSplitCounts')
 if(params$recount == TRUE & dir.exists(nonSplitCountsDir)){
-  unlink(nonSplitCountsDir)
+  unlink(nonSplitCountsDir, recursive = TRUE)
 }
 
 # Get and merge nonSplitReads for all sample ids
