@@ -5,7 +5,7 @@
 #'   - tmpdir: '`sm drop.getMethodPath(METHOD, "tmp_dir")`'
 #'  input:
 #'   - fraser_summary: '`sm expand(config["htmlOutputPath"] + 
-#'                     "/aberrant_splicing/FraseR/{dataset}_summary.html", 
+#'                     "/AberrantSplicing/{dataset}_summary.html", 
 #'                     dataset=config["aberrantSplicing"]["groups"])`'
 #' output:
 #'  html_document

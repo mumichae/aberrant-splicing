@@ -5,7 +5,7 @@
 #'   - tmpdir: '`sm drop.getMethodPath(METHOD, "tmp_dir")`'
 #'  input:
 #'   - counting_summary: '`sm expand(config["htmlOutputPath"] + 
-#'                     "/aberrantSplicing/{dataset}_countSummary.html",
+#'                     "/AberrantSplicing/{dataset}_countSummary.html",
 #'                     dataset=config["aberrantSplicing"]["groups"])`'
 #' output:
 #'  html_document
