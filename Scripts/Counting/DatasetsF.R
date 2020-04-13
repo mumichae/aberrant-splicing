@@ -5,7 +5,7 @@
 #'   - tmpdir: '`sm drop.getMethodPath(METHOD, "tmp_dir")`'
 #'  input:
 #'   - counting_summary: '`sm expand(config["htmlOutputPath"] + 
-#'                     "/aberrant_splicing/FraseR/{dataset}_countSummary.html",
+#'                     "/aberrantSplicing/{dataset}_countSummary.html",
 #'                     dataset=config["aberrantSplicing"]["groups"])`'
 #' output:
 #'  html_document
@@ -21,7 +21,7 @@ devNull <- sapply(datasets, function(name){
   cat(paste0(
     "<h1>Dataset: ", name, "</h1>",
     "<p>",
-    "</br>", "<a href='aberrant_splicing/FraseR/", name, "_countSummary.html'   >Count Summary</a>",
+    "</br>", "<a href='aberrantSplicing/", name, "_countSummary.html'   >Count Summary</a>",
     "</br>", "</p>"
   ))
 })

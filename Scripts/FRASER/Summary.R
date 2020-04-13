@@ -1,5 +1,5 @@
 #'---
-#' title: "FraseR Summary: `r gsub('_', ' ', snakemake@wildcards$dataset)`"
+#' title: "FRASER Summary: `r gsub('_', ' ', snakemake@wildcards$dataset)`"
 #' author: mumichae, vyepez, ischeller
 #' wb:
 #'  params:
@@ -49,7 +49,7 @@ for(type in psiTypes){
     }
 }
 
-#' ## Aberrant genes per sample
+#' ## Aberrantly spliced genes per sample
 plotAberrantPerSample(fds, aggregate=TRUE, main=dataset_title) + 
     theme_cowplot(font_size = 16) +
     theme(legend.position = "top")
@@ -98,9 +98,9 @@ file <- gsub(".html$", ".tsv", snakemake@output$wBhtml)
 write_tsv(res, file=file)
 
 #'
-#' The result table can also be downloaded with the link below.
+#' The results table can also be downloaded with the link below.
 #+ echo=FALSE, results='asis'
-cat(paste0("<a href='./", basename(file), "'>Download result table</a>"))
+cat(paste0("<a href='./", basename(file), "'>Download results table</a>"))
 
 # round numbers
 if(nrow(res) > 0){
@@ -113,8 +113,8 @@ if(nrow(res) > 0){
   res[, padjustGene := signif(padjustGene, 2)]
 }
 
-#' ## Result table
+#' ## Results table
 DT::datatable(res, options=list(scrollX=TRUE), escape=FALSE, filter = 'top')
 
-#' ## Sample table
+#' ## Samples table
 DT::datatable(as.data.table(colData(fds)), options=list(scrollX=TRUE))
