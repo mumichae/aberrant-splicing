@@ -9,7 +9,7 @@
 #'                "/aberrant_splicing/datasets/savedObjects/{dataset}/filter.done" `'
 #'  output:
 #'   - wBhtml: '`sm config["htmlOutputPath"] + 
-#'                  "/aberrantSplicing/{dataset}_countSummary.html"`'
+#'                  "/AberrantSplicing/{dataset}_countSummary.html"`'
 #'  type: noindex
 #'---
 

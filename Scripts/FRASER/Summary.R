@@ -12,7 +12,7 @@
 #'                   "/aberrant_splicing/results/{dataset}_results.tsv"`'
 #'  output:
 #'   - wBhtml: '`sm config["htmlOutputPath"] +
-#'               "/aberrant_splicing/FraseR/{dataset}_summary.html"`'
+#'               "/AberrantSplicing/{dataset}_summary.html"`'
 #'  type: noindex
 #'---
 
