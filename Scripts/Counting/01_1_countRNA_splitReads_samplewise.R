@@ -36,7 +36,7 @@ if(snakemake@config$genomeAssembly == 'hg19'){
   genome <- BSgenome.Hsapiens.UCSC.hg19
 } else if(snakemake@config$genomeAssembly == 'hg38'){
   genome <- BSgenome.Hsapiens.UCSC.hg38
-} else error('Genome assembly must be either hg19 or hg38')))
+} else error('Genome assembly must be either hg19 or hg38')
 
 # genome@seqinfo@seqlengths[seqnames(genome) == 'MT'] <- 16569L
 genome <- NULL
