@@ -32,7 +32,7 @@ setAutoBPPARAM(MulticoreParam(snakemake@threads))
 fds <- loadFraseRDataSet(dir=workingDir, name=dataset)
 
 # Run hyper parameter optimization
-correction <- snakemake@config$aberrantSplicing$correction
+implementation <- snakemake@config$aberrantSplicing$implementation
 
 # Get range for latent space dimension
 a <- 2 
@@ -43,7 +43,7 @@ pars_q <- round(exp(seq(log(a),log(b),length.out = Nsteps))) %>% unique
 for(type in psiTypes){
     message(date(), ": ", type)
     fds <- optimHyperParams(fds, type=type, 
-                            correction=correction,
+                            correction=implementation,
                             q_param=pars_q,
                             plot = FALSE)
     fds <- saveFraseRDataSet(fds)

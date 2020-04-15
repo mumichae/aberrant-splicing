@@ -31,13 +31,13 @@ fds <- loadFraseRDataSet(dir=workingDir, name=dataset)
 
 # Fit autoencoder
 # run it for every type
-correction <- snakemake@config$aberrantSplicing$correction
+implementation <- snakemake@config$aberrantSplicing$implementation
 
 for(type in psiTypes){
     currentType(fds) <- type
     q <- bestQ(fds, type)
     fds <- fit(fds, q=q, type=type, verbose=TRUE, iterations=15, 
-               correction=correction)
+               correction=implementation)
     fds <- saveFraseRDataSet(fds)
 }
 
