@@ -32,14 +32,22 @@ fds <- loadFraseRDataSet(dir=workingDir, name=paste0("raw-", dataset))
 # Get sample id from wildcard
 sample_id <- snakemake@wildcards[["sample_id"]]
 
-if(snakemake@config$genomeAssembly == 'hg19'){
-  genome <- BSgenome.Hsapiens.UCSC.hg19
-} else if(snakemake@config$genomeAssembly == 'hg38'){
-  genome <- BSgenome.Hsapiens.UCSC.hg38
-} else error('Genome assembly must be either hg19 or hg38')
-
-# genome@seqinfo@seqlengths[seqnames(genome) == 'MT'] <- 16569L
+# Add strand specificity
+strandSpecific(fds) <- 'no'
+if(uniqueN(colData(fds)$STRAND) == 1){
+  strandSpecific(fds) <- unique(colData(fds)$STRAND)
+} 
 genome <- NULL
+
+# If data is not strand specific, add genome info
+if(strandSpecific(fds) == 'no'){
+  if(snakemake@config$genomeAssembly == 'hg19'){
+    genome <- BSgenome.Hsapiens.UCSC.hg19
+  } else if(snakemake@config$genomeAssembly == 'hg38'){
+    genome <- BSgenome.Hsapiens.UCSC.hg38
+  }
+  genome@seqinfo@seqlengths[seqnames(genome) == 'MT'] <- 16569L
+}
 
 # Count splitReads for a given sample id
 sample_result <- countSplitReads(sampleID = sample_id, 
