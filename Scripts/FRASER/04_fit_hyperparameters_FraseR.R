@@ -33,17 +33,24 @@ fds <- loadFraseRDataSet(dir=workingDir, name=dataset)
 
 # Run hyper parameter optimization
 implementation <- snakemake@config$aberrantSplicing$implementation
+mp <- snakemake@config$aberrantSplicing$maxTestedDimensionProportion
 
 # Get range for latent space dimension
 a <- 2 
-b <- min(ncol(fds), nrow(fds)) / 6   # N/6
-Nsteps <- min(12, b)
+b <- min(ncol(fds), nrow(fds)) / mp   # N/mp
+
+maxSteps <- 12
+if(mp < 6){
+  maxSteps <- 15
+}
+
+Nsteps <- min(maxSteps, b)
 pars_q <- round(exp(seq(log(a),log(b),length.out = Nsteps))) %>% unique
 
 for(type in psiTypes){
     message(date(), ": ", type)
     fds <- optimHyperParams(fds, type=type, 
-                            correction=implementation,
+                            implementation=implementation,
                             q_param=pars_q,
                             plot = FALSE)
     fds <- saveFraseRDataSet(fds)

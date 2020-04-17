@@ -37,7 +37,7 @@ for(type in psiTypes){
     currentType(fds) <- type
     q <- bestQ(fds, type)
     fds <- fit(fds, q=q, type=type, verbose=TRUE, iterations=15, 
-               correction=implementation)
+               implementation=implementation)
     fds <- saveFraseRDataSet(fds)
 }
 
