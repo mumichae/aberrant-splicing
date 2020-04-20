@@ -27,8 +27,7 @@ extract_params <- function(params) {
     unlist(params)[1]
 }
 
-# Options for saving hdf5 in chunks
-options("FraseR-hdf5-chunk-nrow"=30000)
-options("FraseR-hdf5-chunk-ncol"=20)
+options("FraseR.maxSamplesNoHDF5"=1)
+options("FraseR.maxJunctionsNoHDF5"=1)
 
 h5disableFileLocking()

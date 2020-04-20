@@ -15,7 +15,7 @@
 #'  input:
 #'   - sample_counts: '`sm lambda wildcards: getSplitCountFiles(wildcards.dataset)`'
 #'  output:
- #'   - countsJ: '`sm parser.getProcDataDir() +
+#'   - countsJ: '`sm parser.getProcDataDir() +
 #'                   "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/rawCountsJ.h5"`'
 #'   - gRangesSplitCounts: '`sm parser.getProcDataDir() + 
 #'                          "/aberrant_splicing/datasets/cache/raw-{dataset}/gRanges_splitCounts.rds"`'
