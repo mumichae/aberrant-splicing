@@ -41,7 +41,7 @@ register(MulticoreParam(snakemake@threads))
 setAutoBPPARAM(MulticoreParam(snakemake@threads))
 
 # Read FRASER object
-fds <- loadFraseRDataSet(dir=workingDir, name=paste0("raw-", dataset))
+fds <- loadFraserDataSet(dir=workingDir, name=paste0("raw-", dataset))
 
 # If samples are recounted, remove the merged ones
 splitCountsDir <- file.path(workingDir, "savedObjects", 

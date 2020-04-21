@@ -1,5 +1,5 @@
 #'---
-#' title: Results of FraseR analysis
+#' title: Results of FRASER analysis
 #' author: Christian Mertes
 #' wb:
 #'  params:
@@ -37,7 +37,7 @@ setAutoBPPARAM(MulticoreParam(snakemake@threads))
 params <- snakemake@config$aberrantSplicing
 
 # Load data and annotate ranges with gene names
-fds <- loadFraseRDataSet(dir=workingDir, name=dataset)
+fds <- loadFraserDataSet(dir=workingDir, name=dataset)
 GRCh <- ifelse(snakemake@config$genomeAssembly == 'hg19', 37, 
                ifelse(snakemake@config$genomeAssembly == 'hg38', 38,
                       error('Genome assembly must be either hg19 or hg38')))
@@ -50,7 +50,7 @@ res_junc <- results(fds,
                  deltaPsiCutoff=params$deltaPsiCutoff)
 res_junc_dt   <- as.data.table(res_junc)
 print('Results per junction extracted')
-saveFraseRDataSet(fds)
+saveFraserDataSet(fds)
 
 # Add features 
 if(nrow(res_junc_dt) > 0){

@@ -28,7 +28,7 @@ dataset    <- snakemake@wildcards$dataset
 workingDir <- snakemake@params$workingDir
 params <- snakemake@config$aberrantSplicing
 
-fds <- loadFraseRDataSet(dir=workingDir, name=paste0("raw-", dataset))
+fds <- loadFraserDataSet(dir=workingDir, name=paste0("raw-", dataset))
 
 register(MulticoreParam(snakemake@threads))
 # Limit number of threads for DelayedArray operations
@@ -42,7 +42,7 @@ fds <- filterExpressionAndVariability(fds,
                         minExpressionInOneSample = minExpressionInOneSample,
                         minDeltaPsi = minDeltaPsi,
                         filter=FALSE)
-devNull <- saveFraseRDataSet(fds)
+devNull <- saveFraserDataSet(fds)
 
 # Keep junctions that pass filter
 name(fds) <- dataset
@@ -52,5 +52,5 @@ if (params$filter == TRUE) {
     message(paste("filtered to", nrow(fds), "junctions"))
 }
 
-fds <- saveFraseRDataSet(fds)
+fds <- saveFraserDataSet(fds)
 file.create(snakemake@output$done)

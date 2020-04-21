@@ -28,12 +28,12 @@ params <- snakemake@config$aberrantSplicing
 # Create initial FRASER object
 col_data <- fread(colDataFile)
 
-fds <- FraseRDataSet(colData = col_data,
+fds <- FraserDataSet(colData = col_data,
                      workingDir = workingDir,
                      name       = paste0("raw-", dataset))
 
 # Save initial FRASER dataset
-fds <- saveFraseRDataSet(fds)
+fds <- saveFraserDataSet(fds)
 
 message(date(), ": FRASER object initialized for ", dataset)
 

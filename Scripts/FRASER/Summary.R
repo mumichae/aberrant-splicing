@@ -27,7 +27,7 @@ suppressPackageStartupMessages({
 dataset    <- snakemake@wildcards$dataset
 workingDir <- snakemake@params$workingDir
 
-fds <- loadFraseRDataSet(dir=workingDir, name=dataset)
+fds <- loadFraserDataSet(dir=workingDir, name=dataset)
 
 #' Number of samples: `r nrow(colData(fds))`
 #' 

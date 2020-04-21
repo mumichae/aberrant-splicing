@@ -29,7 +29,7 @@ register(MulticoreParam(snakemake@threads))
 setAutoBPPARAM(MulticoreParam(snakemake@threads))
 
 # Load PSI data
-fds <- loadFraseRDataSet(dir=workingDir, name=dataset)
+fds <- loadFraserDataSet(dir=workingDir, name=dataset)
 
 # Run hyper parameter optimization
 implementation <- snakemake@config$aberrantSplicing$implementation
@@ -53,8 +53,8 @@ for(type in psiTypes){
                             implementation=implementation,
                             q_param=pars_q,
                             plot = FALSE)
-    fds <- saveFraseRDataSet(fds)
+    fds <- saveFraserDataSet(fds)
 }
-fds <- saveFraseRDataSet(fds)
+fds <- saveFraserDataSet(fds)
 file.create(snakemake@output$hyper)
 

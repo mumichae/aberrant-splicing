@@ -1,5 +1,5 @@
 #'---
-#' title: Full FraseR analysis over all datasets
+#' title: Full FRASER analysis over all datasets
 #' wb:
 #'  params:
 #'   - tmpdir: '`sm drop.getMethodPath(METHOD, "tmp_dir")`'
@@ -11,8 +11,8 @@
 #'  html_document
 #'---
 
-saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FraseR_99.snakemake"))
-# snakemake <- readRDS(".drop/tmp/AS/FraseR_99.snakemake")
+saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FRASER_99.snakemake"))
+# snakemake <- readRDS(".drop/tmp/AS/FRASER_99.snakemake")
 
 datasets <- snakemake@config$aberrantSplicing$groups
 
@@ -21,7 +21,7 @@ devNull <- sapply(datasets, function(name){
     cat(paste0(
         "<h1>Dataset: ", name, "</h1>",
         "<p>",
-        "</br>", "<a href='aberrant_splicing/FraseR/", name, "_summary.html'        >FRASER Summary</a>",
+        "</br>", "<a href='aberrant_splicing/FRASER/", name, "_summary.html'        >FRASER Summary</a>",
         "</br>", "</p>"
     ))
 })

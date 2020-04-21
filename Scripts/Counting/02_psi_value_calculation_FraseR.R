@@ -27,10 +27,10 @@ register(MulticoreParam(snakemake@threads))
 # Limit number of threads for DelayedArray operations
 setAutoBPPARAM(MulticoreParam(snakemake@threads))
 
-fds <- loadFraseRDataSet(dir=workingDir, name=paste0("raw-", dataset))
+fds <- loadFraserDataSet(dir=workingDir, name=paste0("raw-", dataset))
 
 # Calculating PSI values
 fds <- calculatePSIValues(fds)
 
-# FraseR object after PSI value calculation
-fds <- saveFraseRDataSet(fds)
+# FRASER object after PSI value calculation
+fds <- saveFraserDataSet(fds)

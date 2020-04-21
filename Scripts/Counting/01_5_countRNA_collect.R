@@ -30,7 +30,7 @@ workingDir <- snakemake@params$workingDir
 
 
 # Read FRASER object
-fds <- loadFraseRDataSet(dir=workingDir, name=paste0("raw-", dataset))
+fds <- loadFraserDataSet(dir=workingDir, name=paste0("raw-", dataset))
 splitCounts_gRanges <- readRDS(snakemake@input$gRangesSplitCounts)
 spliceSiteCoords <- readRDS(snakemake@input$spliceSites)
 
@@ -51,10 +51,10 @@ nonSplitCounts_se <- SummarizedExperiment(
 )
 
 # Add Counts to FRASER object
-fds <- addCountsToFraseRDataSet(fds=fds, splitCounts=splitCounts_se,
+fds <- addCountsToFraserDataSet(fds=fds, splitCounts=splitCounts_se,
                                 nonSplitCounts=nonSplitCounts_se)
 
 # Save final FRASER object 
-fds <- saveFraseRDataSet(fds)
+fds <- saveFraserDataSet(fds)
 
 file.create(snakemake@output$counting_done)

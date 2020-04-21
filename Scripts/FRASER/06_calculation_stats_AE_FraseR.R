@@ -31,7 +31,7 @@ register(MulticoreParam(snakemake@threads))
 setAutoBPPARAM(MulticoreParam(snakemake@threads))
 
 # Load Zscores data
-fds <- loadFraseRDataSet(dir=workingDir, name=dataset)
+fds <- loadFraserDataSet(dir=workingDir, name=dataset)
 
 # Calculate stats
 for (type in psiTypes) {
@@ -43,5 +43,5 @@ for (type in psiTypes) {
     fds <- calculatePadjValues(fds, type=type)
 }
 
-fds <- saveFraseRDataSet(fds)
+fds <- saveFraserDataSet(fds)
 

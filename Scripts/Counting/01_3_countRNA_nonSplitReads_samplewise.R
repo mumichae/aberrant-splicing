@@ -25,7 +25,7 @@ workingDir <- snakemake@params$workingDir
 params <- snakemake@config$aberrantSplicing
 
 # Read FRASER object
-fds <- loadFraseRDataSet(dir=workingDir, name=paste0("raw-", dataset))
+fds <- loadFraserDataSet(dir=workingDir, name=paste0("raw-", dataset))
 
 # Get sample id from wildcard
 sample_id <- snakemake@wildcards[["sample_id"]]

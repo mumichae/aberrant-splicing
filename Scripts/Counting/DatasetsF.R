@@ -11,8 +11,8 @@
 #'  html_document
 #'---
 
-saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FraseR_cs.snakemake"))
-# snakemake <- readRDS(".drop/tmp/AS/FraseR_cs.snakemake")
+saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FRASER_cs.snakemake"))
+# snakemake <- readRDS(".drop/tmp/AS/FRASER_cs.snakemake")
 
 datasets <- snakemake@config$aberrantSplicing$groups
 

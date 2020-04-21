@@ -36,7 +36,7 @@ register(MulticoreParam(snakemake@threads))
 setAutoBPPARAM(MulticoreParam(snakemake@threads))
 
 # Read FRASER object
-fds <- loadFraseRDataSet(dir=workingDir, name=paste0("raw-", dataset))
+fds <- loadFraserDataSet(dir=workingDir, name=paste0("raw-", dataset))
 
 # Read splice site coordinates from RDS
 splitCounts_gRanges <- readRDS(snakemake@input$gRangesNonSplitCounts)

@@ -27,7 +27,7 @@ register(MulticoreParam(snakemake@threads))
 # Limit number of threads for DelayedArray operations
 setAutoBPPARAM(MulticoreParam(snakemake@threads))
 
-fds <- loadFraseRDataSet(dir=workingDir, name=dataset)
+fds <- loadFraserDataSet(dir=workingDir, name=dataset)
 
 # Fit autoencoder
 # run it for every type
@@ -38,6 +38,6 @@ for(type in psiTypes){
     q <- bestQ(fds, type)
     fds <- fit(fds, q=q, type=type, verbose=TRUE, iterations=15, 
                implementation=implementation)
-    fds <- saveFraseRDataSet(fds)
+    fds <- saveFraserDataSet(fds)
 }
 
