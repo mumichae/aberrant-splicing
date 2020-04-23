@@ -32,14 +32,9 @@ fds <- loadFraserDataSet(dir=workingDir, name=paste0("raw-", dataset))
 # Get sample id from wildcard
 sample_id <- snakemake@wildcards[["sample_id"]]
 
-# Add strand specificity
-strandSpecific(fds) <- 'no'
-if(uniqueN(colData(fds)$STRAND) == 1){
-  strandSpecific(fds) <- unique(colData(fds)$STRAND)
-} 
+# If data is not strand specific, add genome info
 genome <- NULL
 
-# If data is not strand specific, add genome info
 if(strandSpecific(fds) == 'no'){
   if(snakemake@config$genomeAssembly == 'hg19'){
     genome <- BSgenome.Hsapiens.UCSC.hg19

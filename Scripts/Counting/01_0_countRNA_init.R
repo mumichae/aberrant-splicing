@@ -32,6 +32,12 @@ fds <- FraserDataSet(colData = col_data,
                      workingDir = workingDir,
                      name       = paste0("raw-", dataset))
 
+# Add strand specificity
+strandSpecific(fds) <- 'no'
+if(uniqueN(colData(fds)$STRAND) == 1){
+  strandSpecific(fds) <- unique(colData(fds)$STRAND)
+} 
+
 # Save initial FRASER dataset
 fds <- saveFraserDataSet(fds)
 

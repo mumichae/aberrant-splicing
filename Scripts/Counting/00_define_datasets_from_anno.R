@@ -12,7 +12,7 @@
 #'    - colData: '`sm parser.getProcDataDir() + 
 #'                    "/aberrant_splicing/annotations/{dataset}.tsv"`'
 #'    - wBhtml:  '`sm config["htmlOutputPath"] + 
-#'                    "/aberrant_splicing/annotations/{dataset}.html"`'
+#'                    "/AberrantSplicing/annotations/{dataset}.html"`'
 #'  type: noindex
 #' output:
 #'  html_document:
