@@ -40,7 +40,7 @@ mapping <- fread(fileMapFile)
 subset_ids <- snakemake@params$ids[[name]]
 annoSub <- anno[RNA_ID %in% subset_ids]
 colData <- merge(
-    annoSub[,.(sampleID = RNA_ID, STRAND)],
+    annoSub[,.(sampleID = RNA_ID, STRAND, PAIRED_END)],
     mapping[FILE_TYPE == "RNA_BAM_FILE", .(sampleID=ID, bamFile=FILE_PATH)])
 
 #'

@@ -32,7 +32,8 @@ fds <- FraserDataSet(colData = col_data,
                      workingDir = workingDir,
                      name       = paste0("raw-", dataset))
 
-# Add strand specificity
+# Add paired end and strand specificity to the fds
+pairedEnd(fds) <- colData(fds)$PAIRED_END
 strandSpecific(fds) <- 'no'
 if(uniqueN(colData(fds)$STRAND) == 1){
   strandSpecific(fds) <- unique(colData(fds)$STRAND)
