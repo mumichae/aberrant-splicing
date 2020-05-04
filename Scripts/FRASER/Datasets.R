@@ -21,7 +21,7 @@ devNull <- sapply(datasets, function(name){
     cat(paste0(
         "<h1>Dataset: ", name, "</h1>",
         "<p>",
-        "</br>", "<a href='aberrant_splicing/FRASER/", name, "_summary.html'        >FRASER Summary</a>",
+        "</br>", "<a href='AberrantSplicing/", name, "_summary.html'        >FRASER Summary</a>",
         "</br>", "</p>"
     ))
 })
