@@ -9,7 +9,7 @@
 #'  input:
 #'   - fdsin: '`sm parser.getProcDataDir() +
 #'                 "/aberrant_splicing/datasets/savedObjects/{dataset}/" +
-#'                 "pajdBetaBinomial_psiSite.h5"`'
+#'                 "padjBetaBinomial_psiSite.h5"`'
 #'  output:
 #'   - resultTableJunc: '`sm parser.getProcDataDir() + 
 #'                          "/aberrant_splicing/results/{dataset}_results_per_junction.tsv"`'

@@ -13,7 +13,7 @@
 #'  output:
 #'   - fdsout: '`sm parser.getProcDataDir() + 
 #'                  "/aberrant_splicing/datasets/savedObjects/{dataset}/" +
-#'                  "pajdBetaBinomial_psiSite.h5"`'
+#'                  "padjBetaBinomial_psiSite.h5"`'
 #'  type: script
 #'---
 
