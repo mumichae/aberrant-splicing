@@ -35,7 +35,7 @@ sample_id <- snakemake@wildcards[["sample_id"]]
 # If data is not strand specific, add genome info
 genome <- NULL
 
-if(strandSpecific(fds) == 'no'){
+if(strandSpecific(fds) == 0){
   if(snakemake@config$genomeAssembly == 'hg19'){
     genome <- BSgenome.Hsapiens.UCSC.hg19
   } else if(snakemake@config$genomeAssembly == 'hg38'){
@@ -49,6 +49,7 @@ sample_result <- countSplitReads(sampleID = sample_id,
                                  fds = fds,
                                  NcpuPerSample = snakemake@threads,
                                  recount = params$recount,
+                                 keepNonStandardChromosomes = params$keepNonStandardChrs,
                                  genome = genome)
 
 message(date(), ": ", dataset, ", ", sample_id,

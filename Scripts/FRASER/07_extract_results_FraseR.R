@@ -42,12 +42,14 @@ GRCh <- ifelse(snakemake@config$genomeAssembly == 'hg19', 37,
                ifelse(snakemake@config$genomeAssembly == 'hg38', 38,
                       error('Genome assembly must be either hg19 or hg38')))
 fds <- annotateRanges(fds, GRCh = GRCh)
+colData(fds)$sampleID <- as.character(colData(fds)$sampleID)
 
 # Extract results per junction
 res_junc <- results(fds,
                  padjCutoff=params$padjCutoff, 
                  zScoreCutoff=params$zScoreCutoff,
-                 deltaPsiCutoff=params$deltaPsiCutoff)
+                 deltaPsiCutoff=params$deltaPsiCutoff,
+                 additionalColumns=c("other_hgnc_symbol"))
 res_junc_dt   <- as.data.table(res_junc)
 print('Results per junction extracted')
 saveFraserDataSet(fds)
@@ -63,6 +65,7 @@ if(nrow(res_junc_dt) > 0){
   # add colData to the results
   res_junc_dt <- merge(res_junc_dt, as.data.table(colData(fds)), by = "sampleID")
   res_junc_dt[, bamFile := NULL]
+  res_junc_dt[, pairedEnd := NULL]
 } else{
   warning("The aberrant splicing pipeline gave 0 results for the ", dataset, " dataset.")
 }
@@ -72,6 +75,7 @@ if(length(res_junc) > 0){
   res_genes_dt <- resultsByGenes(res_junc) %>% as.data.table
   res_genes_dt <- merge(res_genes_dt, as.data.table(colData(fds)), by = "sampleID")
   res_genes_dt[, bamFile := NULL]
+  res_genes_dt[, pairedEnd := NULL]
   
   # add HPO overlap information
   sa <- fread(snakemake@config$sampleAnnotation)
