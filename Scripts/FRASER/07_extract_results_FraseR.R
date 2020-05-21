@@ -54,6 +54,16 @@ res_junc_dt   <- as.data.table(res_junc)
 print('Results per junction extracted')
 saveFraserDataSet(fds)
 
+correctRes <- function(RT){
+  rt <- copy(RT)
+  rt[, bamFile := NULL]
+  rt[, pairedEnd := NULL]
+  rt[hgncSymbol == 'APOA1BP', hgncSymbol := 'NAXE']  # new gene name
+  rt[hgncSymbol == 'C10orf2', hgncSymbol := 'TWNK']  # new gene name
+  rt[hgncSymbol == 'CARKD', hgncSymbol := 'NAXD']  # new gene name
+  return(rt)
+}
+
 # Add features 
 if(nrow(res_junc_dt) > 0){
   
@@ -64,8 +74,7 @@ if(nrow(res_junc_dt) > 0){
   
   # add colData to the results
   res_junc_dt <- merge(res_junc_dt, as.data.table(colData(fds)), by = "sampleID")
-  res_junc_dt[, bamFile := NULL]
-  res_junc_dt[, pairedEnd := NULL]
+  res_junc_dt <- correctRes(res_junc_dt)
 } else{
   warning("The aberrant splicing pipeline gave 0 results for the ", dataset, " dataset.")
 }
