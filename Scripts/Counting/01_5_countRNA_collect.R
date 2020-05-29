@@ -57,4 +57,26 @@ fds <- addCountsToFraserDataSet(fds=fds, splitCounts=splitCounts_se,
 # Save final FRASER object 
 fds <- saveFraserDataSet(fds)
 
+# export counts as text file
+if(snakemake@config$exportCounts == TRUE){
+  dataset <- snakemake@wildcards$dataset
+  path <- file.path(snakemake@config$root, 'processed_data/exported_counts', 
+                    dataset)
+  dir.create(path)
+  
+  # obtain the split counts
+  splitCounts <- assays(fds)[['rawCountsJ']]
+  gr_dt <- as.data.table(splitCounts_gRanges)[, c(1:3,5)]
+  splitCounts <- cbind(gr_dt, as.matrix(splitCounts))
+  fwrite(splitCounts, file = file.path(path, paste0('splitCounts_', dataset, '.tsv.gz')), 
+         quote = FALSE, row.names = FALSE, sep = '\t', compress = 'gzip')
+  
+  # obtain the non split counts
+  nonSplitCounts <- assays(fds)[['rawCountsSS']]
+  grns_dt <- as.data.table(spliceSiteCoords)[, c(1:3,5)]
+  nonSplitCounts <- cbind(grns_dt, as.matrix(nonSplitCounts))
+  fwrite(nonSplitCounts, file = file.path(path, paste0('spliceSiteOverlapCounts_', dataset, '.tsv.gz')), 
+         quote = FALSE, row.names = FALSE, sep = '\t', compress = 'gzip')
+}
+
 file.create(snakemake@output$counting_done)
