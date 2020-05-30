@@ -14,9 +14,9 @@
 #'                "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/counting.done" `'
 #'  output:
 #'    - split_counts: '`sm parser.getProcResultsDir() + "/exported_counts/{dataset}/"
-#'                + "splitCounts_{annotation}.tsv.gz"`'
+#'                + "splitCounts_{dataset}.tsv.gz"`'
 #'    - nonsplit_counts: '`sm parser.getProcResultsDir() + "/exported_counts/{dataset}/"
-#'                + "spliceSiteOverlapCounts_{annotation}.tsv.gz"`'
+#'                + "spliceSiteOverlapCounts_{dataset}.tsv.gz"`'
 #'  type: script
 #'---
 saveRDS(snakemake, file.path(snakemake@params$tmpdir, "export.snakemake"))
