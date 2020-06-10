@@ -1,6 +1,6 @@
 #'---
-#' title: Collect all counts to FRASER Object
-#' author: Michaela Müller
+#' title: Collect all counts from FRASER Object
+#' author: Michaela Mueller, vyepez
 #' wb:
 #'  params:
 #'   - tmpdir: '`sm drop.getMethodPath(METHOD, "tmp_dir")`'
@@ -13,10 +13,10 @@
 #'   - counting_done: '`sm parser.getProcDataDir() + 
 #'                "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/counting.done" `'
 #'  output:
-#'    - split_counts: '`sm parser.getProcResultsDir() + "/exported_counts/{dataset}/"
-#'                + "splitCounts_{dataset}.tsv.gz"`'
-#'    - nonsplit_counts: '`sm parser.getProcResultsDir() + "/exported_counts/{dataset}/"
-#'                + "spliceSiteOverlapCounts_{dataset}.tsv.gz"`'
+#'    - split_counts: '`sm parser.getProcResultsDir() + "/exported_counts/{dataset}--{genomeAssembly}--{annotation}/"
+#'                + "splitCounts.tsv.gz"`'
+#'    - nonsplit_counts: '`sm parser.getProcResultsDir() + "/exported_counts/{dataset}--{genomeAssembly}--{annotation}/"
+#'                + "spliceSiteOverlapCounts.tsv.gz"`'
 #'  type: script
 #'---
 saveRDS(snakemake, file.path(snakemake@params$tmpdir, "export.snakemake"))
