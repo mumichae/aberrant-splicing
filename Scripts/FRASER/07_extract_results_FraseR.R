@@ -70,7 +70,7 @@ if(nrow(res_junc_dt) > 0){
   # number of samples per gene and variant  
   res_junc_dt[, numSamplesPerGene := uniqueN(sampleID), by = hgncSymbol]
   res_junc_dt[, numEventsPerGene := .N, by = "hgncSymbol,sampleID"]
-  res_junc_dt[, numSamplesPerJunc := uniqueN(sampleID), by = "seqnames,start,end"]
+  res_junc_dt[, numSamplesPerJunc := uniqueN(sampleID), by = "seqnames,start,end,strand"]
   
   # add colData to the results
   res_junc_dt <- merge(res_junc_dt, as.data.table(colData(fds)), by = "sampleID")
