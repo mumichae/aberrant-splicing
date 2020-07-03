@@ -11,13 +11,7 @@
 #'  output:
 #'    - colData: '`sm parser.getProcDataDir() + 
 #'                    "/aberrant_splicing/annotations/{dataset}.tsv"`'
-#'    - wBhtml:  '`sm config["htmlOutputPath"] + 
-#'                    "/AberrantSplicing/annotations/{dataset}.html"`'
-#'  type: noindex
-#' output:
-#'  html_document:
-#'   code_folding: hide
-#'   code_download: TRUE
+#'  type: script
 #'---
 
 saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FRASER_00.snakemake"))
@@ -40,20 +34,8 @@ mapping <- fread(fileMapFile)
 subset_ids <- snakemake@params$ids[[name]]
 annoSub <- anno[RNA_ID %in% subset_ids]
 colData <- merge(
-    annoSub[,.(sampleID = RNA_ID, STRAND, PAIRED_END)],
-    mapping[FILE_TYPE == "RNA_BAM_FILE", .(sampleID=ID, bamFile=FILE_PATH)])
+  annoSub[,.(sampleID = RNA_ID, STRAND, PAIRED_END)],
+  mapping[FILE_TYPE == "RNA_BAM_FILE", .(sampleID=ID, bamFile=FILE_PATH)])
+colData <- unique(colData)  # needed in case of DNA replicates
 
-#'
-#' ## Dataset: `r name`
-#'
-#+ echo=FALSE
-finalTable <- colData
-
-#'
-#' ## Final sample table `r name`
-#'
-#+ savetable
-DT::datatable(finalTable, options=list(scrollX=TRUE))
-
-dim(finalTable)
-write_tsv(finalTable, file=outFile)
+write_tsv(colData, file=outFile)
