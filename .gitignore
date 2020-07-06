@@ -15,3 +15,5 @@ tmp
 
 *.out
 *.summary
+
+.ipynb_checkpoints*

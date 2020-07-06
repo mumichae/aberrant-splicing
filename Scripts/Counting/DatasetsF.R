@@ -6,7 +6,7 @@
 #'  input:
 #'   - counting_summary: '`sm expand(config["htmlOutputPath"] + 
 #'                     "/AberrantSplicing/{dataset}_countSummary.html",
-#'                     dataset=config["aberrantSplicing"]["groups"])`'
+#'                     dataset=cfg.AS.groups)`'
 #' output:
 #'  html_document
 #'---

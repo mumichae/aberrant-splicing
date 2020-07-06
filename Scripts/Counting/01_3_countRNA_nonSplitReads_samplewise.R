@@ -4,12 +4,12 @@
 #' wb:
 #'  params:
 #'   - tmpdir: '`sm drop.getMethodPath(METHOD, "tmp_dir")`'
-#'   - workingDir: '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets"`'
+#'   - workingDir: '`sm cfg.getProcessedDataDir() + "/aberrant_splicing/datasets"`'
 #'  input:
-#'   - spliceSites: '`sm parser.getProcDataDir() + 
+#'   - spliceSites: '`sm cfg.getProcessedDataDir() + 
 #'                   "/aberrant_splicing/datasets/cache/raw-{dataset}/spliceSites_splitCounts.rds"`'
 #'  output:
-#'   - done_sample_nonSplitCounts : '`sm parser.getProcDataDir() + 
+#'   - done_sample_nonSplitCounts : '`sm cfg.getProcessedDataDir() + 
 #'                   "/aberrant_splicing/datasets/cache/raw-{dataset}/sample_tmp/nonSplitCounts/sample_{sample_id}.done"`' 
 #'  threads: 3
 #'  type: script

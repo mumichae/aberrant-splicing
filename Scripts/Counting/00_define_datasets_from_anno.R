@@ -3,13 +3,13 @@
 #' author: Christian Mertes
 #' wb:
 #'  params:
-#'    - ids: '`sm parser.fraser_ids`'
+#'    - ids: '`sm lambda w: sa.getIDsByGroup(w.dataset, assay="RNA")`'
 #'    - tmpdir: '`sm drop.getMethodPath(METHOD, "tmp_dir")`'
-#'    - fileMappingFile: '`sm parser.getProcDataDir() + "/file_mapping.csv"`'
+#'    - fileMappingFile: '`sm cfg.getProcessedDataDir() + "/file_mapping.csv"`'
 #'  input:
 #'    - sampleAnnoFile: '`sm config["sampleAnnotation"]`'
 #'  output:
-#'    - colData: '`sm parser.getProcDataDir() + 
+#'    - colData: '`sm cfg.getProcessedDataDir() + 
 #'                    "/aberrant_splicing/annotations/{dataset}.tsv"`'
 #'    - wBhtml:  '`sm config["htmlOutputPath"] + 
 #'                    "/AberrantSplicing/annotations/{dataset}.html"`'
@@ -37,7 +37,7 @@ name <- snakemake@wildcards$dataset
 anno    <- fread(annoFile)
 mapping <- fread(fileMapFile)
 
-subset_ids <- snakemake@params$ids[[name]]
+subset_ids <- snakemake@params$ids
 annoSub <- anno[RNA_ID %in% subset_ids]
 colData <- merge(
     annoSub[,.(sampleID = RNA_ID, STRAND, PAIRED_END)],

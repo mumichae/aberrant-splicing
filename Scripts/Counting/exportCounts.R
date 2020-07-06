@@ -1,21 +1,21 @@
 #'---
 #' title: Collect all counts from FRASER Object
-#' author: Michaela Mueller, vyepez
+#' author: mumichae, vyepez
 #' wb:
 #'  params:
 #'   - tmpdir: '`sm drop.getMethodPath(METHOD, "tmp_dir")`'
-#'   - workingDir: '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets"`'
+#'   - workingDir: '`sm cfg.getProcessedDataDir() + "/aberrant_splicing/datasets"`'
 #'  input:
-#'   - gRangesSplitCounts: '`sm parser.getProcDataDir() + 
+#'   - gRangesSplitCounts: '`sm cfg.getProcessedDataDir() + 
 #'                          "/aberrant_splicing/datasets/cache/raw-{dataset}/gRanges_splitCounts.rds"`'
-#'   - spliceSites: '`sm parser.getProcDataDir() + 
+#'   - spliceSites: '`sm cfg.getProcessedDataDir() + 
 #'                   "/aberrant_splicing/datasets/cache/raw-{dataset}/spliceSites_splitCounts.rds"`'
-#'   - counting_done: '`sm parser.getProcDataDir() + 
+#'   - counting_done: '`sm cfg.getProcessedDataDir() + 
 #'                "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/counting.done" `'
 #'  output:
-#'    - split_counts: '`sm parser.getProcResultsDir() + "/exported_counts/{dataset}--{genomeAssembly}--{annotation}/"
+#'    - split_counts: '`sm cfg.getProcessedResultsDir() + "/exported_counts/{dataset}--{genomeAssembly}--{annotation}/"
 #'                + "splitCounts.tsv.gz"`'
-#'    - nonsplit_counts: '`sm parser.getProcResultsDir() + "/exported_counts/{dataset}--{genomeAssembly}--{annotation}/"
+#'    - nonsplit_counts: '`sm cfg.getProcessedResultsDir() + "/exported_counts/{dataset}--{genomeAssembly}--{annotation}/"
 #'                + "spliceSiteOverlapCounts.tsv.gz"`'
 #'  type: script
 #'---

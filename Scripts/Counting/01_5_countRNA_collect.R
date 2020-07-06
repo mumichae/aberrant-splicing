@@ -4,18 +4,18 @@
 #' wb:
 #'  params:
 #'   - tmpdir: '`sm drop.getMethodPath(METHOD, "tmp_dir")`'
-#'   - workingDir: '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets"`'
+#'   - workingDir: '`sm cfg.getProcessedDataDir() + "/aberrant_splicing/datasets"`'
 #'  input:
-#'   - countsJ:  '`sm parser.getProcDataDir() + 
+#'   - countsJ:  '`sm cfg.getProcessedDataDir() + 
 #'                    "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/rawCountsJ.h5"`'
-#'   - countsSS: '`sm parser.getProcDataDir() + 
+#'   - countsSS: '`sm cfg.getProcessedDataDir() + 
 #'                    "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/rawCountsSS.h5"`'
-#'   - gRangesSplitCounts: '`sm parser.getProcDataDir() + 
+#'   - gRangesSplitCounts: '`sm cfg.getProcessedDataDir() + 
 #'                          "/aberrant_splicing/datasets/cache/raw-{dataset}/gRanges_splitCounts.rds"`'
-#'   - spliceSites: '`sm parser.getProcDataDir() + 
+#'   - spliceSites: '`sm cfg.getProcessedDataDir() + 
 #'                   "/aberrant_splicing/datasets/cache/raw-{dataset}/spliceSites_splitCounts.rds"`'
 #'  output:
-#'   - counting_done: '`sm parser.getProcDataDir() + 
+#'   - counting_done: '`sm cfg.getProcessedDataDir() + 
 #'                "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/counting.done" `'
 #'  type: script
 #'---

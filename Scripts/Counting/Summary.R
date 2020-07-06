@@ -3,9 +3,9 @@
 #' author: Christian Mertes
 #' wb:
 #'  params:
-#'   - workingDir: '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets/"`'
+#'   - workingDir: '`sm cfg.getProcessedDataDir() + "/aberrant_splicing/datasets/"`'
 #'  input:
-#'   - filter: '`sm parser.getProcDataDir() + 
+#'   - filter: '`sm cfg.getProcessedDataDir() + 
 #'                "/aberrant_splicing/datasets/savedObjects/{dataset}/filter.done" `'
 #'  output:
 #'   - wBhtml: '`sm config["htmlOutputPath"] + 

@@ -3,12 +3,12 @@
 #' author: mumichae, vyepez, ischeller
 #' wb:
 #'  params:
-#'   - workingDir: '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets/"`'
+#'   - workingDir: '`sm cfg.getProcessedDataDir() + "/aberrant_splicing/datasets/"`'
 #'  input:
-#'   - fdsin: '`sm parser.getProcDataDir() + 
+#'   - fdsin: '`sm cfg.getProcessedDataDir() + 
 #'                 "/aberrant_splicing/datasets/savedObjects/{dataset}/" + 
 #'                 "padjBetaBinomial_psiSite.h5"`'
-#'   - results: '`sm parser.getProcDataDir() + 
+#'   - results: '`sm cfg.getProcessedDataDir() + 
 #'                   "/aberrant_splicing/results/{dataset}_results.tsv"`'
 #'  output:
 #'   - wBhtml: '`sm config["htmlOutputPath"] +

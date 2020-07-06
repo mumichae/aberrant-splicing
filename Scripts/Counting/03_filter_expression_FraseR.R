@@ -4,14 +4,14 @@
 #' wb:
 #'  params:
 #'   - tmpdir: '`sm drop.getMethodPath(METHOD, "tmp_dir")`'
-#'   - workingDir: '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets/"`'
+#'   - workingDir: '`sm cfg.getProcessedDataDir() + "/aberrant_splicing/datasets/"`'
 #'  input:
-#'   - psiSS:  '`sm parser.getProcDataDir()+ 
+#'   - psiSS:  '`sm cfg.getProcessedDataDir()+ 
 #'                  "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/psiSite.h5"`'
 #'  output:
-#'   - fds: '`sm parser.getProcDataDir() +
+#'   - fds: '`sm cfg.getProcessedDataDir() +
 #'                "/aberrant_splicing/datasets/savedObjects/{dataset}/fds-object.RDS"`'
-#'   - done: '`sm parser.getProcDataDir() + 
+#'   - done: '`sm cfg.getProcessedDataDir() + 
 #'                "/aberrant_splicing/datasets/savedObjects/{dataset}/filter.done" `'
 #'  threads: 3
 #'  type: script

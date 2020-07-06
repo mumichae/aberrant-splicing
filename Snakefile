@@ -1,16 +1,18 @@
 ### SNAKEFILE ABERRANT SPLICING
-
+from pathlib import Path
 import os
 import drop
 
+cfg = drop.config.DropConfig(config)
+sa = cfg.sampleAnnotation
+config = cfg.config # for legacy
+
 METHOD = 'AS'
-SCRIPT_ROOT = os.getcwd()
-CONF_FILE = drop.getConfFile()
+SCRIPT_ROOT = drop.getMethodPath(METHOD, type_='workdir', str_=False)
+config["scriptsPath"] = SCRIPT_ROOT
+CONF_FILE = drop.getConfFile(METHOD)
 
-parser = drop.config(config, METHOD)
-config = parser.parse()
-include: config['wBuildPath'] + "/wBuild.snakefile"
-
+include: drop.utils.getWBuildSnakefile()
 
 rule all:
     input: rules.Index.output, config["htmlOutputPath"] + "/aberrant_splicing_readme.html"

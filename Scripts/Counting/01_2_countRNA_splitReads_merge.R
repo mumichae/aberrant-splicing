@@ -5,23 +5,23 @@
 #'  py:
 #'  - |
 #'   def getSplitCountFiles(dataset):
-#'       ids = parser.fraser_ids[dataset]
-#'       file_stump = parser.getProcDataDir() + f"/aberrant_splicing/datasets/cache/raw-{dataset}/sample_tmp/splitCounts/"
+#'       ids = sa.getIDsByGroup(dataset, assay="RNA")
+#'       file_stump = cfg.getProcessedDataDir() + f"/aberrant_splicing/datasets/cache/raw-{dataset}/sample_tmp/splitCounts/"
 #'       return expand(file_stump + "sample_{sample_id}.done", sample_id=ids) 
 #'  params:
 #'   - tmpdir: '`sm drop.getMethodPath(METHOD, "tmp_dir")`'
-#'   - workingDir: '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets"`'
+#'   - workingDir: '`sm cfg.getProcessedDataDir() + "/aberrant_splicing/datasets"`'
 #'  threads: 20
 #'  input:
-#'   - sample_counts: '`sm lambda wildcards: getSplitCountFiles(wildcards.dataset)`'
+#'   - sample_counts: '`sm lambda w: getSplitCountFiles(w.dataset)`'
 #'  output:
-#'   - countsJ: '`sm parser.getProcDataDir() +
+#'   - countsJ: '`sm cfg.getProcessedDataDir() +
 #'                   "/aberrant_splicing/datasets/savedObjects/raw-{dataset}/rawCountsJ.h5"`'
-#'   - gRangesSplitCounts: '`sm parser.getProcDataDir() + 
+#'   - gRangesSplitCounts: '`sm cfg.getProcessedDataDir() + 
 #'                          "/aberrant_splicing/datasets/cache/raw-{dataset}/gRanges_splitCounts.rds"`'
-#'   - gRangesNonSplitCounts: '`sm parser.getProcDataDir() + 
+#'   - gRangesNonSplitCounts: '`sm cfg.getProcessedDataDir() + 
 #'                          "/aberrant_splicing/datasets/cache/raw-{dataset}/gRanges_NonSplitCounts.rds"`'
-#'   - spliceSites: '`sm parser.getProcDataDir() + 
+#'   - spliceSites: '`sm cfg.getProcessedDataDir() + 
 #'                   "/aberrant_splicing/datasets/cache/raw-{dataset}/spliceSites_splitCounts.rds"`'
 #'  type: script
 #'---

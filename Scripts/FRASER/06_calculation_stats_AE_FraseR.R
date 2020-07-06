@@ -4,14 +4,14 @@
 #' wb:
 #'  params:
 #'   - tmpdir: '`sm drop.getMethodPath(METHOD, "tmp_dir")`'
-#'   - workingDir: '`sm parser.getProcDataDir() + "/aberrant_splicing/datasets/"`'
+#'   - workingDir: '`sm cfg.getProcessedDataDir() + "/aberrant_splicing/datasets/"`'
 #'  threads: 20
 #'  input:
-#'   - fdsin:  '`sm parser.getProcDataDir() + 
+#'   - fdsin:  '`sm cfg.getProcessedDataDir() + 
 #'                  "/aberrant_splicing/datasets/savedObjects/{dataset}/" +
 #'                  "predictedMeans_psiSite.h5"`'
 #'  output:
-#'   - fdsout: '`sm parser.getProcDataDir() + 
+#'   - fdsout: '`sm cfg.getProcessedDataDir() + 
 #'                  "/aberrant_splicing/datasets/savedObjects/{dataset}/" +
 #'                  "padjBetaBinomial_psiSite.h5"`'
 #'  type: script
