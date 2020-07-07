@@ -9,7 +9,6 @@ config = cfg.config # for legacy
 
 METHOD = 'AS'
 SCRIPT_ROOT = drop.getMethodPath(METHOD, type_='workdir', str_=False)
-config["scriptsPath"] = SCRIPT_ROOT
 CONF_FILE = drop.getConfFile(METHOD)
 
 include: drop.utils.getWBuildSnakefile()

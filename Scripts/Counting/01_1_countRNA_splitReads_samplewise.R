@@ -7,7 +7,7 @@
 #'   - workingDir: '`sm cfg.getProcessedDataDir() + "/aberrant_splicing/datasets"`'
 #'  input:
 #'   - done_fds: '`sm cfg.getProcessedDataDir() + 
-#'                "/aberrant_splicing/datasets/cache/raw-{dataset}/fds.done" `'
+#'                "/aberrant_splicing/datasets/cache/raw-{dataset}/fds.done"`'
 #'  output:
 #'   - done_sample_splitCounts: '`sm cfg.getProcessedDataDir() + 
 #'                "/aberrant_splicing/datasets/cache/raw-{dataset}"

@@ -5,7 +5,7 @@
 #'  params:
 #'    - ids: '`sm lambda w: sa.getIDsByGroup(w.dataset, assay="RNA")`'
 #'    - tmpdir: '`sm drop.getMethodPath(METHOD, "tmp_dir")`'
-#'    - fileMappingFile: '`sm cfg.getProcessedDataDir() + "/file_mapping.csv"`'
+#'    - fileMappingFile: '`sm cfg.getRoot() + "/file_mapping.csv"`'
 #'  input:
 #'    - sampleAnnoFile: '`sm config["sampleAnnotation"]`'
 #'  output:
