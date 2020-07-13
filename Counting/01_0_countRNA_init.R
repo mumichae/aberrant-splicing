@@ -2,8 +2,10 @@
 #' title: Initialize Counting
 #' author: Luise Schuller
 #' wb:
+#'  log:
+#'    - snakemake: '`sm str(tmp_dir / "AS" / "{dataset}" / "01_0_init.Rds")`'
 #'  params:
-#'   - tmpdir: '`sm drop.getMethodPath(METHOD, "tmp_dir")`'
+#'   - setup: '`sm cfg.AS.getWorkdir() + "/config.R"`'
 #'   - workingDir: '`sm cfg.getProcessedDataDir() + "/aberrant_splicing/datasets"`'
 #'  input:
 #'    - colData: '`sm cfg.getProcessedDataDir() + 
@@ -15,10 +17,9 @@
 #'                "/aberrant_splicing/datasets/cache/raw-{dataset}/fds.done" `'
 #'  type: script
 #'---
-saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FRASER_01_0.snakemake"))
-# snakemake <- readRDS(".drop/tmp/AS/FRASER_01_0.snakemake")
 
-source("Scripts/_helpers/config.R")
+saveRDS(snakemake, snakemake@log$snakemake)
+source(snakemake@params$setup, echo=FALSE)
 
 dataset    <- snakemake@wildcards$dataset
 colDataFile <- snakemake@input$colData

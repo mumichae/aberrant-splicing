@@ -2,8 +2,10 @@
 #' title: Hyper parameter optimization
 #' author: Christian Mertes
 #' wb:
+#'  log:
+#'    - snakemake: '`sm str(tmp_dir / "AS" / "{dataset}" / "04_hyper.Rds")`'
 #'  params:
-#'   - tmpdir: '`sm drop.getMethodPath(METHOD, "tmp_dir")`'
+#'   - setup: '`sm cfg.AS.getWorkdir() + "/config.R"`'
 #'   - workingDir: '`sm cfg.getProcessedDataDir() + "/aberrant_splicing/datasets/"`'
 #'  threads: 12
 #'  input:
@@ -15,10 +17,8 @@
 #'  type: script
 #'---
 
-saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FRASER_04.snakemake"))
-# snakemake <- readRDS(".drop/tmp/AS/FRASER_04.snakemake")
-
-source("Scripts/_helpers/config.R")
+saveRDS(snakemake, snakemake@log$snakemake)
+source(snakemake@params$setup, echo=FALSE)
 
 #+ input
 dataset    <- snakemake@wildcards$dataset

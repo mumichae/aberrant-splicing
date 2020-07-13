@@ -2,8 +2,10 @@
 #' title: Count Split Reads
 #' author: Luise Schuller
 #' wb:
+#'  log:
+#'    - snakemake: '`sm str(tmp_dir / "AS" / "{dataset}" / "splitReads" / "{sample_id}.Rds")`'
 #'  params:
-#'   - tmpdir: '`sm drop.getMethodPath(METHOD, "tmp_dir")`'
+#'   - setup: '`sm cfg.AS.getWorkdir() + "/config.R"`'
 #'   - workingDir: '`sm cfg.getProcessedDataDir() + "/aberrant_splicing/datasets"`'
 #'  input:
 #'   - done_fds: '`sm cfg.getProcessedDataDir() + 
@@ -15,10 +17,9 @@
 #'  threads: 3
 #'  type: script
 #'---
-saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FRASER_01_1.snakemake"))
-# snakemake <- readRDS(".drop/tmp/AS/FRASER_01_1.snakemake")
 
-source("Scripts/_helpers/config.R")
+saveRDS(snakemake, snakemake@log$snakemake)
+source(snakemake@params$setup, echo=FALSE)
 library(BSgenome.Hsapiens.UCSC.hg19)
 
 dataset    <- snakemake@wildcards$dataset

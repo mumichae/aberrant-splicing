@@ -2,8 +2,10 @@
 #' title: Fitting the autoencoder
 #' author: Christian Mertes
 #' wb:
+#'  log:
+#'    - snakemake: '`sm str(tmp_dir / "AS" / "{dataset}" / "05_fit.Rds")`'
 #'  params:
-#'   - tmpdir: '`sm drop.getMethodPath(METHOD, "tmp_dir")`'   
+#'   - setup: '`sm cfg.AS.getWorkdir() + "/config.R"`'
 #'   - workingDir: '`sm cfg.getProcessedDataDir() + "/aberrant_splicing/datasets/"`'
 #'  threads: 20
 #'  input:
@@ -15,10 +17,8 @@
 #'  type: script
 #'---
 
-saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FRASER_05.snakemake"))
-# snakemake <- readRDS(".drop/tmp/AS/FRASER_05.snakemake")
-
-source("Scripts/_helpers/config.R")
+saveRDS(snakemake, snakemake@log$snakemake)
+source(snakemake@params$setup, echo=FALSE)
 
 dataset    <- snakemake@wildcards$dataset
 workingDir <- snakemake@params$workingDir

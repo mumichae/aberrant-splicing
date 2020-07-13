@@ -2,8 +2,10 @@
 #' title: Filter and clean dataset
 #' author: Christian Mertes
 #' wb:
+#'  log:
+#'    - snakemake: '`sm str(tmp_dir / "AS" / "{dataset}" / "03_filter.Rds")`'
 #'  params:
-#'   - tmpdir: '`sm drop.getMethodPath(METHOD, "tmp_dir")`'
+#'   - setup: '`sm cfg.AS.getWorkdir() + "/config.R"`'
 #'   - workingDir: '`sm cfg.getProcessedDataDir() + "/aberrant_splicing/datasets/"`'
 #'  input:
 #'   - psiSS:  '`sm cfg.getProcessedDataDir()+ 
@@ -17,10 +19,9 @@
 #'  type: script
 #'---
 
-saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FRASER_03.snakemake"))
-# snakemake <- readRDS(".drop/tmp/AS/FRASER_03.snakemake")
+saveRDS(snakemake, snakemake@log$snakemake)
+source(snakemake@params$setup, echo=FALSE)
 
-source("Scripts/_helpers/config.R")
 opts_chunk$set(fig.width=12, fig.height=8)
 
 # input

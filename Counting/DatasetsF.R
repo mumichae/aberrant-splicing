@@ -1,8 +1,8 @@
 #'---
 #' title: FRASER counting analysis over all datasets
 #' wb:
-#'  params:
-#'   - tmpdir: '`sm drop.getMethodPath(METHOD, "tmp_dir")`'
+#'  log:
+#'    - snakemake: '`sm str(tmp_dir / "AS" / "CountingOverview.Rds")`'
 #'  input:
 #'   - counting_summary: '`sm expand(config["htmlOutputPath"] + 
 #'                     "/AberrantSplicing/{dataset}_countSummary.html",
@@ -11,8 +11,7 @@
 #'  html_document
 #'---
 
-saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FRASER_cs.snakemake"))
-# snakemake <- readRDS(".drop/tmp/AS/FRASER_cs.snakemake")
+saveRDS(snakemake, snakemake@log$snakemake)
 
 datasets <- snakemake@config$aberrantSplicing$groups
 

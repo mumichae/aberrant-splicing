@@ -1,8 +1,8 @@
 #'---
 #' title: Full FRASER analysis over all datasets
 #' wb:
-#'  params:
-#'   - tmpdir: '`sm drop.getMethodPath(METHOD, "tmp_dir")`'
+#'  log:
+#'    - snakemake: '`sm str(tmp_dir / "AS" / "FRASER_datasets.Rds")`'
 #'  input:
 #'   - fraser_summary: '`sm expand(config["htmlOutputPath"] + 
 #'                     "/AberrantSplicing/{dataset}_summary.html", dataset=cfg.AS.groups)`'
@@ -10,8 +10,7 @@
 #'  html_document
 #'---
 
-saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FRASER_99.snakemake"))
-# snakemake <- readRDS(".drop/tmp/AS/FRASER_99.snakemake")
+saveRDS(snakemake, snakemake@log$snakemake)
 
 datasets <- snakemake@config$aberrantSplicing$groups
 

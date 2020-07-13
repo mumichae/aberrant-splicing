@@ -2,9 +2,12 @@
 #' title: Results of FRASER analysis
 #' author: Christian Mertes
 #' wb:
+#'  log:
+#'    - snakemake: '`sm str(tmp_dir / "AS" / "{dataset}" / "07_results.Rds")`'
 #'  params:
-#'   - tmpdir: '`sm drop.getMethodPath(METHOD, "tmp_dir")`'
+#'   - setup: '`sm cfg.AS.getWorkdir() + "/config.R"`'
 #'   - workingDir: '`sm cfg.getProcessedDataDir() + "/aberrant_splicing/datasets/"`'
+#'   - add_HPO_cols: '`sm str(projectDir / ".drop" / "helpers" / "add_HPO_cols.R")`'
 #'  threads: 10
 #'  input:
 #'   - fdsin: '`sm cfg.getProcessedDataDir() +
@@ -18,11 +21,9 @@
 #'  type: script
 #'---
 
-saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FRASER_07.snakemake"))
-# snakemake <- readRDS(".drop/tmp/AS/FRASER_07.snakemake")
-
-source("Scripts/_helpers/config.R")
-source("../helpers/add_HPO_cols.R")
+saveRDS(snakemake, snakemake@log$snakemake)
+source(snakemake@params$setup, echo=FALSE)
+source(snakemake@params$add_HPO_cols)
 
 opts_chunk$set(fig.width=12, fig.height=8)
 

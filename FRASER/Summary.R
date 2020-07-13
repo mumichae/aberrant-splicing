@@ -2,7 +2,10 @@
 #' title: "FRASER Summary: `r gsub('_', ' ', snakemake@wildcards$dataset)`"
 #' author: mumichae, vyepez, ischeller
 #' wb:
+#'  log:
+#'    - snakemake: '`sm str(tmp_dir / "AS" / "{dataset}" / "FRASER_summary.Rds")`'
 #'  params:
+#'   - setup: '`sm cfg.AS.getWorkdir() + "/config.R"`'
 #'   - workingDir: '`sm cfg.getProcessedDataDir() + "/aberrant_splicing/datasets/"`'
 #'  input:
 #'   - fdsin: '`sm cfg.getProcessedDataDir() + 
@@ -16,8 +19,8 @@
 #'  type: noindex
 #'---
 
-#+ load config and setup, echo=FALSE
-source("Scripts/_helpers/config.R")
+saveRDS(snakemake, snakemake@log$snakemake)
+source(snakemake@params$setup, echo=FALSE)
 
 suppressPackageStartupMessages({
   library(cowplot)

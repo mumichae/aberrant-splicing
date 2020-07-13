@@ -1,10 +1,12 @@
 #'---
 #' title: Create datasets from annotation file
-#' author: Christian Mertes
+#' author: Christian Mertes, mumichae
 #' wb:
+#'  log:
+#'    - snakemake: '`sm str(tmp_dir / "AS" / "{dataset}" / "00_defineDataset.Rds")`'
 #'  params:
+#'    - setup: '`sm cfg.AS.getWorkdir() + "/config.R"`'
 #'    - ids: '`sm lambda w: sa.getIDsByGroup(w.dataset, assay="RNA")`'
-#'    - tmpdir: '`sm drop.getMethodPath(METHOD, "tmp_dir")`'
 #'    - fileMappingFile: '`sm cfg.getRoot() + "/file_mapping.csv"`'
 #'  input:
 #'    - sampleAnnoFile: '`sm config["sampleAnnotation"]`'
@@ -20,11 +22,8 @@
 #'   code_download: TRUE
 #'---
 
-saveRDS(snakemake, file.path(snakemake@params$tmpdir, "FRASER_00.snakemake"))
-# snakemake <- readRDS(".drop/tmp/AS/FRASER_00.snakemake")
-
-#+ load main config, echo=FALSE
-source("Scripts/_helpers/config.R", echo=FALSE)
+saveRDS(snakemake, snakemake@log$snakemake)
+source(snakemake@params$setup, echo=FALSE)
 
 #+ input
 outFile       <- snakemake@output$colData
